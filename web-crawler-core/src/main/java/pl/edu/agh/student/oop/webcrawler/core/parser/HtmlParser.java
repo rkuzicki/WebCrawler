@@ -17,8 +17,8 @@ public class HtmlParser {
         this.doc = doc;
     }
 
-    private boolean isClean(String s) {
-        return !s.isEmpty() &&  !s.equals(" ") && !s.matches("<[^>]*></[^>]*>");
+    public static boolean isClean(String s) {
+        return !s.isEmpty() &&  !s.matches("[ ]{1,}") && !s.matches("<[^>]*></[^>]*>");
     }
 
     private class NodeTraverser implements NodeVisitor {
@@ -47,7 +47,7 @@ public class HtmlParser {
     }
 
     public Text parse() {
-        Whitelist whitelist = Whitelist.relaxed().removeTags("a", "b", "span", "em", "del", "s", "strike", "br", "img", "head");
+        Whitelist whitelist = Whitelist.relaxed().removeTags("a", "b", "i", "span", "em", "del", "s", "strike", "br", "img", "head");
         Document parsedDoc =  Jsoup.parse(Jsoup.clean(doc.body().toString(), whitelist));
         NodeTraverser nodeTraverser = this.new NodeTraverser();
         parsedDoc.traverse(nodeTraverser);
