@@ -5,7 +5,7 @@ import pl.edu.agh.student.oop.webcrawler.core.parser.Word;
 
 import java.util.Objects;
 
-public class WordMatcher implements Matcher {
+class WordMatcher implements Matcher {
     private final Matcher next;
     private final Word word;
 
