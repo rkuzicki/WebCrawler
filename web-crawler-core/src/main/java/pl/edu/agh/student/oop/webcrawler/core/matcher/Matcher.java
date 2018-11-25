@@ -1,5 +1,6 @@
 package pl.edu.agh.student.oop.webcrawler.core.matcher;
 
+import pl.edu.agh.student.oop.webcrawler.core.parser.Sentence;
 import pl.edu.agh.student.oop.webcrawler.core.parser.Text;
 
 public interface Matcher {
@@ -7,7 +8,7 @@ public interface Matcher {
         return new MatcherCompiler();
     }
 
-    boolean match(Text text);
+    boolean match(Sentence sentence);
 
     default Matcher and(Matcher matcher) {
         return Matchers.matchEvery(this, matcher);

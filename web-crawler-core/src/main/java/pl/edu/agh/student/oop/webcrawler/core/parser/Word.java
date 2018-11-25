@@ -41,6 +41,11 @@ public class Word {
     }
 
     @Override
+    public String toString() {
+        return original;
+    }
+
+    @Override
     public int hashCode() {
         return Objects.hash(simplified);
     }

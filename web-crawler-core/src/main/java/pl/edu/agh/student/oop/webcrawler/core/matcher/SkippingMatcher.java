@@ -1,7 +1,7 @@
 package pl.edu.agh.student.oop.webcrawler.core.matcher;
 
 import com.google.common.base.Preconditions;
-import pl.edu.agh.student.oop.webcrawler.core.parser.Text;
+import pl.edu.agh.student.oop.webcrawler.core.parser.Sentence;
 
 class SkippingMatcher implements Matcher {
     private final Matcher next;
@@ -20,14 +20,14 @@ class SkippingMatcher implements Matcher {
     }
 
     @Override
-    public boolean match(Text text) {
-        long maxSkip = text.words().count();
+    public boolean match(Sentence sentence) {
+        long maxSkip = sentence.words().count();
         if (this.maxSkip >= 0) {
             maxSkip = Math.min(maxSkip, this.maxSkip);
         }
 
         for (int skip = 0; skip <= maxSkip; ++skip) {
-            if (next.match(text.subtext(skip)))
+            if (next.match(sentence.subsentence(skip)))
                 return true;
         }
 

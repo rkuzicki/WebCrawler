@@ -13,7 +13,6 @@ public class HTMLParser {
 
     private Document doc;
 
-
     public HTMLParser(Document doc) {
         this.doc = doc;
     }
@@ -22,24 +21,38 @@ public class HTMLParser {
         return !s.isEmpty() &&  !s.equals(" ") && !s.matches("<[^>]*></[^>]*>");
     }
 
-    public List<String> parse() {
+    private class NodeTraverser implements NodeVisitor {
+
+        private List<String> list;
+
+        private NodeTraverser() {
+            list = new ArrayList<>();
+        }
+
+        private List<String> getList() {
+            return list;
+        }
+        @Override
+        public void head(Node node, int i) {
+            if (node.childNodeSize() == 0) {
+                list.add(node.toString());
+            }
+        }
+
+        @Override
+        public void tail(Node node, int i) {
+
+        }
+
+    }
+
+    public Text parse() {
         Whitelist whitelist = Whitelist.relaxed().removeTags("a", "b", "span", "em", "del", "s", "strike", "br", "img", "head");
         Document parsedDoc =  Jsoup.parse(Jsoup.clean(doc.body().toString(), whitelist));
-        List<String> list = new ArrayList<>();
-        parsedDoc.traverse(new NodeVisitor() {
-            @Override
-            public void head(Node node, int i) {
-                if (node.childNodeSize() == 0) {
-                    list.add(node.toString());
-                }
-            }
-
-            @Override
-            public void tail(Node node, int i) {
-
-            }
-        });
-        List<String> parsedList= new ArrayList<>();
+        NodeTraverser nodeTraverser = this.new NodeTraverser();
+        parsedDoc.traverse(nodeTraverser);
+        List<String> list = nodeTraverser.getList();
+        List<String> parsedList = new ArrayList<>();
         for (String s: list) {
             if (isClean(s)) {
                 String[] splitText = s.split("(?<!\\w\\.\\w.)(?<![A-Z][a-z]\\.)(?<=\\.|\\?)\\s");
@@ -49,9 +62,10 @@ public class HTMLParser {
                 }
             }
         }
+        Text text = new Text();
         for (String s: parsedList) {
-            System.out.println(s);
+            text.add(Sentence.parse(s));
         }
-        return null;
+        return text;
     }
 }

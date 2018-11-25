@@ -1,5 +1,6 @@
 package pl.edu.agh.student.oop.webcrawler.core.matcher;
 
+import pl.edu.agh.student.oop.webcrawler.core.parser.Sentence;
 import pl.edu.agh.student.oop.webcrawler.core.parser.Text;
 import pl.edu.agh.student.oop.webcrawler.core.parser.Word;
 
@@ -15,11 +16,11 @@ class WordMatcher implements Matcher {
     }
 
     @Override
-    public boolean match(Text text) {
-        return text.words()
+    public boolean match(Sentence sentence) {
+        return sentence.words()
                 .findFirst()
                 .map(w -> w.equals(word))
-                .map(firstMatch -> firstMatch && next.match(text.subtext(1)))
+                .map(firstMatch -> firstMatch && next.match(sentence.subsentence(1)))
                 .orElse(false);
     }
 }

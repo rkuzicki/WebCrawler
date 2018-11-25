@@ -1,5 +1,6 @@
 package pl.edu.agh.student.oop.webcrawler.core.matcher;
 
+import pl.edu.agh.student.oop.webcrawler.core.parser.Sentence;
 import pl.edu.agh.student.oop.webcrawler.core.parser.Text;
 
 class AndMatcher implements Matcher {
@@ -10,9 +11,9 @@ class AndMatcher implements Matcher {
     }
 
     @Override
-    public boolean match(Text text) {
+    public boolean match(Sentence sentence) {
         for (Matcher m : matchers) {
-            if (!m.match(text)) return false;
+            if (!m.match(sentence)) return false;
         }
 
         return true;
