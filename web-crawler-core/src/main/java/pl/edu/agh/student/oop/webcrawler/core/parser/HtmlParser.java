@@ -9,11 +9,11 @@ import org.jsoup.select.NodeVisitor;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HTMLParser {
+public class HtmlParser {
 
     private Document doc;
 
-    public HTMLParser(Document doc) {
+    public HtmlParser(Document doc) {
         this.doc = doc;
     }
 

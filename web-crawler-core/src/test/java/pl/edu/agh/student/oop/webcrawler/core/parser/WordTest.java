@@ -28,14 +28,4 @@ class WordTest {
         assertThatThrownBy(() -> new Word("a word"))
                 .isInstanceOf(IllegalArgumentException.class);
     }
-
-    @Test
-    void testHtmlParsing() {
-        Document document = Jsoup.parse("<html><body><p>First parse</p><p>Parsed HTML into a doc.</p></body></html>");
-        List<Sentence> sentenceList = new ArrayList<>();
-        sentenceList.add(Sentence.parse("First parse"));
-        sentenceList.add(Sentence.parse("Parsed HTML into a doc"));
-        Text expectedText = new Text(sentenceList);
-        assertThat(new HTMLParser(document).parse()).isEqualTo(expectedText);
-    }
 }
