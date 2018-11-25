@@ -1,7 +1,7 @@
-package pl.edu.agh.student.oop.webcrawler.core.configuration.matcher;
+package pl.edu.agh.student.oop.webcrawler.core.matcher;
 
-import pl.edu.agh.student.oop.webcrawler.core.configuration.Text;
-import pl.edu.agh.student.oop.webcrawler.core.configuration.Word;
+import pl.edu.agh.student.oop.webcrawler.core.parser.Text;
+import pl.edu.agh.student.oop.webcrawler.core.parser.Word;
 
 import java.util.Objects;
 

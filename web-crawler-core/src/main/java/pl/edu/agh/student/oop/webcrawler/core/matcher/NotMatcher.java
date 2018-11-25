@@ -1,6 +1,6 @@
-package pl.edu.agh.student.oop.webcrawler.core.configuration.matcher;
+package pl.edu.agh.student.oop.webcrawler.core.matcher;
 
-import pl.edu.agh.student.oop.webcrawler.core.configuration.Text;
+import pl.edu.agh.student.oop.webcrawler.core.parser.Text;
 
 public class NotMatcher implements Matcher {
     private final Matcher next;
