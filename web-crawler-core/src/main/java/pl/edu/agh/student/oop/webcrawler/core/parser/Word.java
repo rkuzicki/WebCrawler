@@ -6,6 +6,10 @@ public class Word {
     private final String original;
     private final String simplified;
 
+    public static Word of(String content) {
+        return new Word(content);
+    }
+
     Word(String original) {
         this.original = original;
         this.simplified = simplify(original);

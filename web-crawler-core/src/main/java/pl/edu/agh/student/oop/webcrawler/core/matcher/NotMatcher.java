@@ -2,15 +2,20 @@ package pl.edu.agh.student.oop.webcrawler.core.matcher;
 
 import pl.edu.agh.student.oop.webcrawler.core.parser.Text;
 
-public class NotMatcher implements Matcher {
-    private final Matcher next;
+class NotMatcher implements Matcher {
+    private final Matcher inner;
 
-    NotMatcher(Matcher next) {
-        this.next = next;
+    NotMatcher(Matcher inner) {
+        this.inner = inner;
+    }
+
+    @Override
+    public Matcher negate() {
+        return inner;
     }
 
     @Override
     public boolean match(Text text) {
-        return !next.match(text);
+        return !inner.match(text);
     }
 }
