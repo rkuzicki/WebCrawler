@@ -1,15 +1,19 @@
 package pl.edu.agh.student.oop.webcrawler.core.parser;
 
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Node;
+import org.jsoup.safety.Cleaner;
 import org.jsoup.safety.Whitelist;
 import org.jsoup.select.NodeVisitor;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class HtmlParser {
+    private static final String WORD_SPLIT_REGEX = "(?<!\\w\\.\\w.)(?<![A-Z][a-z]\\.)(?<=\\.|\\?)\\s";
+    private static final String[] IGNORED_TAGS = {
+            "a", "b", "i", "span", "em", "del", "s", "strike", "br", "img", "head"};
 
     private Document doc;
 
@@ -18,20 +22,20 @@ public class HtmlParser {
     }
 
     public static boolean isClean(String s) {
-        return !s.isEmpty() &&  !s.matches("[ ]{1,}") && !s.matches("<[^>]*></[^>]*>");
+        return !s.isEmpty() && !s.matches("[ ]{1,}") && !s.matches("<[^>]*></[^>]*>");
     }
 
     private class NodeTraverser implements NodeVisitor {
-
-        private List<String> list;
+        private List<String> list = new ArrayList<>();
 
         private NodeTraverser() {
-            list = new ArrayList<>();
+
         }
 
         private List<String> getList() {
             return list;
         }
+
         @Override
         public void head(Node node, int i) {
             if (node.childNodeSize() == 0) {
@@ -43,29 +47,22 @@ public class HtmlParser {
         public void tail(Node node, int i) {
 
         }
-
     }
 
     public Text parse() {
-        Whitelist whitelist = Whitelist.relaxed().removeTags("a", "b", "i", "span", "em", "del", "s", "strike", "br", "img", "head");
-        Document parsedDoc =  Jsoup.parse(Jsoup.clean(doc.body().toString(), whitelist));
+        Whitelist whitelist = Whitelist.relaxed().removeTags(IGNORED_TAGS);
+        Document parsedDoc = new Cleaner(whitelist).clean(doc);
         NodeTraverser nodeTraverser = this.new NodeTraverser();
         parsedDoc.traverse(nodeTraverser);
-        List<String> list = nodeTraverser.getList();
-        List<String> parsedList = new ArrayList<>();
-        for (String s: list) {
-            if (isClean(s)) {
-                String[] splitText = s.split("(?<!\\w\\.\\w.)(?<![A-Z][a-z]\\.)(?<=\\.|\\?)\\s");
-                for (String subString: splitText) {
-                    parsedList.add(subString.trim());
 
-                }
-            }
-        }
         Text text = new Text();
-        for (String s: parsedList) {
-            text.add(Sentence.parse(s));
-        }
+        nodeTraverser.getList().stream()
+                .filter(HtmlParser::isClean)
+                .flatMap(s -> Arrays.stream(s.split(WORD_SPLIT_REGEX)))
+                .map(String::trim)
+                .map(Sentence::parse)
+                .forEach(text::add);
+
         return text;
     }
 }

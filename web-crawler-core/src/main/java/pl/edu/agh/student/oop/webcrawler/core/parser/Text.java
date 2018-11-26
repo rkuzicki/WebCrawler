@@ -1,21 +1,18 @@
 package pl.edu.agh.student.oop.webcrawler.core.parser;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Text {
     private List<Sentence> sentences = new ArrayList<>();
 
-    public Text() {
-        this.sentences = new ArrayList<>();
+    Text() {
+
     }
 
-    public Text(List<Sentence> sentences) {
+    Text(List<Sentence> sentences) {
         this.sentences = sentences;
     }
 
@@ -33,7 +30,9 @@ public class Text {
 
     @Override
     public String toString() {
-        return sentences.stream().map(Object::toString).collect(Collectors.joining("\n"));
+        return sentences.stream()
+                .map(Object::toString)
+                .collect(Collectors.joining(" "));
     }
 
     @Override

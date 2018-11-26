@@ -9,7 +9,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ParserTest {
+class ParserTest {
     @Test
     void testHtmlParsing() {
         Document document = Jsoup.parse("<html><body><p>First <i>parse</i></p><p>Parsed HTML into a doc." +
@@ -23,8 +23,8 @@ public class ParserTest {
 
     @Test
     void testCleanString() {
-        assertThat(HtmlParser.isClean("     ")).isEqualTo(false);
-        assertThat(HtmlParser.isClean(("<div></div>"))).isEqualTo(false);
-        assertThat(HtmlParser.isClean((""))).isEqualTo(false);
+        assertThat(HtmlParser.isClean("     ")).isFalse();
+        assertThat(HtmlParser.isClean(("<div></div>"))).isFalse();
+        assertThat(HtmlParser.isClean((""))).isFalse();
     }
 }
