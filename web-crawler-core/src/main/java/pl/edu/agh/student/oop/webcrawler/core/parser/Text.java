@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Text {
     private List<Sentence> sentences = new ArrayList<>();
@@ -18,6 +19,10 @@ public class Text {
 
     public void add(Sentence sentence) {
         sentences.add(sentence);
+    }
+
+    public Stream<Sentence> sentences() {
+        return sentences.stream();
     }
 
     @Override
