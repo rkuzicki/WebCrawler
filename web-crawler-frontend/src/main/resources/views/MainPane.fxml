@@ -1,133 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.layout.GridPane?>
-
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
+
 <BorderPane xmlns="http://javafx.com/javafx/8"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="pl.edu.agh.presenter.AppPresenter" minHeight="600">
-
-
     <top>
         <TabPane tabClosingPolicy="UNAVAILABLE">
             <Tab text="%configuration_tab_text" >
                 <graphic>
                     <ImageView>
                         <image>
-                            <Image url="/icons/settings.png"/>
+                            <Image url="/icons/configuration.png"/>
                         </image>
                     </ImageView>
                 </graphic>
-                <BorderPane>
-                    <center>
-                        <VBox>
-                            <VBox>
-                                <VBox spacing="50">
-                                    <HBox spacing="30">
-                                        <VBox spacing="10">
-                                            <VBox spacing="3">
-                                                <Label text="%add_domain_label" styleClass="main_label">
-
-                                                </Label>
-                                                <HBox spacing="7">
-                                                    <TextField prefWidth="250">
-
-                                                    </TextField>
-                                                    <Button text="Add" prefWidth="100" styleClass="add_button">
-
-                                                    </Button>
-                                                </HBox>
-                                            </VBox>
-                                            <VBox spacing="3">
-                                                <Label text="%domains_list_view_label" styleClass="main_label">
-
-                                                </Label>
-                                                <HBox spacing="5">
-                                                    <ListView maxHeight="100" prefWidth="250" styleClass="domain_list_view">
-
-                                                    </ListView>
-                                                    <Button text="Delete" prefWidth="100" styleClass="delete_button">
-
-                                                    </Button>
-                                                </HBox>
-                                            </VBox>
-                                        </VBox>
-                                        <VBox spacing="10">
-                                            <VBox spacing="3">
-                                                <Label text="%add_condition_label" styleClass="main_label">
-
-                                                </Label>
-                                                <HBox spacing="7">
-                                                    <TextField prefWidth="250">
-
-                                                    </TextField>
-                                                    <Button text="&#x2713;" prefWidth="46.5" styleClass="matching_condition_button">
-
-                                                    </Button>
-                                                    <Button text="&#x2717;" prefWidth="46.5" styleClass="not_matching_condition_button">
-
-                                                    </Button>
-                                                </HBox>
-                                            </VBox>
-                                            <VBox spacing="3">
-                                                <Label text="%conditions_list_view_label" styleClass="main_label">
-
-                                                </Label>
-                                                <Label text="%matching_condtions_list_view_label">
-
-                                                </Label>
-                                                <HBox spacing="7">
-                                                    <ListView maxHeight="100" prefWidth="250" styleClass="matching_list_view">
-
-                                                    </ListView>
-                                                    <Button text="Delete" prefWidth="100"
-                                                            styleClass="delete_button">
-
-                                                    </Button>
-                                                </HBox>
-                                            </VBox>
-                                            <VBox>
-                                                <Label text="%not_matching_condtions_list_view_label">
-
-                                                </Label>
-                                                <HBox spacing="5">
-                                                    <ListView maxHeight="100" styleClass="not_matching_list_view">
-
-                                                    </ListView>
-                                                    <Button text="Delete" prefWidth="100"
-                                                            styleClass="delete_button">
-
-                                                    </Button>
-                                                </HBox>
-                                            </VBox>
-                                        </VBox>
-                                    </HBox>
-                                </VBox>
-                            </VBox>
-                            <BorderPane.margin>
-                                <Insets top="20" left="20" right="20" bottom="20"/>
-                            </BorderPane.margin>
-                        </VBox>
-                    </center>
-                    <bottom>
-                        <VBox >
-                            <VBox alignment="BOTTOM_RIGHT">
-                                <Button text="%search_button_text" prefWidth="150" prefHeight="75"
-                                        styleClass="search_button">
-
-                                </Button>
-                            </VBox>
-                            <BorderPane.margin>
-                                <Insets top="20" left="20" right="20" bottom="20"/>
-                            </BorderPane.margin>
-                        </VBox>
-                    </bottom>
-                </BorderPane>
+                <fx:include source="tabs/ConfigurationTab.fxml" />
             </Tab>
             <Tab text="%results_tab_text">
                 <graphic>
@@ -137,38 +28,18 @@
                         </image>
                     </ImageView>
                 </graphic>
-                <BorderPane>
-                    <top>
-                        <TabPane tabClosingPolicy="UNAVAILABLE">
-                            <Tab text="%list_tab_text">
-                                <graphic>
-                                    <ImageView>
-                                        <image>
-                                            <Image url="/icons/list.png"/>
-                                        </image>
-                                    </ImageView>
-                                </graphic>
-                            </Tab>
-                            <Tab text="%diagram_tab_text">
-                                <graphic>
-                                    <ImageView>
-                                        <image>
-                                            <Image url="/icons/diagram.png"/>
-                                        </image>
-                                    </ImageView>
-                                </graphic>
-                            </Tab>
-                        </TabPane>
-                    </top>
-                </BorderPane>
+                <fx:include source="tabs/ResultsTab.fxml" />
             </Tab>
-            <!--<Tab text="Buy Premium!" styleClass="buy_premium_tab">-->
-            <!--</Tab>-->
+            <Tab text="%settings_tab_text">
+                <graphic>
+                    <ImageView>
+                        <image>
+                            <Image url="/icons/settings.png" />
+                        </image>
+                    </ImageView>
+                </graphic>
+                <fx:include source="tabs/SettingsTab.fxml" />
+            </Tab>
         </TabPane>
     </top>
-
-
-    <opaqueInsets>
-        <Insets />
-    </opaqueInsets>
 </BorderPane>

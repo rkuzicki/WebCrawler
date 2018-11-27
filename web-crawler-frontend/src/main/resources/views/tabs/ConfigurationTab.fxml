@@ -1,14 +1,111 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="$CONTROLLER_NAME$"
-            prefHeight="400.0" prefWidth="600.0">
+<BorderPane>
+    <center>
+        <VBox>
+            <VBox>
+                <VBox spacing="50">
+                    <HBox spacing="30">
+                        <VBox spacing="10">
+                            <VBox spacing="3">
+                                <Label text="%add_domain_label" styleClass="main_label">
 
-</AnchorPane>
+                                </Label>
+                                <HBox spacing="7">
+                                    <TextField prefWidth="250">
+
+                                    </TextField>
+                                    <Button text="Add" prefWidth="100" styleClass="add_button">
+
+                                    </Button>
+                                </HBox>
+                            </VBox>
+                            <VBox spacing="3">
+                                <Label text="%domains_list_view_label" styleClass="main_label">
+
+                                </Label>
+                                <HBox spacing="5">
+                                    <ListView maxHeight="100" prefWidth="250" styleClass="domain_list_view">
+
+                                    </ListView>
+                                    <Button text="Delete" prefWidth="100" styleClass="delete_button">
+
+                                    </Button>
+                                </HBox>
+                            </VBox>
+                        </VBox>
+                        <VBox spacing="10">
+                            <VBox spacing="3">
+                                <Label text="%add_condition_label" styleClass="main_label">
+
+                                </Label>
+                                <HBox spacing="7">
+                                    <TextField prefWidth="250">
+
+                                    </TextField>
+                                    <Button text="&#x2713;" prefWidth="46.5" styleClass="matching_condition_button">
+
+                                    </Button>
+                                    <Button text="&#x2717;" prefWidth="46.5" styleClass="not_matching_condition_button">
+
+                                    </Button>
+                                </HBox>
+                            </VBox>
+                            <VBox spacing="3">
+                                <Label text="%conditions_list_view_label" styleClass="main_label">
+
+                                </Label>
+                                <Label text="%matching_conditions_list_view_label">
+
+                                </Label>
+                                <HBox spacing="7">
+                                    <ListView maxHeight="100" prefWidth="250" styleClass="matching_list_view">
+
+                                    </ListView>
+                                    <Button text="Delete" prefWidth="100"
+                                            styleClass="delete_button">
+
+                                    </Button>
+                                </HBox>
+                            </VBox>
+                            <VBox>
+                                <Label text="%not_matching_conditions_list_view_label">
+
+                                </Label>
+                                <HBox spacing="5">
+                                    <ListView maxHeight="100" styleClass="not_matching_list_view">
+
+                                    </ListView>
+                                    <Button text="Delete" prefWidth="100"
+                                            styleClass="delete_button">
+
+                                    </Button>
+                                </HBox>
+                            </VBox>
+                        </VBox>
+                    </HBox>
+                </VBox>
+            </VBox>
+            <BorderPane.margin>
+                <Insets top="20" left="20" right="20" bottom="20"/>
+            </BorderPane.margin>
+        </VBox>
+    </center>
+    <bottom>
+        <VBox >
+            <VBox alignment="BOTTOM_RIGHT">
+                <Button text="%search_button_text" prefWidth="150" prefHeight="75"
+                        styleClass="search_button">
+
+                </Button>
+            </VBox>
+            <BorderPane.margin>
+                <Insets top="20" left="20" right="20" bottom="20"/>
+            </BorderPane.margin>
+        </VBox>
+    </bottom>
+</BorderPane>

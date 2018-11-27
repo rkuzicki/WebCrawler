@@ -1,0 +1,102 @@
+/**
+    Labels
+ */
+
+.main_label {
+    -fx-font-weight: bold;
+}
+
+/**
+    Buttons
+ */
+
+.button {
+    -fx-background-radius: 0px;
+    -fx-background-color: #008CBA;
+    -fx-text-fill: white;
+    -fx-text-align: center;
+    -fx-text-decoration: none;
+    -fx-font-size: 16px;
+}
+
+.search_button {
+    .button;
+    -fx-background-color: #4CAF50;
+}
+
+.add_button {
+    .button;
+    -fx-background-color: #4CAF50;
+}
+
+.delete_button {
+    .button;
+    -fx-background-color: #f44336;
+}
+
+.matching_condition_button {
+    .button;
+    -fx-background-color: #4CAF50;
+}
+
+.not_matching_condition_button {
+    .button;
+    -fx-background-color: #f44336;
+}
+
+/**
+    Tabs
+ */
+
+.tab {
+    -fx-background-radius: 0px;
+    -fx-background-insets: 0.0;
+    -fx-background-color: transparent;
+    -fx-pref-height: 60px;
+    -fx-border-width: 0 0 5 0;
+    -fx-border-color: transparent;
+}
+
+.tab:selected {
+    -fx-border-width: 0 0 5 0;
+    -fx-background-radius: 0px;
+    -fx-border-color: #008CBA;
+    -fx-border-style: none;
+    -fx-focus-color: transparent;
+    -fx-outline: none;
+}
+
+/**
+    List-views
+ */
+
+.list-view {
+
+}
+
+.matching_list_view {
+    .list-view;
+    -fx-border-color: #4CAF50;
+}
+
+.not_matching_list_view {
+    .list-view;
+    -fx-border-color: #f44336;
+}
+
+.domain_list_view {
+    .list-view;
+    -fx-border-color: #008CBA;
+}
+
+/**
+    ChoiceBox
+ */
+
+.choice-box {
+    -fx-background-radius: 0;
+}
+
+
+
+

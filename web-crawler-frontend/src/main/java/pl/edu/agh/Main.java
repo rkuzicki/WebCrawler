@@ -1,12 +1,13 @@
-import controller.WebCrawlerAppController;
+package pl.edu.agh;
+
 import javafx.application.Application;
 import javafx.stage.Stage;
+import pl.edu.agh.presenter.AppPresenter;
 
 public class Main extends Application {
 
     private Stage primaryStage;
-    private WebCrawlerAppController appController;
-
+    private AppPresenter presenter;
 
     @Override
     public void start(Stage primaryStage) {
@@ -14,8 +15,8 @@ public class Main extends Application {
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Web Crawler");
 
-        this.appController = new WebCrawlerAppController(primaryStage);
-        this.appController.initRootLayout();
+        this.presenter = new AppPresenter(primaryStage);
+        this.presenter.initRootLayout();
 
     }
 
