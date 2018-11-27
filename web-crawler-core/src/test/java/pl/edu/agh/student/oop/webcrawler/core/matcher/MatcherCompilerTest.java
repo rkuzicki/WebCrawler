@@ -1,6 +1,7 @@
 package pl.edu.agh.student.oop.webcrawler.core.matcher;
 
 import org.junit.jupiter.api.Test;
+import pl.edu.agh.student.oop.webcrawler.core.parser.Sentence;
 import pl.edu.agh.student.oop.webcrawler.core.parser.Text;
 import pl.edu.agh.student.oop.webcrawler.core.parser.Word;
 
@@ -15,6 +16,6 @@ class MatcherCompilerTest {
                 .thenMatch(Word.of("b"))
                 .compile();
 
-        assertThat(m.match(Text.parse("D a, b c"))).isTrue();
+        assertThat(m.match(Sentence.parse("D a, b c"))).isTrue();
     }
 }

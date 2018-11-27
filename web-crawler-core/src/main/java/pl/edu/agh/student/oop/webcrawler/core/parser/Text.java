@@ -1,31 +1,47 @@
 package pl.edu.agh.student.oop.webcrawler.core.parser;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Text {
-    private List<Word> words;
+    private List<Sentence> sentences = new ArrayList<>();
 
-    public static Text parse(String text) {
-        String[] splitWords = text.replaceAll("\\s+", " ").split(" ");
-        List<Word> words = Arrays.stream(splitWords)
-                .map(Word::new)
-                .collect(Collectors.toList());
-        return new Text(words);
+    Text() {
+
     }
 
-    Text(List<Word> words){
-        this.words = new ArrayList<>(words);
+    Text(List<Sentence> sentences) {
+        this.sentences = sentences;
     }
 
-    public Text subtext(int from) {
-        return new Text(words.subList(from, words.size()));
+    public void add(Sentence sentence) {
+        sentences.add(sentence);
     }
 
-    public Stream<Word> words() {
-        return words.stream();
+    public Stream<Sentence> sentences() {
+        return sentences.stream();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Text text = (Text) o;
+        return Objects.equals(sentences, text.sentences);
+    }
+
+    @Override
+    public String toString() {
+        return sentences.stream()
+                .map(Object::toString)
+                .collect(Collectors.joining(" "));
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(sentences);
     }
 }

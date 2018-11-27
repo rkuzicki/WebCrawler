@@ -1,5 +1,6 @@
 package pl.edu.agh.student.oop.webcrawler.core.matcher;
 
+import pl.edu.agh.student.oop.webcrawler.core.parser.Sentence;
 import pl.edu.agh.student.oop.webcrawler.core.parser.Text;
 
 class EndMatcher implements Matcher {
@@ -14,7 +15,7 @@ class EndMatcher implements Matcher {
     }
 
     @Override
-    public boolean match(Text text) {
+    public boolean match(Sentence sentence) {
         return true;
     }
 }

@@ -1,5 +1,6 @@
 package pl.edu.agh.student.oop.webcrawler.core.matcher;
 
+import pl.edu.agh.student.oop.webcrawler.core.parser.Sentence;
 import pl.edu.agh.student.oop.webcrawler.core.parser.Text;
 
 class NotMatcher implements Matcher {
@@ -15,7 +16,7 @@ class NotMatcher implements Matcher {
     }
 
     @Override
-    public boolean match(Text text) {
-        return !inner.match(text);
+    public boolean match(Sentence sentence) {
+        return !inner.match(sentence);
     }
 }
