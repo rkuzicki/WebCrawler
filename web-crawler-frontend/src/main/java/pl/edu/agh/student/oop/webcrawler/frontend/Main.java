@@ -1,8 +1,8 @@
-package pl.edu.agh;
+package pl.edu.agh.student.oop.webcrawler.frontend;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-import pl.edu.agh.presenter.AppPresenter;
+import pl.edu.agh.student.oop.webcrawler.frontend.presenter.AppPresenter;
 
 public class Main extends Application {
 

@@ -1,13 +1,12 @@
-package pl.edu.agh.presenter;
+package pl.edu.agh.student.oop.webcrawler.frontend.presenter;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import pl.edu.agh.Main;
+import pl.edu.agh.student.oop.webcrawler.frontend.Main;
 
 import java.io.IOException;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class AppPresenter {

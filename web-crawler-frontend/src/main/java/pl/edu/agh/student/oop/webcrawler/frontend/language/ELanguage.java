@@ -1,4 +1,4 @@
-package pl.edu.agh.language;
+package pl.edu.agh.student.oop.webcrawler.frontend.language;
 
 public enum ELanguage {
     POLISH("polski"),

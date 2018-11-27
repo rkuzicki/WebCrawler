@@ -7,7 +7,7 @@
 
 <BorderPane xmlns="http://javafx.com/javafx/8"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="pl.edu.agh.presenter.AppPresenter" minHeight="600">
+            fx:controller="pl.edu.agh.student.oop.webcrawler.frontend.presenter.AppPresenter" minHeight="600">
     <top>
         <TabPane tabClosingPolicy="UNAVAILABLE">
             <Tab text="%configuration_tab_text" >

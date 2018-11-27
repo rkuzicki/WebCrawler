@@ -1,15 +1,13 @@
-package pl.edu.agh.presenter;
+package pl.edu.agh.student.oop.webcrawler.frontend.presenter;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import pl.edu.agh.language.ELanguage;
+import pl.edu.agh.student.oop.webcrawler.frontend.language.ELanguage;
 
 import java.util.EnumSet;
-import java.util.List;
-import java.util.Observable;
 
 public class SettingsPresenter {
 

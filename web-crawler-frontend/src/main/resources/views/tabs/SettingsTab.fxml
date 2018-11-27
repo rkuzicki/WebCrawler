@@ -7,7 +7,7 @@
 
 <BorderPane xmlns="http://javafx.com/javafx/8"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="pl.edu.agh.presenter.SettingsPresenter">
+            fx:controller="pl.edu.agh.student.oop.webcrawler.frontend.presenter.SettingsPresenter">
     <center>
         <VBox>
             <VBox>
