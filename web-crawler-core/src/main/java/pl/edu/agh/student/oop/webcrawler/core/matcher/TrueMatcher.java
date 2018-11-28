@@ -1,16 +1,15 @@
 package pl.edu.agh.student.oop.webcrawler.core.matcher;
 
 import pl.edu.agh.student.oop.webcrawler.core.parser.Sentence;
-import pl.edu.agh.student.oop.webcrawler.core.parser.Text;
 
-class EndMatcher implements Matcher {
-    private static final Matcher INSTANCE = new EndMatcher();
+class TrueMatcher implements Matcher {
+    private static final Matcher INSTANCE = new TrueMatcher();
 
     public static Matcher instance() {
         return INSTANCE;
     }
 
-    private EndMatcher() {
+    private TrueMatcher() {
 
     }
 

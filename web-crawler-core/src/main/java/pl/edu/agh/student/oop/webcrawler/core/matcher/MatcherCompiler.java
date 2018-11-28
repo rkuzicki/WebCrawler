@@ -33,7 +33,7 @@ public class MatcherCompiler {
     }
 
     public Matcher compile() {
-        Matcher compiled = EndMatcher.instance();
+        Matcher compiled = TrueMatcher.instance();
 
         ListIterator<MatcherProvider> i = matchers.listIterator(matchers.size());
         while (i.hasPrevious()) {
