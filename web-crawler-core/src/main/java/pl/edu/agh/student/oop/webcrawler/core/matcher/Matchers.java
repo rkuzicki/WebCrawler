@@ -9,6 +9,10 @@ public class Matchers {
         return new AndMatcher(matchers);
     }
 
+    public static Matcher matchAny(Matcher... matchers) {
+        return new OrMatcher(matchers);
+    }
+
     public static Matcher negate(Matcher matcher) {
         return new NotMatcher(matcher);
     }
