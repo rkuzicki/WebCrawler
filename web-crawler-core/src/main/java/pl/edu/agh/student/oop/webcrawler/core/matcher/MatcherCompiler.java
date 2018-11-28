@@ -18,7 +18,7 @@ public class MatcherCompiler {
     }
 
     public MatcherCompiler matchAny() {
-        matchers.add(SkippingMatcher::new);
+        matchers.add(AnyMatcher::new);
         return this;
     }
 
