@@ -14,6 +14,10 @@ public interface Matcher {
         return Matchers.matchEvery(this, matcher);
     }
 
+    default Matcher or(Matcher matcher) {
+        return Matchers.matchAny(this, matcher);
+    }
+
     default Matcher negate() {
         return Matchers.negate(this);
     }
