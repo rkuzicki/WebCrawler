@@ -64,6 +64,45 @@ class MatcherTest {
                 .compile().negate();
 
         assertThat(matcher.match(Sentence.parse("word"))).isFalse();
-        assertThat(matcher.match(Sentence.parse("someting"))).isTrue();
+        assertThat(matcher.match(Sentence.parse("something"))).isTrue();
+    }
+
+    @Test
+    void testAndMatcher1() {
+        Matcher goodMatcher = Matcher.compiler()
+                .thenSkip(1)
+                .thenMatch(Word.of("dog"))
+                .compile();
+        Matcher badMatcher = Matcher.compiler()
+                .thenMatch(Word.of("bad"))
+                .compile().negate();
+
+        Matcher matcher = goodMatcher.and(badMatcher);
+
+        assertThat(matcher.match(Sentence.parse("good dog"))).isTrue();
+        assertThat(matcher.match(Sentence.parse("bad dog"))).isFalse();
+        assertThat(matcher.match(Sentence.parse("nice dog"))).isTrue();
+        assertThat(matcher.match(Sentence.parse("dog"))).isTrue();
+        assertThat(matcher.match(Sentence.parse("bad"))).isFalse();
+    }
+
+    @Test
+    void testAndMatcher2() {
+        Matcher goodMatcher = Matcher.compiler()
+                .matchAny()
+                .thenMatch(Word.of("hello"))
+                .compile();
+        Matcher badMatcher = Matcher.compiler()
+                .matchAny()
+                .thenMatch(Word.of("bye"))
+                .compile().negate();
+
+        Matcher matcher = goodMatcher.and(badMatcher);
+
+        assertThat(matcher.match(Sentence.parse("hello"))).isTrue();
+        assertThat(matcher.match(Sentence.parse("world hello"))).isTrue();
+        assertThat(matcher.match(Sentence.parse("hello world"))).isTrue();
+        assertThat(matcher.match(Sentence.parse("hello, bye"))).isFalse();
+        assertThat(matcher.match(Sentence.parse("bye hello"))).isFalse();
     }
 }
