@@ -25,7 +25,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>pl.edu.agh.Main</mainClass>
+                            <mainClass>pl.edu.agh.student.oop.webcrawler.frontend.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

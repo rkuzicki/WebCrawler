@@ -49,20 +49,22 @@ public class HtmlParser {
         }
     }
 
-    public Text parse() {
+    public ImmutableText parse() {
         Whitelist whitelist = Whitelist.relaxed().removeTags(IGNORED_TAGS);
         Document parsedDoc = new Cleaner(whitelist).clean(doc);
         NodeTraverser nodeTraverser = this.new NodeTraverser();
         parsedDoc.traverse(nodeTraverser);
 
-        Text text = new Text();
+
+        List<Sentence> sentences = new ArrayList<>();
         nodeTraverser.getList().stream()
                 .filter(HtmlParser::isClean)
                 .flatMap(s -> Arrays.stream(s.split(WORD_SPLIT_REGEX)))
                 .map(String::trim)
                 .map(Sentence::parse)
-                .forEach(text::add);
+                .forEach(sentences::add);
 
-        return text;
+
+        return new ImmutableText.TextBuilder(sentences).build();
     }
 }

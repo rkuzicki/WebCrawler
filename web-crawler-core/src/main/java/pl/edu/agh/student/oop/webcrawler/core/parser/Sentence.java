@@ -7,7 +7,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class Sentence {
+public class Sentence implements Cloneable{
     private List<Word> words;
 
     public static Sentence parse(String text) {
@@ -47,4 +47,14 @@ public class Sentence {
     public Stream<Word> words() {
         return words.stream();
     }
+
+    @Override
+    protected Sentence clone() {
+        List<Word> wordsCopy = words.stream()
+                                    .map(Word::clone)
+                                    .collect(Collectors.toList());
+
+        return new Sentence(wordsCopy);
+    }
+
 }

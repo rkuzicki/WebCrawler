@@ -2,7 +2,7 @@ package pl.edu.agh.student.oop.webcrawler.core.parser;
 
 import java.util.Objects;
 
-public class Word {
+public class Word implements Cloneable{
     private final String original;
     private final String simplified;
 
@@ -48,5 +48,10 @@ public class Word {
     @Override
     public int hashCode() {
         return Objects.hash(simplified);
+    }
+
+    @Override
+    protected Word clone() {
+        return new Word(original);
     }
 }

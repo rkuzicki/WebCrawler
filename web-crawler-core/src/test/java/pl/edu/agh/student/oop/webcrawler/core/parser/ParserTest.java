@@ -17,7 +17,7 @@ class ParserTest {
         List<Sentence> sentenceList = new ArrayList<>();
         sentenceList.add(Sentence.parse("First parse"));
         sentenceList.add(Sentence.parse("Parsed HTML into a doc"));
-        Text expectedText = new Text(sentenceList);
+        ImmutableText expectedText = new ImmutableText.TextBuilder(sentenceList).build();
         assertThat(new HtmlParser(document).parse()).isEqualTo(expectedText);
     }
 
