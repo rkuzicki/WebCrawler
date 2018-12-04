@@ -4,9 +4,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 class ParserTest {
@@ -14,10 +11,9 @@ class ParserTest {
     void testHtmlParsing() {
         Document document = Jsoup.parse("<html><body><p>First <i>parse</i></p><p>Parsed HTML into a doc." +
                 "</p><div>  <div></body></html>");
-        List<Sentence> sentenceList = new ArrayList<>();
-        sentenceList.add(Sentence.parse("First parse"));
-        sentenceList.add(Sentence.parse("Parsed HTML into a doc"));
-        ImmutableText expectedText = new ImmutableText.TextBuilder(sentenceList).build();
+        TextParser textParser = new TextParser();
+        textParser.parse("First parse. ParsedHTML into a doc");
+        Text expectedText = textParser.getTextBuilder().build();
         assertThat(new HtmlParser(document).parse()).isEqualTo(expectedText);
     }
 

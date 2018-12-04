@@ -1,33 +1,28 @@
 package pl.edu.agh.student.oop.webcrawler.core.parser;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public final class ImmutableText {
+public final class Text {
     private final List<Sentence> sentences;
 
 
-    private ImmutableText(TextBuilder builder) {
-        this.sentences = builder.sentences
-                                .stream()
-                                .map(Sentence::clone)
-                                .collect(Collectors.toList());
+    private Text(Builder builder) {
+        this.sentences = builder.sentences;
     }
 
     public Stream<Sentence> sentences() {
-        return sentences.stream()
-                        .map(Sentence::clone)
-                        .collect(Collectors.toList())
-                        .stream();
+        return sentences.stream();
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ImmutableText text = (ImmutableText) o;
+        Text text = (Text) o;
         return Objects.equals(sentences, text.sentences);
     }
 
@@ -44,16 +39,17 @@ public final class ImmutableText {
     }
 
 
-    public static class TextBuilder {
-        private List<Sentence> sentences;
+    public static class Builder {
+        private List<Sentence> sentences = new ArrayList<>();
 
-        public TextBuilder(List<Sentence> sentences) {
-            this.sentences = sentences;
+        public Builder() { }
+
+        public void addSentence(Sentence sentence) {
+            this.sentences.add(sentence);
         }
 
-
-        public ImmutableText build() {
-            return new ImmutableText(this );
+        public Text build() {
+            return new Text(this );
         }
 
     }

@@ -2,7 +2,7 @@ package pl.edu.agh.student.oop.webcrawler.core.parser;
 
 import java.util.Objects;
 
-public class Word implements Cloneable{
+public class Word {
     private final String original;
     private final String simplified;
 
@@ -13,6 +13,11 @@ public class Word implements Cloneable{
     Word(String original) {
         this.original = original;
         this.simplified = simplify(original);
+    }
+
+    Word(Word word) {
+        this.original = word.original;
+        this.simplified = word.simplified;
     }
 
     private String simplify(String original) {
@@ -50,8 +55,5 @@ public class Word implements Cloneable{
         return Objects.hash(simplified);
     }
 
-    @Override
-    protected Word clone() {
-        return new Word(original);
-    }
+
 }

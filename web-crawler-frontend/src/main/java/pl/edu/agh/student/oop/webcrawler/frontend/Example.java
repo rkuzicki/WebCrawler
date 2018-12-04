@@ -4,7 +4,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import pl.edu.agh.student.oop.webcrawler.core.matcher.Matcher;
 import pl.edu.agh.student.oop.webcrawler.core.parser.HtmlParser;
-import pl.edu.agh.student.oop.webcrawler.core.parser.ImmutableText;
+import pl.edu.agh.student.oop.webcrawler.core.parser.Text;
 import pl.edu.agh.student.oop.webcrawler.core.parser.Word;
 
 import java.io.IOException;
@@ -16,14 +16,14 @@ public class Example {
         URL url = new URL(urlInput);
         Document parsed = Jsoup.parse(url, 10000);
 
-        ImmutableText websiteText = new HtmlParser(parsed).parse();
+        Text websiteText = new HtmlParser(parsed).parse();
         System.out.println(websiteText);
 
         match1(websiteText);
         match2(websiteText);
     }
 
-    private static void match1(ImmutableText websiteText) {
+    private static void match1(Text websiteText) {
         System.out.println("# Matcher 1");
 
         Matcher matcher = Matcher.compiler()
@@ -43,7 +43,7 @@ public class Example {
         });
     }
 
-    private static void match2(ImmutableText websiteText) {
+    private static void match2(Text websiteText) {
         System.out.println("# Matcher 2");
 
         Matcher matcher = Matcher.compiler()
