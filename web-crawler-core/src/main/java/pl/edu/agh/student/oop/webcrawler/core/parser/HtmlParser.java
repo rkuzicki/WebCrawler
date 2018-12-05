@@ -3,6 +3,7 @@ package pl.edu.agh.student.oop.webcrawler.core.parser;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Node;
+import org.jsoup.safety.Cleaner;
 import org.jsoup.safety.Whitelist;
 import org.jsoup.select.NodeVisitor;
 
@@ -51,7 +52,8 @@ public class HtmlParser {
 
     public Text parse() {
         Whitelist whitelist = Whitelist.relaxed().removeTags(IGNORED_TAGS);
-        Document parsedDoc = Jsoup.parse(Jsoup.clean(doc.body().toString(), whitelist));
+        Document cleaned = new Cleaner(whitelist).clean(doc);
+        Document parsedDoc = Jsoup.parse(cleaned.toString());
         NodeTraverser nodeTraverser = this.new NodeTraverser();
         parsedDoc.traverse(nodeTraverser);
 
