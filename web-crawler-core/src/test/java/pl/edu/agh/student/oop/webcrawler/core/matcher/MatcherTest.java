@@ -105,4 +105,23 @@ class MatcherTest {
         assertThat(matcher.match(Sentence.parse("hello, bye"))).isFalse();
         assertThat(matcher.match(Sentence.parse("bye hello"))).isFalse();
     }
+
+    @Test
+    void testOrMatcher() {
+        Matcher goodMatcher = Matcher.compiler()
+                .thenSkip(1)
+                .thenMatch(Word.of("good"))
+                .compile();
+        Matcher badMatcher = Matcher.compiler()
+                .thenMatch(Word.of("bad"))
+                .compile();
+
+        Matcher matcher = goodMatcher.or(badMatcher);
+
+        assertThat(matcher.match(Sentence.parse("good dog"))).isTrue();
+        assertThat(matcher.match(Sentence.parse("bad dog"))).isTrue();
+        assertThat(matcher.match(Sentence.parse("bad good"))).isTrue();
+        assertThat(matcher.match(Sentence.parse("good bad"))).isTrue();
+        assertThat(matcher.match(Sentence.parse("not bad"))).isFalse();
+    }
 }
