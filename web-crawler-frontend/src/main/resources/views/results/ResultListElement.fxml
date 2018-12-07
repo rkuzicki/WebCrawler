@@ -5,7 +5,7 @@
 <?import javafx.scene.text.*?>
 <BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
             fx:controller="pl.edu.agh.student.oop.webcrawler.frontend.views.results.presenter.ResultListElementPresenter"
-            stylesheets="@results.css">
+            stylesheets="@../global.css, @results.css">
     <left>
         <TextFlow fx:id="matchedTextFlow">
             <Text text="this "/>
