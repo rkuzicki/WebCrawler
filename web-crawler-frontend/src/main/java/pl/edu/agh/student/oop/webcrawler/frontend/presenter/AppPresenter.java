@@ -11,11 +11,7 @@ import java.io.IOException;
 import java.util.ResourceBundle;
 
 public class AppPresenter {
-    private Stage primaryStage;
-
-    public AppPresenter() {
-
-    }
+    private final Stage primaryStage;
 
     public AppPresenter(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -28,7 +24,7 @@ public class AppPresenter {
                     getClassLoader().
                     getResource("views/MainPane.fxml"));
             loader.setResources(ResourceBundle.getBundle("bundles.lang"));
-            BorderPane rootLayout = (BorderPane) loader.load();
+            BorderPane rootLayout = loader.load();
 
             Scene scene = new Scene(rootLayout);
             scene.getStylesheets().add(Main.class.getClassLoader().

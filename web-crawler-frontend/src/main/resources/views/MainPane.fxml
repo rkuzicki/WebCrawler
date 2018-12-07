@@ -7,15 +7,13 @@
 
 <BorderPane xmlns="http://javafx.com/javafx/8"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="pl.edu.agh.student.oop.webcrawler.frontend.presenter.AppPresenter" minHeight="600">
+            minHeight="600">
     <top>
         <TabPane tabClosingPolicy="UNAVAILABLE">
             <Tab text="%configuration_tab_text" >
                 <graphic>
                     <ImageView>
-                        <image>
-                            <Image url="/icons/configuration.png"/>
-                        </image>
+                        <Image url="/icons/configuration.png"/>
                     </ImageView>
                 </graphic>
                 <fx:include source="tabs/ConfigurationTab.fxml" />
@@ -23,19 +21,15 @@
             <Tab text="%results_tab_text">
                 <graphic>
                     <ImageView>
-                        <image>
-                            <Image url="/icons/results.png" />
-                        </image>
+                        <Image url="/icons/results.png"/>
                     </ImageView>
                 </graphic>
-                <fx:include source="tabs/ResultsTab.fxml" />
+                <fx:include source="results/ResultsTab.fxml" />
             </Tab>
             <Tab text="%settings_tab_text">
                 <graphic>
                     <ImageView>
-                        <image>
-                            <Image url="/icons/settings.png" />
-                        </image>
+                        <Image url="/icons/settings.png"/>
                     </ImageView>
                 </graphic>
                 <fx:include source="tabs/SettingsTab.fxml" />

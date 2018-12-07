@@ -12,25 +12,19 @@
             <Tab text="%list_tab_text">
                 <graphic>
                     <ImageView>
-                        <image>
-                            <Image url="/icons/list.png"/>
-                        </image>
+                        <Image url="/icons/list.png"/>
                     </ImageView>
                 </graphic>
-                <fx:include source="ListTab.fxml" />
+                <fx:include source="ResultListTab.fxml"/>
             </Tab>
             <Tab text="%diagram_tab_text">
-                <fx:include source="DiagramTab.fxml" />
                 <graphic>
                     <ImageView>
-                        <image>
-                            <Image url="/icons/diagram.png"/>
-                        </image>
+                        <Image url="/icons/diagram.png"/>
                     </ImageView>
                 </graphic>
+                <fx:include source="DiagramTab.fxml"/>
             </Tab>
         </TabPane>
     </top>
 </BorderPane>
-
-
