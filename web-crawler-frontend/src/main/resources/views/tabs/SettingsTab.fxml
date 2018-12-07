@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.collections.FXCollections?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="pl.edu.agh.student.oop.webcrawler.frontend.presenter.SettingsPresenter">
+    <center>
+        <VBox>
+            <VBox>
+                <VBox spacing="20">
+                    <Label text="%language_label" styleClass="main_label">
+                    </Label>
+                    <ChoiceBox fx:id="languageChoiceBox">
+
+                    </ChoiceBox>
+                    <Button text="%apply_button_text" fx:id="applyButton">
+                    </Button>
+                </VBox>
+            </VBox>
+            <BorderPane.margin>
+                <Insets top="20" left="20" right="20" bottom="20"/>
+            </BorderPane.margin>
+        </VBox>
+    </center>
+</BorderPane>
