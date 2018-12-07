@@ -24,7 +24,7 @@
                         <Image url="/icons/results.png"/>
                     </ImageView>
                 </graphic>
-                <fx:include source="results/ResultsTab.fxml" />
+                <fx:include source="results/ResultView.fxml" />
             </Tab>
             <Tab text="%settings_tab_text">
                 <graphic>

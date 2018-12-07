@@ -15,7 +15,7 @@
                         <Image url="/icons/list.png"/>
                     </ImageView>
                 </graphic>
-                <fx:include source="ResultListTab.fxml"/>
+                <fx:include source="ResultList.fxml"/>
             </Tab>
             <Tab text="%diagram_tab_text">
                 <graphic>
@@ -23,7 +23,7 @@
                         <Image url="/icons/diagram.png"/>
                     </ImageView>
                 </graphic>
-                <fx:include source="DiagramTab.fxml"/>
+                <fx:include source="ResultDiagram.fxml"/>
             </Tab>
         </TabPane>
     </top>
