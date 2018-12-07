@@ -2,7 +2,7 @@ package pl.edu.agh.student.oop.webcrawler.frontend.views.results.model;
 
 import org.immutables.value.Value;
 
-import java.net.URL;
+import java.net.URI;
 import java.time.LocalDateTime;
 
 @Value.Immutable
@@ -13,7 +13,7 @@ public interface Result {
 
     String getMatchedText();
 
-    URL getSource();
+    URI getSource();
 
     LocalDateTime getCreationDate();
 }

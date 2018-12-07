@@ -2,6 +2,11 @@
     -fx-fill: green;
 }
 
-.result-url {
+.result-url-text Text {
     -fx-fill: gray;
+}
+
+.result-url-text Hyperlink {
+    -fx-border-color: transparent;
+    -fx-padding: 0;
 }

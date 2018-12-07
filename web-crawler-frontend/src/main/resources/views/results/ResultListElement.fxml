@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.*?>
 <BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
@@ -16,6 +17,9 @@
         <Text fx:id="timer" text="3 minutes ago"/>
     </right>
     <bottom>
-        <Text text="from asdf.com" styleClass="result-url"/>
+        <TextFlow styleClass="result-url-text">
+            <Text text="from "/>
+            <Hyperlink fx:id="resultUrl"/>
+        </TextFlow>
     </bottom>
 </BorderPane>
