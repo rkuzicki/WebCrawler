@@ -34,6 +34,8 @@ public interface Matcher {
 
     /**
      * Create a matcher which will match the sentence iff both this, and the second matcher, match the sentence.
+     *
+     * @return a logical conjunction of this and the given matcher
      */
     default Matcher and(Matcher matcher) {
         return Matchers.matchEvery(this, matcher);
@@ -42,6 +44,8 @@ public interface Matcher {
     /**
      * Create a matcher which will match the sentence iff either this, or the second matcher (or both), match the
      * sentence.
+     *
+     * @return a logical disjunction of this and the given matcher
      */
     default Matcher or(Matcher matcher) {
         return Matchers.matchAny(this, matcher);
@@ -50,6 +54,8 @@ public interface Matcher {
     /**
      * Create a matcher which will fail to match the sentence if this matcher matches it, and match a sentence if
      * this matcher fails to do so.
+     *
+     * @return negated matcher
      */
     default Matcher negate() {
         return Matchers.negate(this);

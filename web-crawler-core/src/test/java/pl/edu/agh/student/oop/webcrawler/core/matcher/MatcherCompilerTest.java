@@ -10,7 +10,7 @@ class MatcherCompilerTest {
     @Test
     void testCompiler() {
         Matcher m = Matcher.compiler()
-                .matchAny()
+                .thenMatchAny()
                 .thenMatch(Word.of("a"))
                 .thenMatch(Word.of("b"))
                 .compile();
