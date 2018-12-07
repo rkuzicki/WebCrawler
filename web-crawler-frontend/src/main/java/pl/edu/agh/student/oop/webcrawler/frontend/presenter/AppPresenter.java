@@ -27,8 +27,6 @@ public class AppPresenter {
             BorderPane rootLayout = loader.load();
 
             Scene scene = new Scene(rootLayout);
-            scene.getStylesheets().add(Main.class.getClassLoader().
-                    getResource("css/main.css").toExternalForm());
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch (IOException e) {
