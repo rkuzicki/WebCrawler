@@ -19,6 +19,11 @@
             <groupId>pl.edu.agh.student.oop.webcrawler</groupId>
             <artifactId>web-crawler-core</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.immutables</groupId>
+            <artifactId>value</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

@@ -4,15 +4,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
 import pl.edu.agh.student.oop.webcrawler.frontend.Main;
 import pl.edu.agh.student.oop.webcrawler.frontend.util.ErrorMessage;
+import pl.edu.agh.student.oop.webcrawler.frontend.views.results.presenter.ResultListElementPresenter;
 
 import java.io.IOException;
 import java.util.ResourceBundle;
 
 public class ResultListCell extends ListCell<Result> {
+    private final ResultListElementPresenter presenter;
+
     private final ListView<Result> listView;
     private final Node node;
 
@@ -26,6 +27,7 @@ public class ResultListCell extends ListCell<Result> {
         loader.setResources(ResourceBundle.getBundle("bundles.lang"));
         try {
             this.node = loader.load();
+            this.presenter = loader.getController();
         } catch (IOException e) {
             ErrorMessage.show("Cannot load FXML", e);
             throw new RuntimeException(e);
@@ -36,6 +38,7 @@ public class ResultListCell extends ListCell<Result> {
     protected void updateItem(Result item, boolean empty) {
         super.updateItem(item, empty);
         if (item != null && !empty) {
+            presenter.update(item);
             setGraphic(node);
         } else {
             setGraphic(null);
