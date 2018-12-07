@@ -18,7 +18,7 @@ public class MatcherCompiler {
     }
 
     public MatcherCompiler matchAny() {
-        matchers.add(SkippingMatcher::new);
+        matchers.add(AnyMatcher::new);
         return this;
     }
 
@@ -32,8 +32,16 @@ public class MatcherCompiler {
         return this;
     }
 
+    public Matcher matchEnd() {
+        return compile(EndMatcher.instance());
+    }
+
     public Matcher compile() {
-        Matcher compiled = EndMatcher.instance();
+        return compile(TrueMatcher.instance());
+    }
+
+    private Matcher compile(Matcher tail) {
+        Matcher compiled = tail;
 
         ListIterator<MatcherProvider> i = matchers.listIterator(matchers.size());
         while (i.hasPrevious()) {

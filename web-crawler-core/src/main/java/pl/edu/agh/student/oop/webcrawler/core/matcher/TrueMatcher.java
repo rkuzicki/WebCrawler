@@ -2,19 +2,19 @@ package pl.edu.agh.student.oop.webcrawler.core.matcher;
 
 import pl.edu.agh.student.oop.webcrawler.core.parser.Sentence;
 
-class EndMatcher implements Matcher {
-    private static final Matcher INSTANCE = new EndMatcher();
+class TrueMatcher implements Matcher {
+    private static final Matcher INSTANCE = new TrueMatcher();
 
     public static Matcher instance() {
         return INSTANCE;
     }
 
-    private EndMatcher() {
+    private TrueMatcher() {
 
     }
 
     @Override
     public boolean match(Sentence sentence) {
-        return sentence.words().count() == 0;
+        return true;
     }
 }
