@@ -30,8 +30,8 @@ public class TextParser {
                 .forEach(builder::addSentence);
     }
 
-    public Text.Builder getTextBuilder() {
-        return this.builder;
+    public Text getText() {
+        return this.builder.build();
     }
 
 

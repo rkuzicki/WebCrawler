@@ -11,7 +11,7 @@ public final class Text {
 
 
     private Text(Builder builder) {
-        this.sentences = builder.sentences;
+        this.sentences = new ArrayList<>(builder.sentences);
     }
 
     public Stream<Sentence> sentences() {

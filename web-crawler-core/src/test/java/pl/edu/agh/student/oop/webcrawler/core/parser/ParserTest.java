@@ -13,7 +13,7 @@ class ParserTest {
                 "</p><div>  <div></body></html>");
         TextParser textParser = new TextParser();
         textParser.parse("First parse. ParsedHTML into a doc");
-        Text expectedText = textParser.getTextBuilder().build();
+        Text expectedText = textParser.getText();
         assertThat(new HtmlParser(document).parse()).isEqualTo(expectedText);
     }
 

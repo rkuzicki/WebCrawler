@@ -58,6 +58,6 @@ public class HtmlParser {
                 .filter(HtmlParser::isClean)
                 .forEach(textParser::parse);
 
-        return textParser.getTextBuilder().build();
+        return textParser.getText();
     }
 }
