@@ -25,6 +25,10 @@ public class Text {
         return sentences.stream();
     }
 
+    public List<Sentence> getSentences() {
+        return sentences;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
