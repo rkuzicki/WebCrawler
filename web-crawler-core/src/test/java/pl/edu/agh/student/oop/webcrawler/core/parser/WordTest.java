@@ -11,8 +11,9 @@ class WordTest {
     @ParameterizedTest
     @CsvSource({
             "'test,', test",
-            "Ala, ala",
-            "*aWord*, aword"})
+            "'Ala', 'ala'",
+            "'*aWord*', 'aword'",
+            "'Oh!', 'OH?'"})
     void testSimplification(String a, String b) {
         assertThat(new Word(a))
                 .isEqualTo(new Word(b));
