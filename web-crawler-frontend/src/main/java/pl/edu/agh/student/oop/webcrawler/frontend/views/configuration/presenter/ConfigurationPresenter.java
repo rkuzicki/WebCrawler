@@ -99,7 +99,7 @@ public class ConfigurationPresenter {
 
     @FXML
     private void handleSearchAction(ActionEvent event) {
-        Configuration configuration = Parser.createConfiguration(
+        Configuration configuration = new Parser().createConfiguration(
                 depthTextField.getText(),
                 new ArrayList<String>(domains),
                 new ArrayList<ConditionsListItem>(listController
