@@ -6,19 +6,12 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class Text {
-    private List<Sentence> sentences = new ArrayList<>();
+public final class Text {
+    private final List<Sentence> sentences;
 
-    Text() {
 
-    }
-
-    Text(List<Sentence> sentences) {
-        this.sentences = sentences;
-    }
-
-    public void add(Sentence sentence) {
-        sentences.add(sentence);
+    private Text(Builder builder) {
+        this.sentences = new ArrayList<>(builder.sentences);
     }
 
     public Stream<Sentence> sentences() {
@@ -47,5 +40,21 @@ public class Text {
     @Override
     public int hashCode() {
         return Objects.hash(sentences);
+    }
+
+
+    public static class Builder {
+        private List<Sentence> sentences = new ArrayList<>();
+
+        public Builder() { }
+
+        public void addSentence(Sentence sentence) {
+            this.sentences.add(sentence);
+        }
+
+        public Text build() {
+            return new Text(this );
+        }
+
     }
 }

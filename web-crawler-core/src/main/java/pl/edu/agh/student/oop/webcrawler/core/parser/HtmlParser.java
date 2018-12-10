@@ -8,11 +8,9 @@ import org.jsoup.safety.Whitelist;
 import org.jsoup.select.NodeVisitor;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class HtmlParser {
-    private static final String WORD_SPLIT_REGEX = "(?<!\\w\\.\\w.)(?<![A-Z][a-z]\\.)(?<=\\.|\\?)\\s";
     private static final String[] IGNORED_TAGS = {
             "a", "b", "i", "span", "em", "del", "s", "strike", "br", "img", "head"};
 
@@ -57,14 +55,11 @@ public class HtmlParser {
         NodeTraverser nodeTraverser = this.new NodeTraverser();
         parsedDoc.traverse(nodeTraverser);
 
-        Text text = new Text();
+        TextParser textParser = new TextParser();
         nodeTraverser.getList().stream()
                 .filter(HtmlParser::isClean)
-                .flatMap(s -> Arrays.stream(s.split(WORD_SPLIT_REGEX)))
-                .map(String::trim)
-                .map(Sentence::parse)
-                .forEach(text::add);
+                .forEach(textParser::parse);
 
-        return text;
+        return textParser.getText();
     }
 }
