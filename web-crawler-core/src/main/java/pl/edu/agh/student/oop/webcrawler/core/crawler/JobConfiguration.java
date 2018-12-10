@@ -3,26 +3,38 @@ package pl.edu.agh.student.oop.webcrawler.core.crawler;
 import pl.edu.agh.student.oop.webcrawler.core.configuration.Configuration;
 import pl.edu.agh.student.oop.webcrawler.core.matcher.Matcher;
 
-public class JobConfiguration {
-    private Matcher matcher;
-    private int depth;
-    private boolean areSubdomains;
+import java.net.URI;
 
-    public JobConfiguration(Matcher matcher, int depth, boolean areSubdomains) {
-        this.matcher = matcher;
-        this.depth = depth;
-        this.areSubdomains = areSubdomains;
+public class JobConfiguration {
+    private Configuration configuration;
+    private int currentDepth;
+    private MatchListener matchListener;
+    private URI url;
+
+    public JobConfiguration(Configuration configuration, int depth, MatchListener matchListener, URI url) {
+        this.configuration = configuration;
+        this.currentDepth = depth;
+        this.matchListener = matchListener;
+        this.url = url;
+    }
+
+    public Configuration configuration() {
+        return configuration;
     }
 
     public Matcher matcher() {
-        return matcher;
+        return configuration.matcher();
     }
 
-    public int depth() {
-        return depth;
+    public int currentDepth() {
+        return currentDepth;
     }
 
-    public boolean areSubdomains() {
-        return areSubdomains;
+    public MatchListener matchListener() {
+        return matchListener;
+    }
+
+    public URI url() {
+        return url;
     }
 }

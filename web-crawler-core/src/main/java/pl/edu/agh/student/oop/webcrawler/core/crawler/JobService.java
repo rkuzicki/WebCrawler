@@ -12,9 +12,14 @@ public class JobService {
 
     }
 
-    public void add(List<Job> jobs) {
-        for(Job job: jobs) {
-            service.submit(job);
+    public void add(List<CrawlingJob> jobs) {
+        for(CrawlingJob job: jobs) {
+            service.submit(new Runnable() {
+                @Override
+                public void run() {
+                    job.execute();
+                }
+            });
         }
     }
 }

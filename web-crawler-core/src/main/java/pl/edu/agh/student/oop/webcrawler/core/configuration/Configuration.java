@@ -19,4 +19,8 @@ public class Configuration {
     public static ConfigurationBuilder builder() {
         return new ConfigurationBuilder();
     }
+
+    public Matcher matcher() {
+        return matcher;
+    }
 }
