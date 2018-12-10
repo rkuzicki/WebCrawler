@@ -1,30 +1,28 @@
 package pl.edu.agh.student.oop.webcrawler.frontend.input;
 
+import pl.edu.agh.student.oop.webcrawler.core.configuration.Configuration;
+import pl.edu.agh.student.oop.webcrawler.core.configuration.ConfigurationBuilder;
 import pl.edu.agh.student.oop.webcrawler.core.matcher.Matcher;
 import pl.edu.agh.student.oop.webcrawler.core.matcher.MatcherCompiler;
-import pl.edu.agh.student.oop.webcrawler.core.parser.Word;
+import pl.edu.agh.student.oop.webcrawler.frontend.views.configuration.model.ConditionsListItem;
+
+import java.util.List;
 
 public class Parser {
 
     private static final String WILD_CARD = "*";
 
-    Matcher parse(String input) {
-        MatcherCompiler matcher = Matcher.compiler().matchAny();
-        int wildCardsCounter = 0;
-        for (String string : input.split(" ")) {
-            if(string.equals(WILD_CARD)) {
-                wildCardsCounter++;
-            }
-            else if(wildCardsCounter > 0){
-                matcher.thenSkip(wildCardsCounter);
-                matcher.thenMatch(Word.of(string));
-                wildCardsCounter = 0;
-            }
-            else {
-                matcher.thenMatch(Word.of(string));
-            }
-        }
+    public static Configuration createConfiguration(String depth, List<String> domains, List<ConditionsListItem> conditions) {
 
-        return matcher.compile();
+
+        MatcherCompiler matcher = Matcher.compiler().matchAny();
+        //TODO input -> matcher parser
+
+        ConfigurationBuilder builder = Configuration.builder();
+        builder.matcher(matcher.compile())
+               .domains(domains)
+               .depth(Integer.parseInt(depth));
+
+        return builder.build();
     }
 }
