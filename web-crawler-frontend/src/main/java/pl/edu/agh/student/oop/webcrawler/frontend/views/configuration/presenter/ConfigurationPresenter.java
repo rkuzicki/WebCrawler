@@ -6,7 +6,11 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import pl.edu.agh.student.oop.webcrawler.core.configuration.Configuration;
+import pl.edu.agh.student.oop.webcrawler.frontend.input.Parser;
 import pl.edu.agh.student.oop.webcrawler.frontend.views.configuration.model.ConditionsListItem;
+
+import java.util.ArrayList;
 
 public class ConfigurationPresenter {
 
@@ -95,6 +99,13 @@ public class ConfigurationPresenter {
 
     @FXML
     private void handleSearchAction(ActionEvent event) {
+        Configuration configuration = Parser.createConfiguration(
+                depthTextField.getText(),
+                new ArrayList<String>(domains),
+                new ArrayList<ConditionsListItem>(listController
+                                                  .getConditionsListView()
+                                                  .getItems()));
+        
         this.tabPane.getSelectionModel().select(1);
     }
 
