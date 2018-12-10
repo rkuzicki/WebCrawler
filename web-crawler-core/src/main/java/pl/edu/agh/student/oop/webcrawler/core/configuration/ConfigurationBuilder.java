@@ -2,21 +2,28 @@ package pl.edu.agh.student.oop.webcrawler.core.configuration;
 
 import pl.edu.agh.student.oop.webcrawler.core.matcher.Matcher;
 
+import java.util.List;
 import java.util.Optional;
 
 public class ConfigurationBuilder {
     private Matcher matcher = null;
-    private Integer maxDepth;
-    private Boolean areSubdomains = false;
+    private int depth;
+    private List<String> domains;
 
     ConfigurationBuilder() {
 
     }
 
-    public ConfigurationBuilder matcher(Matcher matcher, int depth, boolean areSubdomains) {
+    public ConfigurationBuilder matcher(Matcher matcher) {
         this.matcher = matcher;
-        this.maxDepth = depth;
-        this.areSubdomains = areSubdomains;
+        return this;
+    }
+    public ConfigurationBuilder domains(List<String> domains) {
+        this.domains = domains;
+        return this;
+    }
+    public ConfigurationBuilder depth(int depth) {
+        this.depth = depth;
         return this;
     }
 
@@ -24,9 +31,13 @@ public class ConfigurationBuilder {
         return Optional.ofNullable(matcher);
     }
 
-    Optional<Integer> maxDepth() {return Optional.ofNullable(maxDepth);}
+    public List<String> domains() {
+        return this.domains;
+    }
 
-    Boolean areSubdomains() {return this.areSubdomains;}
+    public int depth() {
+        return  this.depth;
+    }
 
     public Configuration build(){
         return new Configuration(this);

@@ -6,6 +6,5 @@ public class MatchListener {
     }
 
     public void hit() {
-
     }
 }

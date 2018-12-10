@@ -17,4 +17,12 @@ public class JobConfiguration {
     public Matcher matcher() {
         return matcher;
     }
+
+    public int depth() {
+        return depth;
+    }
+
+    public boolean areSubdomains() {
+        return areSubdomains;
+    }
 }

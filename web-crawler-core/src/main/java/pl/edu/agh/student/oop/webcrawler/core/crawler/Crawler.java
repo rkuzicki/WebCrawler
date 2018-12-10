@@ -8,13 +8,10 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 public class Crawler {
-    private final int THREADS = 8;
-    private Configuration configuration;
-    private ExecutorService service;
+    private JobService service = new JobService();
 
-    public Crawler(Configuration configuration) {
-        this.configuration = configuration;
-        this.service = Executors.newFixedThreadPool(THREADS);
+    public Crawler() {
+
     }
 
     public void start() {
