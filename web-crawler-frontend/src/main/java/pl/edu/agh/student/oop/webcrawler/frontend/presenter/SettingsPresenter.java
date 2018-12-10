@@ -10,9 +10,6 @@ import pl.edu.agh.student.oop.webcrawler.frontend.language.ELanguage;
 import java.util.EnumSet;
 
 public class SettingsPresenter {
-
-
-
     @FXML
     private ChoiceBox<String> languageChoiceBox;
 
@@ -26,5 +23,4 @@ public class SettingsPresenter {
                 .forEach(language -> languages.add(language.getName()));
         languageChoiceBox.setItems(languages);
     }
-
 }

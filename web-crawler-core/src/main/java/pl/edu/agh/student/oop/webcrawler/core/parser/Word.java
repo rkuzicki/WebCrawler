@@ -15,6 +15,11 @@ public class Word {
         this.simplified = simplify(original);
     }
 
+    Word(Word word) {
+        this.original = word.original;
+        this.simplified = word.simplified;
+    }
+
     private String simplify(String original) {
         if (original.contains(" "))
             throw new IllegalArgumentException("Original word contains space: '" + original + "'");
@@ -49,4 +54,6 @@ public class Word {
     public int hashCode() {
         return Objects.hash(simplified);
     }
+
+
 }

@@ -27,10 +27,10 @@ public class Example {
         System.out.println("# Matcher 1");
 
         Matcher matcher = Matcher.compiler()
-                .matchAny()
+                .thenMatchAny()
                 .thenMatch(Word.of("na"))
                 .thenMatch(Word.of("zajeciach"))
-                .thenSkip(3)
+                .thenSkipUpTo(3)
                 .thenMatch(Word.of("plusy"))
                 .compile();
 
@@ -47,10 +47,10 @@ public class Example {
         System.out.println("# Matcher 2");
 
         Matcher matcher = Matcher.compiler()
-                .matchAny()
+                .thenMatchAny()
                 .thenMatch(Word.of("spoznionym"))
                 .thenMatch(Word.of("wiecej"))
-                .thenSkip(3)
+                .thenSkipUpTo(3)
                 .thenMatch(Word.of("niz"))
                 .compile();
 

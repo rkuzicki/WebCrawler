@@ -10,7 +10,7 @@ class MatcherTest {
     @Test
     void testMatchAny() {
         Matcher anyMatcher = Matcher.compiler()
-                .matchAny()
+                .thenMatchAny()
                 .compile();
 
         assertThat(anyMatcher.match(Sentence.parse("D a, b c"))).isTrue();
@@ -33,7 +33,7 @@ class MatcherTest {
     void testSkipMatcher0() {
         Matcher matcher = Matcher.compiler()
                 .thenMatch(Word.of("from"))
-                .thenSkip(0)
+                .thenSkipUpTo(0)
                 .thenMatch(Word.of("to"))
                 .compile();
 
@@ -46,7 +46,7 @@ class MatcherTest {
     void testSkipMatcher1() {
         Matcher matcher = Matcher.compiler()
                 .thenMatch(Word.of("from"))
-                .thenSkip(1)
+                .thenSkipUpTo(1)
                 .thenMatch(Word.of("to"))
                 .compile();
 
@@ -70,7 +70,7 @@ class MatcherTest {
     @Test
     void testAndMatcher1() {
         Matcher goodMatcher = Matcher.compiler()
-                .thenSkip(1)
+                .thenSkipUpTo(1)
                 .thenMatch(Word.of("dog"))
                 .compile();
         Matcher badMatcher = Matcher.compiler()
@@ -89,11 +89,11 @@ class MatcherTest {
     @Test
     void testAndMatcher2() {
         Matcher goodMatcher = Matcher.compiler()
-                .matchAny()
+                .thenMatchAny()
                 .thenMatch(Word.of("hello"))
                 .compile();
         Matcher badMatcher = Matcher.compiler()
-                .matchAny()
+                .thenMatchAny()
                 .thenMatch(Word.of("bye"))
                 .compile().negate();
 
@@ -109,7 +109,7 @@ class MatcherTest {
     @Test
     void testOrMatcher() {
         Matcher goodMatcher = Matcher.compiler()
-                .thenSkip(1)
+                .thenSkipUpTo(1)
                 .thenMatch(Word.of("good"))
                 .compile();
         Matcher badMatcher = Matcher.compiler()
