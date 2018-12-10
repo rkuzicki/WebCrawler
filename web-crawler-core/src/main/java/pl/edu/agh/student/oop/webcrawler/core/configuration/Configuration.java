@@ -12,7 +12,8 @@ public class Configuration {
     Configuration(ConfigurationBuilder builder) {
         this.matcher = builder.matcher()
                 .orElseThrow(() -> new IllegalStateException("Matcher is not specified"));
-        this.depth = builder.depth();
+        this.depth = builder.depth()
+                .orElseThrow(() -> new IllegalStateException("Depth is not specified"));
         this.domains = builder.domains();
     }
 

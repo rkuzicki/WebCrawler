@@ -5,13 +5,13 @@ import pl.edu.agh.student.oop.webcrawler.core.matcher.Matcher;
 
 import java.net.URI;
 
-public class JobConfiguration {
+public class CrawlingJobContext {
     private Configuration configuration;
     private int currentDepth;
     private MatchListener matchListener;
     private URI url;
 
-    public JobConfiguration(Configuration configuration, int depth, MatchListener matchListener, URI url) {
+    CrawlingJobContext(Configuration configuration, int depth, MatchListener matchListener, URI url) {
         this.configuration = configuration;
         this.currentDepth = depth;
         this.matchListener = matchListener;
@@ -36,5 +36,12 @@ public class JobConfiguration {
 
     public URI url() {
         return url;
+    }
+
+    public CrawlingJobContext childContext(URI link) {
+        return new CrawlingJobContext(
+                configuration,
+                currentDepth + 1,
+                matchListener, link);
     }
 }

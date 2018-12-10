@@ -3,6 +3,5 @@ package pl.edu.agh.student.oop.webcrawler.core.crawler;
 import pl.edu.agh.student.oop.webcrawler.core.parser.Sentence;
 
 public interface MatchListener {
-
-    void hit(Sentence s);
+    void handleMatch(Sentence s);
 }

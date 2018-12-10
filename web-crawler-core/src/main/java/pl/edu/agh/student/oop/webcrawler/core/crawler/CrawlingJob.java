@@ -11,52 +11,48 @@ import pl.edu.agh.student.oop.webcrawler.core.parser.Text;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
+import java.util.stream.Stream;
 
-public class CrawlingJob implements Job
-{
-    private JobConfiguration jobConfiguration;
+class CrawlingJob implements Job {
+    private CrawlingJobContext context;
     private JobService jobService;
 
-    public CrawlingJob(JobConfiguration jobConfiguration, JobService jobService)
-    {
-        this.jobConfiguration = jobConfiguration;
+    CrawlingJob(CrawlingJobContext context, JobService jobService) {
+        this.context = context;
         this.jobService = jobService;
     }
 
-    public List<CrawlingJob> getLinks(Document doc) {
-        Elements links = doc.select("a[href]");
-        List<CrawlingJob> jobList= new LinkedList<>();
-        for (Element link: links) {
+    private Stream<URI> links(Document doc) {
+        Elements aElements = doc.select("a[href]");
+        List<URI> links = new ArrayList<>();
+        for (Element aElement : aElements) {
             try {
-                URI url = new URI(link.attr("abs:href"));
-                jobList.add(new CrawlingJob(
-                        new JobConfiguration(
-                                this.jobConfiguration.configuration(),
-                                this.jobConfiguration.currentDepth() + 1,
-                                this.jobConfiguration.matchListener(),
-                                url),
-                        this.jobService));
+                links.add(new URI(aElement.attr("abs:href")));
             } catch (URISyntaxException e) {
                 System.out.println("Bad link");
             }
         }
-        return jobList;
+        return links.stream();
+    }
+
+    private CrawlingJob spawnChild(URI link) {
+        return new CrawlingJob(context.childContext(link), jobService);
     }
 
     public void execute() {
         try {
-            Document doc = Jsoup.connect(jobConfiguration.url().toString()).get();
+            Document doc = Jsoup.connect(context.url().toString()).get();
             Text websiteText = new HtmlParser(doc).parse();
-            jobService.add(getLinks(doc));
-            for (Sentence s: websiteText.getSentences()) {
-                if (jobConfiguration.matcher().match(s)) {
-                    jobConfiguration.matchListener().hit(s);
+
+            links(doc).map(this::spawnChild).forEach(jobService::add);
+
+            for (Sentence s : websiteText.getSentences()) {
+                if (context.matcher().match(s)) {
+                    context.matchListener().handleMatch(s);
                 }
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }
