@@ -23,6 +23,7 @@ public class ConfigurationBuilder {
         this.matcher = matcher;
         return this;
     }
+
     public ConfigurationBuilder addDomain(String domain) {
         this.domains.add(domain);
         return this;
@@ -39,10 +40,12 @@ public class ConfigurationBuilder {
         this.startingPoints = startingPoints;
         return this;
     }
+
     public ConfigurationBuilder depth(int depth) {
         this.depth = OptionalInt.of(depth);
         return this;
     }
+
     public ConfigurationBuilder subdomains(boolean subdomains) {
         this.subdomains = subdomains;
         return this;

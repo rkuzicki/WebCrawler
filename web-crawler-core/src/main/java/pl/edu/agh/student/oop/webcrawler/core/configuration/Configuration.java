@@ -13,7 +13,6 @@ public class Configuration {
     private final int depth;
     private final boolean subdomains;
 
-
     Configuration(ConfigurationBuilder builder) {
         this.matcher = builder.matcher()
                 .orElseThrow(() -> new IllegalStateException("Matcher is not specified"));
@@ -22,7 +21,6 @@ public class Configuration {
         this.domains = builder.domains();
         this.startingPoints = builder.startingPoints();
         this.subdomains = builder.subdomains();
-
     }
 
     public static ConfigurationBuilder builder() {
@@ -48,4 +46,5 @@ public class Configuration {
     public boolean subdomains() {
         return subdomains;
     }
+
 }

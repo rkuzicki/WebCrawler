@@ -12,8 +12,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InputParser implements  Parser{
-
+public class InputParser implements Parser {
     private static final String WILD_CARD = "*";
     private static final String SPACE_REGEX = "\\s+";
 
@@ -41,9 +40,8 @@ public class InputParser implements  Parser{
 
     @Override
     public List<Matcher> parseConditions(List<ConditionsListItem> items) {
-
         List<Matcher> subMatchers = new ArrayList<>();
-        for(ConditionsListItem item : items) {
+        for (ConditionsListItem item : items) {
             subMatchers.add(parseCondition(item));
         }
 
@@ -77,13 +75,10 @@ public class InputParser implements  Parser{
         }
 
         return matcher.compile();
-
     }
 
     private String cleanNegation(String negSubCondition) {
-        if(negSubCondition.equals("")) return negSubCondition;
-        else return negSubCondition.substring(2, negSubCondition.length()-2);
+        if (negSubCondition.equals("")) return negSubCondition;
+        else return negSubCondition.substring(2, negSubCondition.length() - 2);
     }
-
-
 }
