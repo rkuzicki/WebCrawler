@@ -2,12 +2,15 @@ package pl.edu.agh.student.oop.webcrawler.core.configuration;
 
 import pl.edu.agh.student.oop.webcrawler.core.matcher.Matcher;
 
+import java.net.URI;
+import java.util.Collections;
 import java.util.List;
 
 public class Configuration {
     private final Matcher matcher;
     private final int depth;
     private final List<String> domains;
+    private final List<URI> startingPoints;
 
     Configuration(ConfigurationBuilder builder) {
         this.matcher = builder.matcher()
@@ -15,13 +18,26 @@ public class Configuration {
         this.depth = builder.depth()
                 .orElseThrow(() -> new IllegalStateException("Depth is not specified"));
         this.domains = builder.domains();
+        this.startingPoints = builder.startingPoints();
     }
 
     public static ConfigurationBuilder builder() {
         return new ConfigurationBuilder();
     }
 
-    public Matcher matcher() {
+    public Matcher getMatcher() {
         return matcher;
+    }
+
+    public int getDepth() {
+        return depth;
+    }
+
+    public List<String> getDomains() {
+        return Collections.unmodifiableList(domains);
+    }
+
+    public List<URI> getStartingPoints() {
+        return Collections.unmodifiableList(startingPoints);
     }
 }

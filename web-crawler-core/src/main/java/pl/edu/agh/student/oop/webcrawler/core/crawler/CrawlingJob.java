@@ -17,11 +17,9 @@ import java.util.stream.Stream;
 
 class CrawlingJob implements Job {
     private CrawlingJobContext context;
-    private JobService jobService;
 
-    CrawlingJob(CrawlingJobContext context, JobService jobService) {
+    CrawlingJob(CrawlingJobContext context) {
         this.context = context;
-        this.jobService = jobService;
     }
 
     private Stream<URI> links(Document doc) {
@@ -38,23 +36,27 @@ class CrawlingJob implements Job {
     }
 
     private CrawlingJob spawnChild(URI link) {
-        return new CrawlingJob(context.childContext(link), jobService);
+        return new CrawlingJob(context.childContext(link));
     }
 
-    public void execute() {
+    @Override
+    public void execute(JobService jobService) {
+        Document doc;
         try {
-            Document doc = Jsoup.connect(context.url().toString()).get();
-            Text websiteText = new HtmlParser(doc).parse();
-
-            links(doc).map(this::spawnChild).forEach(jobService::add);
-
-            for (Sentence s : websiteText.getSentences()) {
-                if (context.matcher().match(s)) {
-                    context.matchListener().handleMatch(s);
-                }
-            }
+            doc = Jsoup.connect(context.uri().toString()).get();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+
+        Text websiteText = new HtmlParser(doc).parse();
+
+        links(doc).map(this::spawnChild)
+                .forEach(jobService::add);
+
+        for (Sentence s : websiteText.getSentences()) {
+            if (context.matcher().match(s)) {
+                context.matchListener().handleMatch(s);
+            }
         }
     }
 }

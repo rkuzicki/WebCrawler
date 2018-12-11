@@ -47,5 +47,4 @@ public class Sentence {
     public Stream<Word> words() {
         return words.stream();
     }
-
 }

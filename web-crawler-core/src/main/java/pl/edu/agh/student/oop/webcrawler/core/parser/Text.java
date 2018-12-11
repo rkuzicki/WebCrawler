@@ -9,7 +9,6 @@ import java.util.stream.Stream;
 public final class Text {
     private final List<Sentence> sentences;
 
-
     private Text(Builder builder) {
         this.sentences = new ArrayList<>(builder.sentences);
     }
@@ -42,19 +41,23 @@ public final class Text {
         return Objects.hash(sentences);
     }
 
+    public static Builder builder() {
+        return new Builder();
+    }
 
     public static class Builder {
         private List<Sentence> sentences = new ArrayList<>();
 
-        public Builder() { }
+        private Builder() {
+
+        }
 
         public void addSentence(Sentence sentence) {
             this.sentences.add(sentence);
         }
 
         public Text build() {
-            return new Text(this );
+            return new Text(this);
         }
-
     }
 }

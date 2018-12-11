@@ -1,21 +1,26 @@
 package pl.edu.agh.student.oop.webcrawler.core.crawler;
 
+import pl.edu.agh.student.oop.webcrawler.core.MatchListener;
 import pl.edu.agh.student.oop.webcrawler.core.configuration.Configuration;
 import pl.edu.agh.student.oop.webcrawler.core.matcher.Matcher;
 
 import java.net.URI;
 
-public class CrawlingJobContext {
+class CrawlingJobContext {
     private Configuration configuration;
     private int currentDepth;
-    private MatchListener matchListener;
-    private URI url;
+    private MatchListener listener;
+    private URI uri;
 
-    CrawlingJobContext(Configuration configuration, int depth, MatchListener matchListener, URI url) {
+    public static CrawlingJobContext rootContext(Configuration config, MatchListener listener, URI uri){
+        return new CrawlingJobContext(config, 0, listener, uri);
+    }
+
+    CrawlingJobContext(Configuration configuration, int depth, MatchListener listener, URI uri) {
         this.configuration = configuration;
         this.currentDepth = depth;
-        this.matchListener = matchListener;
-        this.url = url;
+        this.listener = listener;
+        this.uri = uri;
     }
 
     public Configuration configuration() {
@@ -23,7 +28,7 @@ public class CrawlingJobContext {
     }
 
     public Matcher matcher() {
-        return configuration.matcher();
+        return configuration.getMatcher();
     }
 
     public int currentDepth() {
@@ -31,17 +36,17 @@ public class CrawlingJobContext {
     }
 
     public MatchListener matchListener() {
-        return matchListener;
+        return listener;
     }
 
-    public URI url() {
-        return url;
+    public URI uri() {
+        return uri;
     }
 
     public CrawlingJobContext childContext(URI link) {
         return new CrawlingJobContext(
                 configuration,
                 currentDepth + 1,
-                matchListener, link);
+                listener, link);
     }
 }

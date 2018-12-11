@@ -2,6 +2,7 @@ package pl.edu.agh.student.oop.webcrawler.core.configuration;
 
 import pl.edu.agh.student.oop.webcrawler.core.matcher.Matcher;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -11,6 +12,7 @@ public class ConfigurationBuilder {
     private Matcher matcher = null;
     private OptionalInt depth = OptionalInt.empty();
     private List<String> domains = new ArrayList<>();
+    private List<URI> startingPoints = new ArrayList<>();
 
     ConfigurationBuilder() {
 
@@ -31,6 +33,11 @@ public class ConfigurationBuilder {
         return this;
     }
 
+    public ConfigurationBuilder addStartingPoint(URI startingPoint) {
+        startingPoints.add(startingPoint);
+        return this;
+    }
+
     Optional<Matcher> matcher() {
         return Optional.ofNullable(matcher);
     }
@@ -41,6 +48,10 @@ public class ConfigurationBuilder {
 
     OptionalInt depth() {
         return this.depth;
+    }
+
+    List<URI> startingPoints() {
+        return startingPoints;
     }
 
     public Configuration build() {
