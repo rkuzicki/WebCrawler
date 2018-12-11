@@ -1,6 +1,7 @@
 package pl.edu.agh.student.oop.webcrawler.core.parser;
 
 import org.junit.jupiter.api.Test;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 
@@ -28,7 +29,7 @@ public class TextTest {
      */
     @Test
     void testTextImmutabilityTB() {
-        Text.Builder tb = new Text.Builder();
+        Text.Builder tb = Text.builder();
         tb.addSentence(Sentence.parse("a"));
         Text immutableText = tb.build();
         String textStringOne = immutableText.toString();

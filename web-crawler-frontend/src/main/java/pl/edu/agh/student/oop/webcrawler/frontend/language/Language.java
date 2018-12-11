@@ -1,12 +1,12 @@
 package pl.edu.agh.student.oop.webcrawler.frontend.language;
 
-public enum ELanguage {
+public enum Language {
     POLISH("polski"),
     ENGLISH("english");
 
     private final String name;
 
-    private ELanguage(String name) {
+    private Language(String name) {
         this.name = name;
     }
 

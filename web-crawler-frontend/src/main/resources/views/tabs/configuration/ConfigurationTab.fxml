@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="pl.edu.agh.student.oop.webcrawler.frontend.views.configuration.presenter.ConfigurationPresenter">
+    <center>
+        <VBox>
+            <VBox>
+                <VBox spacing="50">
+                    <HBox spacing="30">
+                        <VBox spacing="10">
+                            <VBox spacing="3">
+                                <Label text="%add_domain_label"
+                                       styleClass="main_label" />
+                                <HBox spacing="7">
+                                    <TextField fx:id="domainTextField"
+                                               prefWidth="250" />
+                                    <Button fx:id="addButton"
+                                            onAction="#handleAddAction"
+                                            text="Add"
+                                            prefWidth="100"
+                                            styleClass="add_button" />
+                                </HBox>
+                            </VBox>
+                            <VBox spacing="3">
+                                <Label text="%domains_list_view_label"
+                                       styleClass="main_label" />
+                                <HBox spacing="5">
+                                    <ListView fx:id="domainListView"
+                                              maxHeight="100"
+                                              prefWidth="250"
+                                              styleClass="domain_list_view" />
+                                    <Button fx:id="deleteButton"
+                                            onAction="#handleDeleteAction"
+                                            text="Delete"
+                                            prefWidth="100"
+                                            styleClass="delete_button" />
+                                </HBox>
+                            </VBox>
+                            <VBox spacing="3">
+                                <Label text="Depth"
+                                       styleClass="main_label" />
+                                <TextField fx:id="depthTextField"
+                                           maxWidth="50" />
+                            </VBox>
+                        </VBox>
+                        <VBox spacing="10">
+                            <VBox spacing="3">
+                                <Label text="%add_condition_label" styleClass="main_label">
+
+                                </Label>
+                                <TextField fx:id="posConditionTextField"
+                                           prefWidth="250" />
+                                <TextField fx:id="negConditionTextField"
+                                           prefWidth="250" />
+                                <Button fx:id="acceptConditionButton"
+                                        onAction="#handleAcceptConditionAction"
+                                        text="Accept"
+                                        prefWidth="100"
+                                        styleClass="button" />
+                            </VBox>
+                            <VBox>
+                                <Label text="%conditions_list_view_label" />
+                                <HBox spacing="5">
+                                    <fx:include source="ConditionsList.fxml" fx:id="list"/>
+                                    <Button fx:id="deleteConditionButton"
+                                            onAction="#handleDeleteConditionAction"
+                                            text="Delete"
+                                            prefWidth="100"
+                                            styleClass="delete_button" />
+                                </HBox>
+                            </VBox>
+                        </VBox>
+                    </HBox>
+                </VBox>
+            </VBox>
+            <BorderPane.margin>
+                <Insets top="20" left="20" right="20" bottom="20"/>
+            </BorderPane.margin>
+        </VBox>
+    </center>
+    <bottom>
+        <VBox >
+            <VBox alignment="BOTTOM_RIGHT">
+                <Button fx:id="searchButton" onAction="#handleSearchAction"
+                        text="%search_button_text" prefWidth="150" prefHeight="75"
+                        styleClass="search_button">
+
+                </Button>
+            </VBox>
+            <BorderPane.margin>
+                <Insets top="20" left="20" right="20" bottom="20"/>
+            </BorderPane.margin>
+        </VBox>
+    </bottom>
+</BorderPane>

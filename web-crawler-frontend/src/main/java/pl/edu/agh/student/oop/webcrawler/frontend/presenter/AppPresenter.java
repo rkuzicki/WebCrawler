@@ -33,4 +33,5 @@ public class AppPresenter {
             ErrorMessage.show("Cannot load layout", e);
         }
     }
+
 }
