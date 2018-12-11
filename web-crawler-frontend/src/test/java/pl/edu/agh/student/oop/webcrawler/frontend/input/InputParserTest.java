@@ -19,9 +19,9 @@ public class InputParserTest {
         String inputSubCondition = "ala * * * ma kota";
 
         Matcher expectedMatcher = Matcher.compiler()
-                .matchAny()
+                .thenMatchAny()
                 .thenMatch(Word.of("ala"))
-                .thenSkip(3)
+                .thenSkipUpTo(3)
                 .thenMatch(Word.of("ma"))
                 .thenMatch(Word.of("kota"))
                 .compile();
@@ -36,7 +36,7 @@ public class InputParserTest {
         String inputSubCondition = "ala ma kota";
 
         Matcher expectedMatcher = Matcher.compiler()
-                .matchAny()
+                .thenMatchAny()
                 .thenMatch(Word.of("ala"))
                 .thenMatch(Word.of("ma"))
                 .thenMatch(Word.of("kota"))
@@ -52,7 +52,7 @@ public class InputParserTest {
         String inputSubCondition = "ala      ma kota";
 
         Matcher expectedMatcher = Matcher.compiler()
-                .matchAny()
+                .thenMatchAny()
                 .thenMatch(Word.of("ala"))
                 .thenMatch(Word.of("ma"))
                 .thenMatch(Word.of("kota"))
@@ -80,15 +80,15 @@ public class InputParserTest {
                 "~(ala ma kota)");
 
         Matcher posMatcher = Matcher.compiler()
-                .matchAny()
+                .thenMatchAny()
                 .thenMatch(Word.of("ala"))
-                .thenSkip(3)
+                .thenSkipUpTo(3)
                 .thenMatch(Word.of("ma"))
                 .thenMatch(Word.of("kota"))
                 .compile();
 
         Matcher negMatcher = Matcher.compiler()
-                .matchAny()
+                .thenMatchAny()
                 .thenMatch(Word.of("ala"))
                 .thenMatch(Word.of("ma"))
                 .thenMatch(Word.of("kota"))
@@ -107,9 +107,9 @@ public class InputParserTest {
                 "");
 
         Matcher expectedMatcher = Matcher.compiler()
-                .matchAny()
+                .thenMatchAny()
                 .thenMatch(Word.of("ala"))
-                .thenSkip(3)
+                .thenSkipUpTo(3)
                 .thenMatch(Word.of("ma"))
                 .thenMatch(Word.of("kota"))
                 .compile();
@@ -127,7 +127,7 @@ public class InputParserTest {
 
         Matcher expectedMatcher = Matchers.negate(
                 Matcher.compiler()
-                    .matchAny()
+                    .thenMatchAny()
                     .thenMatch(Word.of("ala"))
                     .thenMatch(Word.of("ma"))
                     .thenMatch(Word.of("kota"))
@@ -141,15 +141,15 @@ public class InputParserTest {
     @Test
     void testCombineMatchers0() {
         Matcher posMatcher = Matcher.compiler()
-                .matchAny()
+                .thenMatchAny()
                 .thenMatch(Word.of("ala"))
-                .thenSkip(3)
+                .thenSkipUpTo(3)
                 .thenMatch(Word.of("ma"))
                 .thenMatch(Word.of("kota"))
                 .compile();
 
         Matcher negMatcher = Matcher.compiler()
-                .matchAny()
+                .thenMatchAny()
                 .thenMatch(Word.of("ala"))
                 .thenMatch(Word.of("ma"))
                 .thenMatch(Word.of("kota"))
@@ -168,9 +168,9 @@ public class InputParserTest {
     @Test
     void testCombineMatchers1() {
         Matcher posMatcher = Matcher.compiler()
-                .matchAny()
+                .thenMatchAny()
                 .thenMatch(Word.of("ala"))
-                .thenSkip(3)
+                .thenSkipUpTo(3)
                 .thenMatch(Word.of("ma"))
                 .thenMatch(Word.of("kota"))
                 .compile();
