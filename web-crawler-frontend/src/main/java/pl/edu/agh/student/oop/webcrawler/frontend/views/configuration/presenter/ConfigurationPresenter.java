@@ -136,11 +136,11 @@ public class ConfigurationPresenter {
     @FXML
     private void handleSearchAction(ActionEvent event) {
         Configuration configuration = new InputParser().createConfiguration(
-                new ArrayList<ConditionsListItem>(listController
-                                                  .getConditionsListView()
-                                                  .getItems()),
-                new ArrayList<String>(domains),
-                depthTextField.getText());
+                new ArrayList<>(listController.getConditionsListView().getItems()),
+                new ArrayList<>(domains),
+                new ArrayList<>(webPages),
+                depthTextField.getText(),
+                subdomainsCheckBox.isSelected());
 
         this.tabPane.getSelectionModel().select(1);
     }

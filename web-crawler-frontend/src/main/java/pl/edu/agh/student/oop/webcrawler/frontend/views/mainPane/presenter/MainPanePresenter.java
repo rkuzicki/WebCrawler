@@ -1,4 +1,4 @@
-package pl.edu.agh.student.oop.webcrawler.frontend.presenter;
+package pl.edu.agh.student.oop.webcrawler.frontend.views.mainPane.presenter;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Tab;

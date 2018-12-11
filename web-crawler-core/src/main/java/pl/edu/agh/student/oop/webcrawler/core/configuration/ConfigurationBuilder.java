@@ -7,8 +7,10 @@ import java.util.Optional;
 
 public class ConfigurationBuilder {
     private Matcher matcher = null;
-    private int depth;
     private List<String> domains;
+    private List<String> webPages;
+    private int depth;
+    private boolean subdomains;
 
     ConfigurationBuilder() {
 
@@ -22,8 +24,16 @@ public class ConfigurationBuilder {
         this.domains = domains;
         return this;
     }
+    public ConfigurationBuilder webPages(List<String> webPages) {
+        this.webPages = webPages;
+        return this;
+    }
     public ConfigurationBuilder depth(int depth) {
         this.depth = depth;
+        return this;
+    }
+    public ConfigurationBuilder subdomains(boolean subdomains) {
+        this.subdomains = subdomains;
         return this;
     }
 
@@ -35,8 +45,16 @@ public class ConfigurationBuilder {
         return this.domains;
     }
 
+    public List<String> webPages() {
+        return this.webPages;
+    }
+
     public int depth() {
         return  this.depth;
+    }
+
+    public boolean subdomains() {
+        return this.subdomains;
     }
 
     public Configuration build(){

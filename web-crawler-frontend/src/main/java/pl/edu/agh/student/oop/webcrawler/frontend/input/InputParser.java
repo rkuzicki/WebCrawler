@@ -17,12 +17,18 @@ public class InputParser implements  Parser{
     private static final String SPACE_REGEX = "\\s+";
 
     @Override
-    public Configuration createConfiguration(List<ConditionsListItem> items, List<String> domains, String depth) {
+    public Configuration createConfiguration(List<ConditionsListItem> items,
+                                             List<String> domains,
+                                             List<String> webPages,
+                                             String depth,
+                                             boolean subdomains) {
 
         ConfigurationBuilder builder = Configuration.builder();
         builder.matcher(combineMatchers(parseConditions(items)))
-               .domains(domains)
-               .depth(Integer.parseInt(depth));
+                .domains(domains)
+                .webPages(webPages)
+                .depth(Integer.parseInt(depth))
+                .subdomains(subdomains);
 
         return builder.build();
     }

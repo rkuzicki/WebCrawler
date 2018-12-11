@@ -11,7 +11,7 @@
     </parent>
 
     <properties>
-        <main.class>pl.edu.agh.student.oop.webcrawler.frontend.Main</main.class>
+        <main.class>pl.edu.agh.student.oop.webcrawler.frontend.App</main.class>
     </properties>
 
     <dependencies>
