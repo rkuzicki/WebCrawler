@@ -1,5 +1,6 @@
 package pl.edu.agh.student.oop.webcrawler.core.crawler;
 
+import javafx.application.Platform;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -55,7 +56,8 @@ class CrawlingJob implements Job {
 
         for (Sentence s : websiteText.getSentences()) {
             if (context.matcher().match(s)) {
-                context.matchListener().handleMatch(s, context.uri());
+                Platform.runLater(
+                        () -> context.matchListener().handleMatch(s, context.uri()));
             }
         }
     }
