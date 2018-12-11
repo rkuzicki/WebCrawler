@@ -153,4 +153,5 @@ public class ConfigurationPresenter {
     public void setTabPane(TabPane tabPane) {
         this.tabPane = tabPane;
     }
+
 }

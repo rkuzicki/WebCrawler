@@ -15,7 +15,6 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Web Crawler");
-
         try
         {
             FXMLLoader loader = new FXMLLoader();
@@ -33,7 +32,6 @@ public class App extends Application {
         {
             ErrorMessage.show("Cannot load layout", e);
         }
-
     }
 
     public static void main(String[] args) {
