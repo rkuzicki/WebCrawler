@@ -20,6 +20,7 @@ public class ConfigurationPresenter {
     private TabPane tabPane;
 
     private ObservableList<String> domains = FXCollections.observableArrayList();
+    private ObservableList<String> webPages = FXCollections.observableArrayList();
 
     @FXML
     private Button addButton;
@@ -52,25 +53,48 @@ public class ConfigurationPresenter {
     private TextField negConditionTextField;
 
     @FXML
+    private TextField webPageTextField;
+
+    @FXML
+    private ListView<String> webPagesListView;
+
+    @FXML
+    private Button addWebPageButton;
+
+    @FXML
+    private Button deleteWebPageButton;
+
+    @FXML
+    private CheckBox subdomainsCheckBox;
+
+    @FXML
     private TextField depthTextField;
 
     @FXML
     private void initialize() {
         domainListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        webPagesListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         domainListView.setItems(domains);
+        webPagesListView.setItems(webPages);
 
         addButton.disableProperty().bind(Bindings.isEmpty(domainTextField.textProperty()));
         deleteButton.disableProperty().bind(Bindings
                 .isEmpty(domainListView.getSelectionModel().getSelectedItems()));
         searchButton.disableProperty().bind(Bindings
                 .isEmpty(domainListView.getItems())
-                .or(Bindings.isEmpty(listController.getConditionsListView().getItems())));
+                .or(Bindings.isEmpty(listController.getConditionsListView().getItems()))
+                .or(Bindings.isEmpty(webPagesListView.getItems()))
+                .or(Bindings.isEmpty(depthTextField.textProperty())));
         acceptConditionButton.disableProperty().bind(Bindings
                 .isEmpty(posConditionTextField.textProperty())
                 .and(Bindings.isEmpty(negConditionTextField.textProperty())));
         deleteConditionButton.disableProperty().bind(Bindings
                 .isEmpty(listController.getConditionsListView().getItems()));
+        addWebPageButton.disableProperty().bind(Bindings
+                .isEmpty(webPageTextField.textProperty()));
+        deleteWebPageButton.disableProperty().bind(Bindings
+                .isEmpty(webPagesListView.getSelectionModel().getSelectedItems()));
 
     }
 
@@ -83,6 +107,18 @@ public class ConfigurationPresenter {
     private void handleDeleteAction(ActionEvent event) {
         for (String domain : domainListView.getSelectionModel().getSelectedItems()) {
             domains.remove(domain);
+        }
+    }
+
+    @FXML
+    private void handleAddWebPageAction(ActionEvent event) {
+        webPages.add(webPageTextField.getText());
+    }
+
+    @FXML
+    private void handleDeleteWebPageAction(ActionEvent event) {
+        for (String webPage : webPagesListView.getSelectionModel().getSelectedItems()) {
+            webPages.remove(webPage);
         }
     }
 

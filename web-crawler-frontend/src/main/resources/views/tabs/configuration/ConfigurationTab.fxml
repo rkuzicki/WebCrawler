@@ -42,10 +42,42 @@
                                 </HBox>
                             </VBox>
                             <VBox spacing="3">
+                                <Label text="Add starting web page"
+                                       styleClass="main_label" />
+                                <HBox spacing="7">
+                                    <TextField fx:id="webPageTextField"
+                                               prefWidth="250" />
+                                    <Button fx:id="addWebPageButton"
+                                            onAction="#handleAddWebPageAction"
+                                            text="Add"
+                                            prefWidth="100"
+                                            styleClass="add_button" />
+                                </HBox>
+                            </VBox>
+                            <VBox spacing="3">
+                                <Label text="Starting web pages"
+                                       styleClass="main_label" />
+                                <HBox spacing="5">
+                                    <ListView fx:id="webPagesListView"
+                                              maxHeight="100"
+                                              prefWidth="250"
+                                              styleClass="domain_list_view" />
+                                    <Button fx:id="deleteWebPageButton"
+                                            onAction="#handleDeleteWebPageAction"
+                                            text="Delete"
+                                            prefWidth="100"
+                                            styleClass="delete_button" />
+                                </HBox>
+                            </VBox>
+                            <VBox spacing="3">
                                 <Label text="Depth"
                                        styleClass="main_label" />
                                 <TextField fx:id="depthTextField"
                                            maxWidth="50" />
+                            </VBox>
+                            <VBox>
+                                <CheckBox fx:id="subdomainsCheckBox"
+                                          text="Subdomains"/>
                             </VBox>
                         </VBox>
                         <VBox spacing="10">
