@@ -58,7 +58,7 @@
                                 <Label text="Starting web pages"
                                        styleClass="main_label" />
                                 <HBox spacing="5">
-                                    <ListView fx:id="webPagesListView"
+                                    <ListView fx:id="startingPointsListView"
                                               maxHeight="100"
                                               prefWidth="250"
                                               styleClass="domain_list_view" />

@@ -5,6 +5,7 @@ import pl.edu.agh.student.oop.webcrawler.core.matcher.Matcher;
 import pl.edu.agh.student.oop.webcrawler.core.matcher.Matchers;
 import pl.edu.agh.student.oop.webcrawler.frontend.views.configuration.model.ConditionsListItem;
 
+import java.net.URI;
 import java.util.List;
 
 public interface Parser {
@@ -21,7 +22,7 @@ public interface Parser {
      */
     Configuration createConfiguration(List<ConditionsListItem> items,
                                       List<String> domains,
-                                      List<String> webPages,
+                                      List<URI> webPages,
                                       String depth,
                                       boolean subdomains);
 

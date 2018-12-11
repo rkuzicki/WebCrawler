@@ -2,12 +2,14 @@ package pl.edu.agh.student.oop.webcrawler.core.configuration;
 
 import pl.edu.agh.student.oop.webcrawler.core.matcher.Matcher;
 
+import java.net.URI;
+import java.util.Collections;
 import java.util.List;
 
 public class Configuration {
     private final Matcher matcher;
     private final List<String> domains;
-    private final List<String> webPages;
+    private final List<URI> startingPoints;
     private final int depth;
     private final boolean subdomains;
 
@@ -15,9 +17,10 @@ public class Configuration {
     Configuration(ConfigurationBuilder builder) {
         this.matcher = builder.matcher()
                 .orElseThrow(() -> new IllegalStateException("Matcher is not specified"));
+        this.depth = builder.depth()
+                .orElseThrow(() -> new IllegalStateException("Depth is not specified"));
         this.domains = builder.domains();
-        this.webPages = builder.webPages();
-        this.depth = builder.depth();
+        this.startingPoints = builder.startingPoints();
         this.subdomains = builder.subdomains();
 
     }
@@ -26,20 +29,20 @@ public class Configuration {
         return new ConfigurationBuilder();
     }
 
-    public Matcher matcher() {
+    public Matcher getMatcher() {
         return matcher;
     }
 
-    public List<String> domains() {
-        return domains;
-    }
-
-    public List<String> webPages() {
-        return webPages;
-    }
-
-    public int depth() {
+    public int getDepth() {
         return depth;
+    }
+
+    public List<String> getDomains() {
+        return Collections.unmodifiableList(domains);
+    }
+
+    public List<URI> getStartingPoints() {
+        return Collections.unmodifiableList(startingPoints);
     }
 
     public boolean subdomains() {

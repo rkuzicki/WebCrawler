@@ -8,6 +8,7 @@ import pl.edu.agh.student.oop.webcrawler.core.matcher.Matchers;
 import pl.edu.agh.student.oop.webcrawler.core.parser.Word;
 import pl.edu.agh.student.oop.webcrawler.frontend.views.configuration.model.ConditionsListItem;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,14 +20,14 @@ public class InputParser implements  Parser{
     @Override
     public Configuration createConfiguration(List<ConditionsListItem> items,
                                              List<String> domains,
-                                             List<String> webPages,
+                                             List<URI> webPages,
                                              String depth,
                                              boolean subdomains) {
 
         ConfigurationBuilder builder = Configuration.builder();
         builder.matcher(combineMatchers(parseConditions(items)))
                 .domains(domains)
-                .webPages(webPages)
+                .startingPoints(webPages)
                 .depth(Integer.parseInt(depth))
                 .subdomains(subdomains);
 

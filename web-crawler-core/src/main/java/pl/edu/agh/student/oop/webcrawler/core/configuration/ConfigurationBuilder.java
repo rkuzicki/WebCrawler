@@ -2,14 +2,17 @@ package pl.edu.agh.student.oop.webcrawler.core.configuration;
 
 import pl.edu.agh.student.oop.webcrawler.core.matcher.Matcher;
 
+import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.OptionalInt;
 
 public class ConfigurationBuilder {
     private Matcher matcher = null;
-    private List<String> domains;
-    private List<String> webPages;
-    private int depth;
+    private OptionalInt depth = OptionalInt.empty();
+    private List<String> domains = new ArrayList<>();
+    private List<URI> startingPoints = new ArrayList<>();
     private boolean subdomains;
 
     ConfigurationBuilder() {
@@ -20,16 +23,24 @@ public class ConfigurationBuilder {
         this.matcher = matcher;
         return this;
     }
+    public ConfigurationBuilder addDomain(String domain) {
+        this.domains.add(domain);
+        return this;
+    }
     public ConfigurationBuilder domains(List<String> domains) {
         this.domains = domains;
         return this;
     }
-    public ConfigurationBuilder webPages(List<String> webPages) {
-        this.webPages = webPages;
+    public ConfigurationBuilder addStartingPoint(URI startingPoint) {
+        startingPoints.add(startingPoint);
+        return this;
+    }
+    public ConfigurationBuilder startingPoints(List<URI> startingPoints) {
+        this.startingPoints = startingPoints;
         return this;
     }
     public ConfigurationBuilder depth(int depth) {
-        this.depth = depth;
+        this.depth = OptionalInt.of(depth);
         return this;
     }
     public ConfigurationBuilder subdomains(boolean subdomains) {
@@ -41,16 +52,16 @@ public class ConfigurationBuilder {
         return Optional.ofNullable(matcher);
     }
 
-    public List<String> domains() {
+    List<String> domains() {
         return this.domains;
     }
 
-    public List<String> webPages() {
-        return this.webPages;
+    OptionalInt depth() {
+        return  this.depth;
     }
 
-    public int depth() {
-        return  this.depth;
+    List<URI> startingPoints() {
+        return this.startingPoints;
     }
 
     public boolean subdomains() {
