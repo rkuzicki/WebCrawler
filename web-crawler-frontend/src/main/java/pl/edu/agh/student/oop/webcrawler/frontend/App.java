@@ -14,7 +14,6 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-
         primaryStage.setTitle("Web Crawler");
         try
         {
