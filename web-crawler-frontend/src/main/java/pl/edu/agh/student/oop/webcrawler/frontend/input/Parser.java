@@ -53,7 +53,7 @@ public interface Parser {
      *
      * @param subCondition - String representing positive part of {@link ConditionsListItem}.
      *                     It can contain only letters and "*"
-     *
+     * @throws IllegalArgumentException if given String is empty
      * @return new {@link Matcher} object
      */
     Matcher parseSubCondition(String subCondition);
