@@ -8,6 +8,7 @@ import pl.edu.agh.student.oop.webcrawler.core.matcher.Matchers;
 import pl.edu.agh.student.oop.webcrawler.core.parser.Word;
 import pl.edu.agh.student.oop.webcrawler.frontend.views.configuration.model.ConditionsListItem;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,12 +17,18 @@ public class InputParser implements Parser {
     private static final String SPACE_REGEX = "\\s+";
 
     @Override
-    public Configuration createConfiguration(List<ConditionsListItem> items, List<String> domains, String depth) {
+    public Configuration createConfiguration(List<ConditionsListItem> items,
+                                             List<String> domains,
+                                             List<URI> webPages,
+                                             String depth,
+                                             boolean subdomains) {
+
         ConfigurationBuilder builder = Configuration.builder();
         builder.matcher(combineMatchers(parseConditions(items)))
-                .depth(Integer.parseInt(depth));
-
-        domains.forEach(builder::addDomain);
+                .domains(domains)
+                .startingPoints(webPages)
+                .depth(Integer.parseInt(depth))
+                .subdomains(subdomains);
 
         return builder.build();
     }
@@ -55,11 +62,11 @@ public class InputParser implements Parser {
     @Override
     public Matcher parseSubCondition(String subCondition) {
         int wildCardCounter = 0;
-        MatcherCompiler matcher = Matcher.compiler().matchAny();
+        MatcherCompiler matcher = Matcher.compiler().thenMatchAny();
         for (String string : subCondition.split(SPACE_REGEX)) {
             if (string.equals(WILD_CARD)) wildCardCounter++;
             else if (wildCardCounter > 0) {
-                matcher.thenSkip(wildCardCounter);
+                matcher.thenSkipUpTo(wildCardCounter);
                 matcher.thenMatch(Word.of(string));
                 wildCardCounter = 0;
             } else {

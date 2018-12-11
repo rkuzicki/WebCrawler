@@ -8,9 +8,10 @@ import java.util.List;
 
 public class Configuration {
     private final Matcher matcher;
-    private final int depth;
     private final List<String> domains;
     private final List<URI> startingPoints;
+    private final int depth;
+    private final boolean subdomains;
 
     Configuration(ConfigurationBuilder builder) {
         this.matcher = builder.matcher()
@@ -19,6 +20,7 @@ public class Configuration {
                 .orElseThrow(() -> new IllegalStateException("Depth is not specified"));
         this.domains = builder.domains();
         this.startingPoints = builder.startingPoints();
+        this.subdomains = builder.subdomains();
     }
 
     public static ConfigurationBuilder builder() {
@@ -40,4 +42,9 @@ public class Configuration {
     public List<URI> getStartingPoints() {
         return Collections.unmodifiableList(startingPoints);
     }
+
+    public boolean subdomains() {
+        return subdomains;
+    }
+
 }

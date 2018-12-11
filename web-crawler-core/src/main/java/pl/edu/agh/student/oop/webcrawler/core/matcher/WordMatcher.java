@@ -9,17 +9,18 @@ class WordMatcher implements Matcher {
     private final Matcher next;
     private final Word word;
 
-    WordMatcher(Word word, Matcher next){
+    WordMatcher(Word word, Matcher next) {
         this.next = Objects.requireNonNull(next);
         this.word = word;
     }
 
     @Override
     public boolean match(Sentence sentence) {
-        return sentence.words()
+        boolean firstMatches = sentence.words()
                 .findFirst()
-                .map(w -> w.equals(word))
-                .map(firstMatch -> firstMatch && next.match(sentence.subsentence(1)))
+                .map(word::equals)
                 .orElse(false);
+
+        return firstMatches && next.match(sentence.subsentence(1));
     }
 }

@@ -12,7 +12,7 @@ class ParserTest {
         Document document = Jsoup.parse("<html><body><p>First <i>parse</i></p><p>Parsed HTML into a doc." +
                 "</p><div>  <div></body></html>");
         TextParser textParser = new TextParser();
-        textParser.parse("First parse. ParsedHTML into a doc");
+        textParser.parse("First parse. Parsed HTML into a doc");
         Text expectedText = textParser.getText();
         assertThat(new HtmlParser(document).parse()).isEqualTo(expectedText);
     }

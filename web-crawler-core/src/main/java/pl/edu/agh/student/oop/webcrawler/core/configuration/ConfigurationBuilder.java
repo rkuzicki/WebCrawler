@@ -13,6 +13,7 @@ public class ConfigurationBuilder {
     private OptionalInt depth = OptionalInt.empty();
     private List<String> domains = new ArrayList<>();
     private List<URI> startingPoints = new ArrayList<>();
+    private boolean subdomains;
 
     ConfigurationBuilder() {
 
@@ -27,14 +28,26 @@ public class ConfigurationBuilder {
         this.domains.add(domain);
         return this;
     }
+    public ConfigurationBuilder domains(List<String> domains) {
+        this.domains = domains;
+        return this;
+    }
+    public ConfigurationBuilder addStartingPoint(URI startingPoint) {
+        startingPoints.add(startingPoint);
+        return this;
+    }
+    public ConfigurationBuilder startingPoints(List<URI> startingPoints) {
+        this.startingPoints = startingPoints;
+        return this;
+    }
 
     public ConfigurationBuilder depth(int depth) {
         this.depth = OptionalInt.of(depth);
         return this;
     }
 
-    public ConfigurationBuilder addStartingPoint(URI startingPoint) {
-        startingPoints.add(startingPoint);
+    public ConfigurationBuilder subdomains(boolean subdomains) {
+        this.subdomains = subdomains;
         return this;
     }
 
@@ -47,14 +60,18 @@ public class ConfigurationBuilder {
     }
 
     OptionalInt depth() {
-        return this.depth;
+        return  this.depth;
     }
 
     List<URI> startingPoints() {
-        return startingPoints;
+        return this.startingPoints;
     }
 
-    public Configuration build() {
+    public boolean subdomains() {
+        return this.subdomains;
+    }
+
+    public Configuration build(){
         return new Configuration(this);
     }
 }

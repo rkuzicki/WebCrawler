@@ -10,6 +10,8 @@ import pl.edu.agh.student.oop.webcrawler.core.configuration.Configuration;
 import pl.edu.agh.student.oop.webcrawler.frontend.input.InputParser;
 import pl.edu.agh.student.oop.webcrawler.frontend.views.configuration.model.ConditionsListItem;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 public class ConfigurationPresenter {
@@ -20,6 +22,7 @@ public class ConfigurationPresenter {
     private TabPane tabPane;
 
     private ObservableList<String> domains = FXCollections.observableArrayList();
+    private ObservableList<URI> startingPoints = FXCollections.observableArrayList();
 
     @FXML
     private Button addButton;
@@ -52,25 +55,48 @@ public class ConfigurationPresenter {
     private TextField negConditionTextField;
 
     @FXML
+    private TextField webPageTextField;
+
+    @FXML
+    private ListView<URI> startingPointsListView;
+
+    @FXML
+    private Button addWebPageButton;
+
+    @FXML
+    private Button deleteWebPageButton;
+
+    @FXML
+    private CheckBox subdomainsCheckBox;
+
+    @FXML
     private TextField depthTextField;
 
     @FXML
     private void initialize() {
         domainListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        startingPointsListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         domainListView.setItems(domains);
+        startingPointsListView.setItems(startingPoints);
 
         addButton.disableProperty().bind(Bindings.isEmpty(domainTextField.textProperty()));
         deleteButton.disableProperty().bind(Bindings
                 .isEmpty(domainListView.getSelectionModel().getSelectedItems()));
         searchButton.disableProperty().bind(Bindings
                 .isEmpty(domainListView.getItems())
-                .or(Bindings.isEmpty(listController.getConditionsListView().getItems())));
+                .or(Bindings.isEmpty(listController.getConditionsListView().getItems()))
+                .or(Bindings.isEmpty(startingPointsListView.getItems()))
+                .or(Bindings.isEmpty(depthTextField.textProperty())));
         acceptConditionButton.disableProperty().bind(Bindings
                 .isEmpty(posConditionTextField.textProperty())
                 .and(Bindings.isEmpty(negConditionTextField.textProperty())));
         deleteConditionButton.disableProperty().bind(Bindings
                 .isEmpty(listController.getConditionsListView().getItems()));
+        addWebPageButton.disableProperty().bind(Bindings
+                .isEmpty(webPageTextField.textProperty()));
+        deleteWebPageButton.disableProperty().bind(Bindings
+                .isEmpty(startingPointsListView.getSelectionModel().getSelectedItems()));
 
     }
 
@@ -83,6 +109,25 @@ public class ConfigurationPresenter {
     private void handleDeleteAction(ActionEvent event) {
         for (String domain : domainListView.getSelectionModel().getSelectedItems()) {
             domains.remove(domain);
+        }
+    }
+
+    @FXML
+    private void handleAddWebPageAction(ActionEvent event) {
+        try
+        {
+            startingPoints.add(new URI(webPageTextField.getText()));
+        }
+        catch (URISyntaxException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleDeleteWebPageAction(ActionEvent event) {
+        for (URI webPage : startingPointsListView.getSelectionModel().getSelectedItems()) {
+            startingPoints.remove(webPage);
         }
     }
 
@@ -100,11 +145,11 @@ public class ConfigurationPresenter {
     @FXML
     private void handleSearchAction(ActionEvent event) {
         Configuration configuration = new InputParser().createConfiguration(
-                new ArrayList<ConditionsListItem>(listController
-                                                  .getConditionsListView()
-                                                  .getItems()),
-                new ArrayList<String>(domains),
-                depthTextField.getText());
+                new ArrayList<>(listController.getConditionsListView().getItems()),
+                new ArrayList<>(domains),
+                new ArrayList<>(startingPoints),
+                depthTextField.getText(),
+                subdomainsCheckBox.isSelected());
 
         this.tabPane.getSelectionModel().select(1);
     }
@@ -117,4 +162,5 @@ public class ConfigurationPresenter {
     public void setTabPane(TabPane tabPane) {
         this.tabPane = tabPane;
     }
+
 }

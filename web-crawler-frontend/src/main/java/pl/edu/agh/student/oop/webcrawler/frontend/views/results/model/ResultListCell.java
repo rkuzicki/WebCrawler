@@ -4,7 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import pl.edu.agh.student.oop.webcrawler.frontend.Main;
+import pl.edu.agh.student.oop.webcrawler.frontend.App;
 import pl.edu.agh.student.oop.webcrawler.frontend.util.ErrorMessage;
 import pl.edu.agh.student.oop.webcrawler.frontend.views.results.presenter.ResultListElementPresenter;
 
@@ -21,7 +21,7 @@ public class ResultListCell extends ListCell<Result> {
         this.listView = listView;
 
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(Main.class.
+        loader.setLocation(App.class.
                 getClassLoader().
                 getResource("views/results/ResultListElement.fxml"));
         loader.setResources(ResourceBundle.getBundle("bundles.lang"));

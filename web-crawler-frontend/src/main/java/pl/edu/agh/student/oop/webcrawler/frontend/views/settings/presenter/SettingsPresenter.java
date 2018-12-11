@@ -1,4 +1,4 @@
-package pl.edu.agh.student.oop.webcrawler.frontend.presenter;
+package pl.edu.agh.student.oop.webcrawler.frontend.views.settings.presenter;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

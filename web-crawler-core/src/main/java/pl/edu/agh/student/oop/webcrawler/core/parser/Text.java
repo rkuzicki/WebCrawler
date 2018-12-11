@@ -45,12 +45,14 @@ public final class Text {
         return new Builder();
     }
 
+
     public static class Builder {
         private List<Sentence> sentences = new ArrayList<>();
 
         private Builder() {
 
         }
+
 
         public void addSentence(Sentence sentence) {
             this.sentences.add(sentence);
