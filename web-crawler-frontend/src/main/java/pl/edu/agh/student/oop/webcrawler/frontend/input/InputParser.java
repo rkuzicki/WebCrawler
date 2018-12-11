@@ -63,11 +63,11 @@ public class InputParser implements  Parser{
     @Override
     public Matcher parseSubCondition(String subCondition) {
         int wildCardCounter = 0;
-        MatcherCompiler matcher = Matcher.compiler().matchAny();
+        MatcherCompiler matcher = Matcher.compiler().thenMatchAny();
         for (String string : subCondition.split(SPACE_REGEX)) {
             if (string.equals(WILD_CARD)) wildCardCounter++;
             else if (wildCardCounter > 0) {
-                matcher.thenSkip(wildCardCounter);
+                matcher.thenSkipUpTo(wildCardCounter);
                 matcher.thenMatch(Word.of(string));
                 wildCardCounter = 0;
             } else {
