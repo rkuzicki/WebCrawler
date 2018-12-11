@@ -45,10 +45,10 @@
                                 <Label text="Add starting web page"
                                        styleClass="main_label" />
                                 <HBox spacing="7">
-                                    <TextField fx:id="webPageTextField"
+                                    <TextField fx:id="startingPointTextField"
                                                prefWidth="250" />
-                                    <Button fx:id="addWebPageButton"
-                                            onAction="#handleAddWebPageAction"
+                                    <Button fx:id="addStartingPointButton"
+                                            onAction="#handleAddStartingPointAction"
                                             text="Add"
                                             prefWidth="100"
                                             styleClass="add_button" />
@@ -62,8 +62,8 @@
                                               maxHeight="100"
                                               prefWidth="250"
                                               styleClass="domain_list_view" />
-                                    <Button fx:id="deleteWebPageButton"
-                                            onAction="#handleDeleteWebPageAction"
+                                    <Button fx:id="deleteStartingPointButton"
+                                            onAction="#handleDeleteStartingPointAction"
                                             text="Delete"
                                             prefWidth="100"
                                             styleClass="delete_button" />

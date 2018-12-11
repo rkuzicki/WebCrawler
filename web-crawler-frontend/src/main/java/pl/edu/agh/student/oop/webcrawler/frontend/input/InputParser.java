@@ -19,14 +19,14 @@ public class InputParser implements Parser {
     @Override
     public Configuration createConfiguration(List<ConditionsListItem> items,
                                              List<String> domains,
-                                             List<URI> webPages,
+                                             List<URI> startingPoints,
                                              String depth,
                                              boolean subdomains) {
 
         ConfigurationBuilder builder = Configuration.builder();
         builder.matcher(combineMatchers(parseConditions(items)))
                 .domains(domains)
-                .startingPoints(webPages)
+                .startingPoints(startingPoints)
                 .depth(Integer.parseInt(depth))
                 .subdomains(subdomains);
 

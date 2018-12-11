@@ -6,9 +6,11 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import pl.edu.agh.student.oop.webcrawler.core.Crawler;
 import pl.edu.agh.student.oop.webcrawler.core.configuration.Configuration;
 import pl.edu.agh.student.oop.webcrawler.frontend.input.InputParser;
 import pl.edu.agh.student.oop.webcrawler.frontend.views.configuration.model.ConditionsListItem;
+import pl.edu.agh.student.oop.webcrawler.frontend.views.results.presenter.ResultListPresenter;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -55,22 +57,24 @@ public class ConfigurationPresenter {
     private TextField negConditionTextField;
 
     @FXML
-    private TextField webPageTextField;
+    private TextField startingPointTextField;
 
     @FXML
     private ListView<URI> startingPointsListView;
 
     @FXML
-    private Button addWebPageButton;
+    private Button addStartingPointButton;
 
     @FXML
-    private Button deleteWebPageButton;
+    private Button deleteStartingPointButton;
 
     @FXML
     private CheckBox subdomainsCheckBox;
 
     @FXML
     private TextField depthTextField;
+
+    private ResultListPresenter resultListController;
 
     @FXML
     private void initialize() {
@@ -93,9 +97,9 @@ public class ConfigurationPresenter {
                 .and(Bindings.isEmpty(negConditionTextField.textProperty())));
         deleteConditionButton.disableProperty().bind(Bindings
                 .isEmpty(listController.getConditionsListView().getItems()));
-        addWebPageButton.disableProperty().bind(Bindings
-                .isEmpty(webPageTextField.textProperty()));
-        deleteWebPageButton.disableProperty().bind(Bindings
+        addStartingPointButton.disableProperty().bind(Bindings
+                .isEmpty(startingPointTextField.textProperty()));
+        deleteStartingPointButton.disableProperty().bind(Bindings
                 .isEmpty(startingPointsListView.getSelectionModel().getSelectedItems()));
 
     }
@@ -113,10 +117,10 @@ public class ConfigurationPresenter {
     }
 
     @FXML
-    private void handleAddWebPageAction(ActionEvent event) {
+    private void handleAddStartingPointAction(ActionEvent event) {
         try
         {
-            startingPoints.add(new URI(webPageTextField.getText()));
+            startingPoints.add(new URI(startingPointTextField.getText()));
         }
         catch (URISyntaxException e)
         {
@@ -125,9 +129,9 @@ public class ConfigurationPresenter {
     }
 
     @FXML
-    private void handleDeleteWebPageAction(ActionEvent event) {
-        for (URI webPage : startingPointsListView.getSelectionModel().getSelectedItems()) {
-            startingPoints.remove(webPage);
+    private void handleDeleteStartingPointAction(ActionEvent event) {
+        for (URI startingPoint : startingPointsListView.getSelectionModel().getSelectedItems()) {
+            startingPoints.remove(startingPoint);
         }
     }
 
@@ -151,6 +155,10 @@ public class ConfigurationPresenter {
                 depthTextField.getText(),
                 subdomainsCheckBox.isSelected());
 
+        Crawler crawler = new Crawler(configuration,
+                (sentence, uri) -> resultListController.addHit(sentence, uri));
+
+        crawler.start();
         this.tabPane.getSelectionModel().select(1);
     }
 
@@ -161,6 +169,10 @@ public class ConfigurationPresenter {
 
     public void setTabPane(TabPane tabPane) {
         this.tabPane = tabPane;
+    }
+
+    public void setResultListController(ResultListPresenter controller) {
+        this.resultListController = controller;
     }
 
 }

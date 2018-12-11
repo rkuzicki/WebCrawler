@@ -55,7 +55,7 @@ class CrawlingJob implements Job {
 
         for (Sentence s : websiteText.getSentences()) {
             if (context.matcher().match(s)) {
-                context.matchListener().handleMatch(s);
+                context.matchListener().handleMatch(s, context.uri());
             }
         }
     }

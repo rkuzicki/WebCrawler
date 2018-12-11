@@ -15,14 +15,14 @@ public interface Parser {
      *
      * @param subdomains - flag telling crawler if he should search in subdomains of specified domains
      * @param depth - crawling depth - means how many times crawler should go deeper during searching
-     * @param webPages - list of starting web pages, each web page has to have proper domain in domains
+     * @param startingPoints - list of starting web pages, each web page has to have proper domain in domains
      * @param domains - list of domains crawler will check
      * @param items - list of {@link ConditionsListItem}
      * @return new Configuration {@link Configuration}
      */
     Configuration createConfiguration(List<ConditionsListItem> items,
                                       List<String> domains,
-                                      List<URI> webPages,
+                                      List<URI> startingPoints,
                                       String depth,
                                       boolean subdomains);
 
