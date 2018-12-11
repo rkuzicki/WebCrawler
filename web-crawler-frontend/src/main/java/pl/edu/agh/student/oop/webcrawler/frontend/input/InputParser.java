@@ -15,6 +15,7 @@ import java.util.List;
 public class InputParser implements Parser {
     private static final String WILD_CARD = "*";
     private static final String SPACE_REGEX = "\\s+";
+    private static final String EMPTY_STRING = "";
 
     @Override
     public Configuration createConfiguration(List<ConditionsListItem> items,
@@ -53,6 +54,11 @@ public class InputParser implements Parser {
         String posSubCondition = conditionItem.getPositiveSubCondition();
         String negSubCondition = cleanNegation(conditionItem.getNegativeSubCondition());
 
+        if(posSubCondition.equals(EMPTY_STRING))
+            return Matchers.negate(parseSubCondition(negSubCondition));
+        else if(negSubCondition.equals(EMPTY_STRING))
+            return parseSubCondition(posSubCondition);
+
         Matcher positiveMatcher = parseSubCondition(posSubCondition);
         Matcher negativeMatcher = Matchers.negate(parseSubCondition(negSubCondition));
 
@@ -61,6 +67,10 @@ public class InputParser implements Parser {
 
     @Override
     public Matcher parseSubCondition(String subCondition) {
+
+        if(subCondition.equals(EMPTY_STRING))
+            throw new IllegalArgumentException("Cannot parse empty String");
+
         int wildCardCounter = 0;
         MatcherCompiler matcher = Matcher.compiler().thenMatchAny();
         for (String string : subCondition.split(SPACE_REGEX)) {
@@ -78,7 +88,7 @@ public class InputParser implements Parser {
     }
 
     private String cleanNegation(String negSubCondition) {
-        if (negSubCondition.equals("")) return negSubCondition;
-        else return negSubCondition.substring(2, negSubCondition.length() - 2);
+        if(negSubCondition.equals("")) return negSubCondition;
+        else return negSubCondition.substring(2, negSubCondition.length()-1);
     }
 }
