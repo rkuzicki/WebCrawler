@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.OptionalInt;
 
+/**
+ * The class used to build the immutable {@link Configuration} objects
+ */
 public class ConfigurationBuilder {
     private Matcher matcher = null;
     private OptionalInt depth = OptionalInt.empty();

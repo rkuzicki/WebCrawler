@@ -6,6 +6,15 @@ import java.net.URI;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Configuration is a class for handling the user's input.
+ * It consists of
+ * - Matcher object, which is parsed from user's search conditions
+ * - Domains(String) and starting point(URI), which will be the entries for the Crawler to parse
+ * - depth(int) - the depth of crawling
+ * - subdomains(boolean) - determines if we crawl website's subdomains or not
+ * Configuration is an immutable class and is built from {@link ConfigurationBuilder}
+ */
 public class Configuration {
     private final Matcher matcher;
     private final List<String> domains;
