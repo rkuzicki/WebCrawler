@@ -43,7 +43,8 @@ class CrawlingJob implements Job {
             try {
                 links.add(new URI(href));
             } catch (URISyntaxException e) {
-                logger.warn("Invalid link: " + href, e);
+                logger.info("Invalid link: " + href);
+                logger.trace("Invalid link: " + href, e);
             }
         }
 
