@@ -5,7 +5,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import pl.edu.agh.student.oop.webcrawler.core.parser.Sentence;
-import pl.edu.agh.student.oop.webcrawler.frontend.views.results.model.ImmutableResult;
 import pl.edu.agh.student.oop.webcrawler.frontend.views.results.model.Result;
 import pl.edu.agh.student.oop.webcrawler.frontend.views.results.model.ResultListCell;
 
@@ -24,12 +23,12 @@ public class ResultListPresenter {
         list.setItems(items);
     }
 
-    public void addHit(Sentence s, URI u) {
-        ImmutableResult result =
-                Result.builder().matchedText(s.toString())
-                    .creationDate(LocalDateTime.now())
-                    .source(u)
-                    .build();
+    public void addResult(Sentence sentence, URI source) {
+        Result result = Result.builder()
+                .matchedText(sentence.toString())
+                .creationDate(LocalDateTime.now())
+                .source(source)
+                .build();
 
         items.add(result);
     }

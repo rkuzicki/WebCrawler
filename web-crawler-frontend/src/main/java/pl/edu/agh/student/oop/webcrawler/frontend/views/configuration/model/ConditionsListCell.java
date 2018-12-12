@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.util.ResourceBundle;
 
 public class ConditionsListCell extends ListCell<ConditionsListItem> {
-
     private final ConditionsListElementPresenter presenter;
     private final ListView<ConditionsListItem> listView;
     private final Node node;
@@ -25,13 +24,10 @@ public class ConditionsListCell extends ListCell<ConditionsListItem> {
                 .getResource("views/tabs/configuration/ConditionsListElement.fxml"));
         loader.setResources(ResourceBundle.getBundle("bundles.lang"));
 
-        try
-        {
+        try {
             this.node = loader.load();
             this.presenter = loader.getController();
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             ErrorMessage.show("Cannot load FXML", e);
             throw new RuntimeException(e);
         }

@@ -6,7 +6,6 @@ import javafx.scene.text.Text;
 import pl.edu.agh.student.oop.webcrawler.frontend.views.configuration.model.ConditionsListItem;
 
 public class ConditionsListElementPresenter {
-
     @FXML
     private Text positiveSubCondition;
 
@@ -16,12 +15,8 @@ public class ConditionsListElementPresenter {
     @FXML
     private VBox vBox;
 
-    private ConditionsListItem item = null;
-
     public void update(ConditionsListItem item) {
         this.positiveSubCondition.setText(item.getPositiveSubCondition());
         this.negativeSubCondition.setText(item.getNegativeSubCondition());
-        this.item = item;
     }
-
 }

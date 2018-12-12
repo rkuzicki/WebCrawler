@@ -6,14 +6,10 @@ import pl.edu.agh.student.oop.webcrawler.core.matcher.Matchers;
 import pl.edu.agh.student.oop.webcrawler.core.parser.Word;
 import pl.edu.agh.student.oop.webcrawler.frontend.views.configuration.model.ConditionsListItem;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-public class InputParserTest {
-
+class InputParserTest {
     @Test
     void testSubConditionParser0() {
         String inputSubCondition = "ala * * * ma kota";
@@ -26,7 +22,7 @@ public class InputParserTest {
                 .thenMatch(Word.of("kota"))
                 .compile();
 
-        Matcher resultMatcher = new InputParser().parseSubCondition(inputSubCondition);
+        Matcher resultMatcher = new InputConditionsParser().parseSubCondition(inputSubCondition);
 
         assertThat(resultMatcher).isEqualToComparingFieldByFieldRecursively(expectedMatcher);
     }
@@ -42,7 +38,7 @@ public class InputParserTest {
                 .thenMatch(Word.of("kota"))
                 .compile();
 
-        Matcher resultMatcher = new InputParser().parseSubCondition(inputSubCondition);
+        Matcher resultMatcher = new InputConditionsParser().parseSubCondition(inputSubCondition);
 
         assertThat(resultMatcher).isEqualToComparingFieldByFieldRecursively(expectedMatcher);
     }
@@ -58,7 +54,7 @@ public class InputParserTest {
                 .thenMatch(Word.of("kota"))
                 .compile();
 
-        Matcher resultMatcher = new InputParser().parseSubCondition(inputSubCondition);
+        Matcher resultMatcher = new InputConditionsParser().parseSubCondition(inputSubCondition);
 
         assertThat(resultMatcher).isEqualToComparingFieldByFieldRecursively(expectedMatcher);
     }
@@ -67,7 +63,7 @@ public class InputParserTest {
     void testSubConditionParser3() {
         String inputSubCondition = "";
 
-        assertThatThrownBy(() ->  new InputParser().parseSubCondition(inputSubCondition))
+        assertThatThrownBy(() ->  new InputConditionsParser().parseSubCondition(inputSubCondition))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -95,7 +91,7 @@ public class InputParserTest {
                 .compile();
 
         Matcher expectedMatcher = Matchers.matchEvery(posMatcher, Matchers.negate(negMatcher));
-        Matcher resultMatcher = new InputParser().parseCondition(inputItem);
+        Matcher resultMatcher = new InputConditionsParser().parseCondition(inputItem);
 
         assertThat(resultMatcher).isEqualToComparingFieldByFieldRecursively(expectedMatcher);
     }
@@ -114,7 +110,7 @@ public class InputParserTest {
                 .thenMatch(Word.of("kota"))
                 .compile();
 
-        Matcher resultMatcher = new InputParser().parseCondition(inputItem);
+        Matcher resultMatcher = new InputConditionsParser().parseCondition(inputItem);
 
         assertThat(resultMatcher).isEqualToComparingFieldByFieldRecursively(expectedMatcher);
     }
@@ -133,53 +129,7 @@ public class InputParserTest {
                     .thenMatch(Word.of("kota"))
                     .compile());
 
-        Matcher resultMatcher = new InputParser().parseCondition(inputItem);
-
-        assertThat(resultMatcher).isEqualToComparingFieldByFieldRecursively(expectedMatcher);
-    }
-
-    @Test
-    void testCombineMatchers0() {
-        Matcher posMatcher = Matcher.compiler()
-                .thenMatchAny()
-                .thenMatch(Word.of("ala"))
-                .thenSkipUpTo(3)
-                .thenMatch(Word.of("ma"))
-                .thenMatch(Word.of("kota"))
-                .compile();
-
-        Matcher negMatcher = Matcher.compiler()
-                .thenMatchAny()
-                .thenMatch(Word.of("ala"))
-                .thenMatch(Word.of("ma"))
-                .thenMatch(Word.of("kota"))
-                .compile();
-
-        List<Matcher> matchers = new ArrayList<>();
-        matchers.add(posMatcher);
-        matchers.add(Matchers.negate(negMatcher));
-
-        Matcher expectedMatcher = Matchers.matchAny(posMatcher, Matchers.negate(negMatcher));
-        Matcher resultMatcher = new InputParser().combineMatchers(matchers);
-
-        assertThat(resultMatcher).isEqualToComparingFieldByFieldRecursively(expectedMatcher);
-    }
-
-    @Test
-    void testCombineMatchers1() {
-        Matcher posMatcher = Matcher.compiler()
-                .thenMatchAny()
-                .thenMatch(Word.of("ala"))
-                .thenSkipUpTo(3)
-                .thenMatch(Word.of("ma"))
-                .thenMatch(Word.of("kota"))
-                .compile();
-
-        List<Matcher> matchers = new ArrayList<>();
-        matchers.add(posMatcher);
-
-        Matcher expectedMatcher = Matchers.matchAny(posMatcher);
-        Matcher resultMatcher = new InputParser().combineMatchers(matchers);
+        Matcher resultMatcher = new InputConditionsParser().parseCondition(inputItem);
 
         assertThat(resultMatcher).isEqualToComparingFieldByFieldRecursively(expectedMatcher);
     }

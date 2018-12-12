@@ -8,8 +8,6 @@ import pl.edu.agh.student.oop.webcrawler.frontend.views.configuration.model.Cond
 import pl.edu.agh.student.oop.webcrawler.frontend.views.configuration.model.ConditionsListItem;
 
 public class ConditionsListPresenter {
-
-
     private ObservableList<ConditionsListItem> conditions = FXCollections.observableArrayList();
 
     @FXML
@@ -26,9 +24,8 @@ public class ConditionsListPresenter {
     }
 
     public void deleteCondition() {
-        for(ConditionsListItem item : conditionsListView.getSelectionModel().getSelectedItems()) {
-            conditions.remove(item);
-        }
+        ObservableList<ConditionsListItem> selected = conditionsListView.getSelectionModel().getSelectedItems();
+        conditions.removeAll(selected);
     }
 
     public ListView<ConditionsListItem> getConditionsListView() {

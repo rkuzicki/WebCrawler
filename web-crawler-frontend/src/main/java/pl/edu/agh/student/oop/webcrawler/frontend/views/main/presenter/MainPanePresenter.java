@@ -1,4 +1,4 @@
-package pl.edu.agh.student.oop.webcrawler.frontend.views.mainPane.presenter;
+package pl.edu.agh.student.oop.webcrawler.frontend.views.main.presenter;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Tab;
@@ -8,7 +8,6 @@ import pl.edu.agh.student.oop.webcrawler.frontend.views.results.presenter.Result
 import pl.edu.agh.student.oop.webcrawler.frontend.views.results.presenter.ResultViewPresenter;
 
 public class MainPanePresenter {
-
     @FXML
     private TabPane tabPane;
 
@@ -30,5 +29,4 @@ public class MainPanePresenter {
         configurationController.setResultListController(
                 resultsController.getResultListController());
     }
-
 }

@@ -8,18 +8,17 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import pl.edu.agh.student.oop.webcrawler.core.Crawler;
 import pl.edu.agh.student.oop.webcrawler.core.configuration.Configuration;
-import pl.edu.agh.student.oop.webcrawler.frontend.input.InputParser;
+import pl.edu.agh.student.oop.webcrawler.core.matcher.Matcher;
+import pl.edu.agh.student.oop.webcrawler.frontend.input.InputConditionsParser;
 import pl.edu.agh.student.oop.webcrawler.frontend.views.configuration.model.ConditionsListItem;
 import pl.edu.agh.student.oop.webcrawler.frontend.views.results.presenter.ResultListPresenter;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
+import java.util.List;
 
 public class ConfigurationPresenter {
-
     private static final String NEGATION_MARK = "~";
-    private static final String EMPTY_STRING = "";
 
     private TabPane tabPane;
 
@@ -111,28 +110,21 @@ public class ConfigurationPresenter {
 
     @FXML
     private void handleDeleteAction(ActionEvent event) {
-        for (String domain : domainListView.getSelectionModel().getSelectedItems()) {
-            domains.remove(domain);
-        }
+        domains.removeAll(domainListView.getSelectionModel().getSelectedItems());
     }
 
     @FXML
     private void handleAddStartingPointAction(ActionEvent event) {
-        try
-        {
+        try {
             startingPoints.add(new URI(startingPointTextField.getText()));
-        }
-        catch (URISyntaxException e)
-        {
+        } catch (URISyntaxException e) {
             e.printStackTrace();
         }
     }
 
     @FXML
     private void handleDeleteStartingPointAction(ActionEvent event) {
-        for (URI startingPoint : startingPointsListView.getSelectionModel().getSelectedItems()) {
-            startingPoints.remove(startingPoint);
-        }
+        startingPoints.removeAll(startingPointsListView.getSelectionModel().getSelectedItems());
     }
 
     @FXML
@@ -143,28 +135,34 @@ public class ConfigurationPresenter {
     @FXML
     private void handleAcceptConditionAction(ActionEvent event) {
         listController.addCondition(new ConditionsListItem(posConditionTextField.getText(),
-                                                           negate(negConditionTextField.getText())));
+                negate(negConditionTextField.getText())));
     }
 
     @FXML
     private void handleSearchAction(ActionEvent event) {
-        Configuration configuration = new InputParser().createConfiguration(
-                new ArrayList<>(listController.getConditionsListView().getItems()),
-                new ArrayList<>(domains),
-                new ArrayList<>(startingPoints),
-                depthTextField.getText(),
-                subdomainsCheckBox.isSelected());
+        List<ConditionsListItem> conditionItems = listController.getConditionsListView().getItems();
+        Matcher matcher = new InputConditionsParser().parseConditions(conditionItems);
+
+        Configuration configuration = Configuration.builder().matcher(matcher)
+                .domains(domains)
+                .startingPoints(startingPoints)
+                .depth(Integer.parseInt(depthTextField.getText()))
+                .subdomains(subdomainsCheckBox.isSelected())
+                .build();
 
         Crawler crawler = new Crawler(configuration,
-                (sentence, uri) -> resultListController.addHit(sentence, uri));
+                (sentence, uri) -> resultListController.addResult(sentence, uri));
 
         crawler.start();
         this.tabPane.getSelectionModel().select(1);
     }
 
     private String negate(String condition) {
-        if(condition.equals(EMPTY_STRING)) return EMPTY_STRING;
-        else return NEGATION_MARK + "(" + condition + ")";
+        if (condition.isEmpty()) {
+            return "";
+        } else {
+            return NEGATION_MARK + "(" + condition + ")";
+        }
     }
 
     public void setTabPane(TabPane tabPane) {
@@ -174,5 +172,4 @@ public class ConfigurationPresenter {
     public void setResultListController(ResultListPresenter controller) {
         this.resultListController = controller;
     }
-
 }

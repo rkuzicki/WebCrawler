@@ -11,12 +11,11 @@ import java.io.IOException;
 import java.util.ResourceBundle;
 
 public class App extends Application {
-
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Web Crawler");
-        try
-        {
+
+        try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(App.class.
                     getClassLoader().
@@ -27,9 +26,7 @@ public class App extends Application {
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
             primaryStage.show();
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             ErrorMessage.show("Cannot load layout", e);
         }
     }

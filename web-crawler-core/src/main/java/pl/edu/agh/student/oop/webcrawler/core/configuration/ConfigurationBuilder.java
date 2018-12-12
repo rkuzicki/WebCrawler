@@ -28,16 +28,19 @@ public class ConfigurationBuilder {
         this.domains.add(domain);
         return this;
     }
+
     public ConfigurationBuilder domains(List<String> domains) {
-        this.domains = domains;
+        this.domains = new ArrayList<>(domains);
         return this;
     }
+
     public ConfigurationBuilder addStartingPoint(URI startingPoint) {
         startingPoints.add(startingPoint);
         return this;
     }
+
     public ConfigurationBuilder startingPoints(List<URI> startingPoints) {
-        this.startingPoints = startingPoints;
+        this.startingPoints = new ArrayList<>(startingPoints);
         return this;
     }
 
@@ -60,7 +63,7 @@ public class ConfigurationBuilder {
     }
 
     OptionalInt depth() {
-        return  this.depth;
+        return this.depth;
     }
 
     List<URI> startingPoints() {
@@ -71,7 +74,7 @@ public class ConfigurationBuilder {
         return this.subdomains;
     }
 
-    public Configuration build(){
+    public Configuration build() {
         return new Configuration(this);
     }
 }
