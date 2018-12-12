@@ -1,41 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.image.Image?>
-
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.BorderPane?>
 <BorderPane xmlns="http://javafx.com/javafx/8"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="pl.edu.agh.student.oop.webcrawler.frontend.presenter.AppPresenter" minHeight="600">
+            minHeight="600"
+            stylesheets="@global.css, @main.css"
+            fx:controller="pl.edu.agh.student.oop.webcrawler.frontend.views.main.presenter.MainPanePresenter">
     <top>
-        <TabPane tabClosingPolicy="UNAVAILABLE">
+        <TabPane fx:id="tabPane" tabClosingPolicy="UNAVAILABLE">
             <Tab text="%configuration_tab_text" >
                 <graphic>
                     <ImageView>
-                        <image>
-                            <Image url="/icons/configuration.png"/>
-                        </image>
+                        <Image url="/icons/configuration.png"/>
                     </ImageView>
                 </graphic>
-                <fx:include source="tabs/ConfigurationTab.fxml" />
+                <fx:include source="tabs/configuration/ConfigurationTab.fxml" fx:id="configuration"/>
             </Tab>
-            <Tab text="%results_tab_text">
+            <Tab fx:id="resultsTab" text="%results_tab_text">
                 <graphic>
                     <ImageView>
-                        <image>
-                            <Image url="/icons/results.png" />
-                        </image>
+                        <Image url="/icons/results.png"/>
                     </ImageView>
                 </graphic>
-                <fx:include source="tabs/ResultsTab.fxml" />
+                <fx:include source="results/ResultView.fxml" fx:id="results" />
             </Tab>
             <Tab text="%settings_tab_text">
                 <graphic>
                     <ImageView>
-                        <image>
-                            <Image url="/icons/settings.png" />
-                        </image>
+                        <Image url="/icons/settings.png"/>
                     </ImageView>
                 </graphic>
                 <fx:include source="tabs/SettingsTab.fxml" />

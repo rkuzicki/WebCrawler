@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.*?>
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="pl.edu.agh.student.oop.webcrawler.frontend.views.results.presenter.ResultListElementPresenter"
+            stylesheets="@../global.css, @results.css">
+    <left>
+        <TextFlow fx:id="matchedTextFlow">
+            <Text text="this "/>
+            <Text text="has been" styleClass="matched-text"/>
+            <Text text=" matched"/>
+        </TextFlow>
+    </left>
+    <right>
+        <Text fx:id="timer" text="3 minutes ago"/>
+    </right>
+    <bottom>
+        <TextFlow styleClass="result-url-text">
+            <Text text="from "/>
+            <Hyperlink fx:id="resultUrl"/>
+        </TextFlow>
+    </bottom>
+</BorderPane>
