@@ -51,9 +51,12 @@ class CrawlingJob implements Job {
 
         Text websiteText = new HtmlParser(doc).parse();
 
-        links(doc).filter(this::isTraversable)
-                .map(this::spawnChild)
-                .forEach(jobService::add);
+        // spawn children
+        if (context.currentDepth() < context.configuration().getDepth()) {
+            links(doc).filter(this::isTraversable)
+                    .map(this::spawnChild)
+                    .forEach(jobService::add);
+        }
 
         for (Sentence s : websiteText.getSentences()) {
             if (context.matcher().match(s)) {
