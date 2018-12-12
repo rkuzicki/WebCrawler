@@ -20,7 +20,7 @@ class CrawlingJobContext {
         return new CrawlingJobContext(config, 0, listener, uri);
     }
 
-    CrawlingJobContext(Configuration configuration, int depth, MatchListener listener, URI uri) {
+    private CrawlingJobContext(Configuration configuration, int depth, MatchListener listener, URI uri) {
         this.configuration = configuration;
         this.currentDepth = depth;
         this.listener = listener;

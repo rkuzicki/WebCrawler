@@ -89,7 +89,7 @@ class CrawlingJob implements Job {
 
         if (conf.getDomains().contains(authority)) return true;
 
-        if (conf.subdomains()) {
+        if (conf.areSubdomainsEnabled()) {
             for (String domain : conf.getDomains()) {
                 if (authority.startsWith(domain)) {
                     return true;

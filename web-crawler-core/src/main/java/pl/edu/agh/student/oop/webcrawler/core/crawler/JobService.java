@@ -7,15 +7,14 @@ import java.util.concurrent.Executors;
  * {@link JobService} is used to manage {@link Job} instances. It queues and executes them.
  */
 public class JobService {
-    private final int THREADS = 8;
-    private ExecutorService service = Executors.newFixedThreadPool(THREADS);
+    private ExecutorService service;
 
-    JobService() {
-
+    private JobService(int threads) {
+        service = Executors.newFixedThreadPool(threads);
     }
 
-    public static JobService newJobService() {
-        return new JobService();
+    public static JobService newJobService(int threads) {
+        return new JobService(threads);
     }
 
     public void add(Job job) {

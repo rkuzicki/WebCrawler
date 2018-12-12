@@ -48,7 +48,7 @@ public class Configuration {
         return Collections.unmodifiableList(startingPoints);
     }
 
-    public boolean subdomains() {
+    public boolean areSubdomainsEnabled() {
         return subdomains;
     }
 }
