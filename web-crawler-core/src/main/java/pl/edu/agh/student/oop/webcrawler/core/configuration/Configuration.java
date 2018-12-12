@@ -1,5 +1,6 @@
 package pl.edu.agh.student.oop.webcrawler.core.configuration;
 
+import pl.edu.agh.student.oop.webcrawler.core.Crawler;
 import pl.edu.agh.student.oop.webcrawler.core.matcher.Matcher;
 
 import java.net.URI;
@@ -7,13 +8,8 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Configuration is a class for handling the user's input.
- * It consists of
- * - Matcher object, which is parsed from user's search conditions
- * - Domains(String) and starting point(URI), which will be the entries for the Crawler to parse
- * - depth(int) - the depth of crawling
- * - subdomains(boolean) - determines if we crawl website's subdomains or not
- * Configuration is an immutable class and is built from {@link ConfigurationBuilder}
+ * This class contains required configuration used by the {@link Crawler}.
+ * To instantiate this class, use {@link #builder()}.
  */
 public class Configuration {
     private final Matcher matcher;
@@ -29,7 +25,7 @@ public class Configuration {
                 .orElseThrow(() -> new IllegalStateException("Depth is not specified"));
         this.domains = builder.domains();
         this.startingPoints = builder.startingPoints();
-        this.subdomains = builder.subdomains();
+        this.subdomains = builder.subdomainsEnabled();
     }
 
     public static ConfigurationBuilder builder() {
@@ -55,5 +51,4 @@ public class Configuration {
     public boolean subdomains() {
         return subdomains;
     }
-
 }
