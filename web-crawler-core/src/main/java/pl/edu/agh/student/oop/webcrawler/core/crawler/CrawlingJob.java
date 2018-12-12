@@ -4,6 +4,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pl.edu.agh.student.oop.webcrawler.core.configuration.Configuration;
 import pl.edu.agh.student.oop.webcrawler.core.parser.HtmlParser;
 import pl.edu.agh.student.oop.webcrawler.core.parser.Sentence;
@@ -17,6 +19,8 @@ import java.util.List;
 import java.util.stream.Stream;
 
 class CrawlingJob implements Job {
+    private static final Logger logger = LoggerFactory.getLogger(CrawlingJob.class);
+
     private CrawlingJobContext context;
 
     CrawlingJob(CrawlingJobContext context) {
@@ -26,22 +30,28 @@ class CrawlingJob implements Job {
     private Stream<URI> links(Document doc) {
         Elements aElements = doc.select("a[href]");
         List<URI> links = new ArrayList<>();
+
         for (Element aElement : aElements) {
+            String href = aElement.attr("abs:href");
             try {
-                links.add(new URI(aElement.attr("abs:href")));
+                links.add(new URI(href));
             } catch (URISyntaxException e) {
-                System.out.println("Bad link");
+                logger.warn("Invalid link: " + href);
             }
         }
+
         return links.stream();
     }
 
     private CrawlingJob spawnChild(URI link) {
+        logger.info("Spawning a child job for: " + link);
         return new CrawlingJob(context.childContext(link));
     }
 
     @Override
     public void execute(JobService jobService) {
+        logger.info("Crawling " + context.uri() + ", depth: " + context.currentDepth());
+
         Document doc;
         try {
             doc = Jsoup.connect(context.uri().toString()).get();
@@ -60,6 +70,7 @@ class CrawlingJob implements Job {
 
         for (Sentence s : websiteText.getSentences()) {
             if (context.matcher().match(s)) {
+                logger.debug("Matched sentence: " + s + ", at: " + context.uri());
                 context.matchListener().handleMatch(s, context.uri());
             }
         }
@@ -79,6 +90,7 @@ class CrawlingJob implements Job {
             }
         }
 
+        logger.info("Address " + uri + " is being ignored");
         return false;
     }
 }
