@@ -1,5 +1,6 @@
 package pl.edu.agh.student.oop.webcrawler.frontend.views.configuration.presenter;
 
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -150,8 +151,9 @@ public class ConfigurationPresenter {
                 .subdomains(subdomainsCheckBox.isSelected())
                 .build();
 
-        Crawler crawler = new Crawler(configuration,
-                (sentence, uri) -> resultListController.addResult(sentence, uri));
+        Crawler crawler = new Crawler(configuration, (sentence, uri) ->
+                Platform.runLater(() ->
+                        resultListController.addResult(sentence, uri)));
 
         crawler.start();
         this.tabPane.getSelectionModel().select(1);

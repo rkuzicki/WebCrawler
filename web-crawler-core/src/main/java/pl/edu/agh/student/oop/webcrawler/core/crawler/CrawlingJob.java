@@ -1,10 +1,10 @@
 package pl.edu.agh.student.oop.webcrawler.core.crawler;
 
-import javafx.application.Platform;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import pl.edu.agh.student.oop.webcrawler.core.configuration.Configuration;
 import pl.edu.agh.student.oop.webcrawler.core.parser.HtmlParser;
 import pl.edu.agh.student.oop.webcrawler.core.parser.Sentence;
 import pl.edu.agh.student.oop.webcrawler.core.parser.Text;
@@ -51,15 +51,31 @@ class CrawlingJob implements Job {
 
         Text websiteText = new HtmlParser(doc).parse();
 
-        links(doc).map(this::spawnChild)
+        links(doc).filter(this::isTraversable)
+                .map(this::spawnChild)
                 .forEach(jobService::add);
 
         for (Sentence s : websiteText.getSentences()) {
             if (context.matcher().match(s)) {
-                Platform.runLater(
-                        () -> context.matchListener().handleMatch(s, context.uri()));
+                context.matchListener().handleMatch(s, context.uri());
             }
         }
     }
-}
 
+    private boolean isTraversable(URI uri) {
+        Configuration conf = context.configuration();
+        String authority = uri.getAuthority();
+
+        if (conf.getDomains().contains(authority)) return true;
+
+        if (conf.subdomains()) {
+            for (String domain : conf.getDomains()) {
+                if (authority.startsWith(domain)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+}
