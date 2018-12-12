@@ -18,6 +18,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
+/**
+ * {@link CrawlingJob} is a {@link Job} which crawls a single website -- searching for results and spawning child
+ * jobs from found hyperlinks.
+ */
 class CrawlingJob implements Job {
     private static final Logger logger = LoggerFactory.getLogger(CrawlingJob.class);
 
@@ -27,6 +31,9 @@ class CrawlingJob implements Job {
         this.context = context;
     }
 
+    /**
+     * Method used to obtain valid addresses from a single web page.
+     */
     private Stream<URI> links(Document doc) {
         Elements aElements = doc.select("a[href]");
         List<URI> links = new ArrayList<>();

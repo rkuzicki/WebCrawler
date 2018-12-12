@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.OptionalInt;
 
+/**
+ * The class used to build a {@link Configuration} object.
+ */
 public class ConfigurationBuilder {
     private Matcher matcher = null;
     private OptionalInt depth = OptionalInt.empty();
@@ -19,38 +22,64 @@ public class ConfigurationBuilder {
 
     }
 
+    /**
+     * Set the matcher. It will match websites' content while crawling.
+     *
+     * @param matcher matcher to set
+     *
+     * @return this builder
+     */
     public ConfigurationBuilder matcher(Matcher matcher) {
         this.matcher = matcher;
         return this;
     }
 
-    public ConfigurationBuilder addDomain(String domain) {
-        this.domains.add(domain);
-        return this;
-    }
-
+    /**
+     * Set list of domains to crawl. The crawler will traverse links only if the domain matches with this list (or is
+     * a subdomain if enabled by {@link #subdomainsEnabled()}).
+     *
+     * @param domains list of domains to crawl
+     *
+     * @return this builder
+     */
     public ConfigurationBuilder domains(List<String> domains) {
         this.domains = new ArrayList<>(domains);
         return this;
     }
 
-    public ConfigurationBuilder addStartingPoint(URI startingPoint) {
-        startingPoints.add(startingPoint);
-        return this;
-    }
-
+    /**
+     * Set starting point. Starting points are the topmost links which will be followed by the crawler.
+     *
+     * @param startingPoints list of starting points to set
+     *
+     * @return this builder
+     */
     public ConfigurationBuilder startingPoints(List<URI> startingPoints) {
         this.startingPoints = new ArrayList<>(startingPoints);
         return this;
     }
 
+    /**
+     * Set the depth of crawling. When depth is set to 0, the crawler will crawl only the top level links.
+     *
+     * @param depth depth of crawling
+     *
+     * @return this builder
+     */
     public ConfigurationBuilder depth(int depth) {
         this.depth = OptionalInt.of(depth);
         return this;
     }
 
-    public ConfigurationBuilder subdomainsEnabled(boolean subdomains) {
-        this.subdomainsEnabled = subdomains;
+    /**
+     * Set whether to crawl subdomains or not.
+     *
+     * @param subdomainsEnabled if {@code true} subdomain crawling will be enabled
+     *
+     * @return this builder
+     */
+    public ConfigurationBuilder subdomainsEnabled(boolean subdomainsEnabled) {
+        this.subdomainsEnabled = subdomainsEnabled;
         return this;
     }
 

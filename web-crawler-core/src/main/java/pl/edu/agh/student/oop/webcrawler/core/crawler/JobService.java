@@ -3,6 +3,9 @@ package pl.edu.agh.student.oop.webcrawler.core.crawler;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * {@link JobService} is used to manage {@link Job} instances. It queues and executes them.
+ */
 public class JobService {
     private final int THREADS = 8;
     private ExecutorService service = Executors.newFixedThreadPool(THREADS);

@@ -1,11 +1,16 @@
 package pl.edu.agh.student.oop.webcrawler.core.configuration;
 
+import pl.edu.agh.student.oop.webcrawler.core.Crawler;
 import pl.edu.agh.student.oop.webcrawler.core.matcher.Matcher;
 
 import java.net.URI;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * This class contains required configuration used by the {@link Crawler}.
+ * To instantiate this class, use {@link #builder()}.
+ */
 public class Configuration {
     private final Matcher matcher;
     private final List<String> domains;
@@ -46,5 +51,4 @@ public class Configuration {
     public boolean subdomains() {
         return subdomains;
     }
-
 }
