@@ -10,7 +10,7 @@ class StartCrawlingJob implements Job {
         return new StartCrawlingJob(config, listener);
     }
 
-    public StartCrawlingJob(Configuration config, MatchListener listener) {
+    private StartCrawlingJob(Configuration config, MatchListener listener) {
         this.config = config;
         this.listener = listener;
     }

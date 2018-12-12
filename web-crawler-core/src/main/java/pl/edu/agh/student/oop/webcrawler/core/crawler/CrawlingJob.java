@@ -43,7 +43,7 @@ class CrawlingJob implements Job {
             try {
                 links.add(new URI(href));
             } catch (URISyntaxException e) {
-                logger.warn("Invalid link: " + href);
+                logger.warn("Invalid link: " + href, e);
             }
         }
 
@@ -70,7 +70,8 @@ class CrawlingJob implements Job {
 
         // spawn children
         if (context.currentDepth() < context.configuration().getDepth()) {
-            links(doc).filter(this::isTraversable)
+            links(doc).map(this::normalizeUri)
+                    .filter(this::isTraversable)
                     .map(this::spawnChild)
                     .forEach(jobService::add);
         }
@@ -80,6 +81,23 @@ class CrawlingJob implements Job {
                 logger.info("Matched sentence: " + s + ", at: " + context.uri());
                 context.matchListener().handleMatch(s, context.uri());
             }
+        }
+    }
+
+    /**
+     * Remove unimportant parts (for crawling) of a URI.
+     */
+    private URI normalizeUri(URI uri) {
+        try {
+            return new URI(
+                    uri.getScheme(),
+                    uri.getAuthority(),
+                    uri.getPath(),
+                    uri.getQuery(),
+                    null);
+        } catch (URISyntaxException e) {
+            // if it fails, return uri
+            return uri;
         }
     }
 
