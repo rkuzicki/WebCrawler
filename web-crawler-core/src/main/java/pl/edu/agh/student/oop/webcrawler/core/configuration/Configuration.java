@@ -1,6 +1,6 @@
 package pl.edu.agh.student.oop.webcrawler.core.configuration;
 
-import pl.edu.agh.student.oop.webcrawler.core.Crawler;
+import pl.edu.agh.student.oop.webcrawler.core.crawler.Crawler;
 import pl.edu.agh.student.oop.webcrawler.core.matcher.Matcher;
 
 import java.net.URI;

@@ -1,8 +1,6 @@
-package pl.edu.agh.student.oop.webcrawler.core;
+package pl.edu.agh.student.oop.webcrawler.core.crawler;
 
 import pl.edu.agh.student.oop.webcrawler.core.configuration.Configuration;
-import pl.edu.agh.student.oop.webcrawler.core.crawler.JobService;
-import pl.edu.agh.student.oop.webcrawler.core.crawler.StartCrawlingJob;
 
 public class Crawler {
     private final JobService service = JobService.newJobService();

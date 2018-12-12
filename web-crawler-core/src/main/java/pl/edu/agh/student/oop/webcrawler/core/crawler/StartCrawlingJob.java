@@ -1,9 +1,8 @@
 package pl.edu.agh.student.oop.webcrawler.core.crawler;
 
-import pl.edu.agh.student.oop.webcrawler.core.MatchListener;
 import pl.edu.agh.student.oop.webcrawler.core.configuration.Configuration;
 
-public class StartCrawlingJob implements Job {
+class StartCrawlingJob implements Job {
     private Configuration config;
     private MatchListener listener;
 
