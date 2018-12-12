@@ -44,13 +44,13 @@ class CrawlingJob implements Job {
     }
 
     private CrawlingJob spawnChild(URI link) {
-        logger.info("Spawning a child job for: " + link);
+        logger.trace("Spawning a child job for: " + link);
         return new CrawlingJob(context.childContext(link));
     }
 
     @Override
     public void execute(JobService jobService) {
-        logger.info("Crawling " + context.uri() + ", depth: " + context.currentDepth());
+        logger.trace("Crawling " + context.uri() + ", depth: " + context.currentDepth());
 
         Document doc;
         try {
@@ -70,7 +70,7 @@ class CrawlingJob implements Job {
 
         for (Sentence s : websiteText.getSentences()) {
             if (context.matcher().match(s)) {
-                logger.debug("Matched sentence: " + s + ", at: " + context.uri());
+                logger.info("Matched sentence: " + s + ", at: " + context.uri());
                 context.matchListener().handleMatch(s, context.uri());
             }
         }
@@ -90,7 +90,7 @@ class CrawlingJob implements Job {
             }
         }
 
-        logger.info("Address " + uri + " is being ignored");
+        logger.trace("Address " + uri + " is being ignored");
         return false;
     }
 }

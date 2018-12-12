@@ -148,7 +148,7 @@ public class ConfigurationPresenter {
                 .domains(domains)
                 .startingPoints(startingPoints)
                 .depth(Integer.parseInt(depthTextField.getText()))
-                .subdomains(subdomainsCheckBox.isSelected())
+                .subdomainsEnabled(subdomainsCheckBox.isSelected())
                 .build();
 
         Crawler crawler = new Crawler(configuration, (sentence, uri) ->

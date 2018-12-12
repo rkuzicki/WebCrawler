@@ -20,7 +20,7 @@ public class Configuration {
                 .orElseThrow(() -> new IllegalStateException("Depth is not specified"));
         this.domains = builder.domains();
         this.startingPoints = builder.startingPoints();
-        this.subdomains = builder.subdomains();
+        this.subdomains = builder.subdomainsEnabled();
     }
 
     public static ConfigurationBuilder builder() {
