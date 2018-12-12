@@ -16,10 +16,19 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+
+        <slf4j.version>1.7.25</slf4j.version>
+        <junit5.version>5.3.1</junit5.version>
+        <assertj.version>3.11.1</assertj.version>
+        <guava.version>27.0-jre</guava.version>
+        <hibernate.version>5.3.7.Final</hibernate.version>
+        <jsoup.version>1.11.3</jsoup.version>
+        <immutables.value.version>2.7.3</immutables.value.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <!-- internal -->
             <dependency>
                 <groupId>pl.edu.agh.student.oop.webcrawler</groupId>
                 <artifactId>web-crawler-frontend</artifactId>
@@ -37,44 +46,59 @@
             </dependency>
 
             <dependency>
-                <groupId>org.immutables</groupId>
-                <artifactId>value</artifactId>
-                <version>2.7.3</version>
-                <scope>provided</scope>
-                <optional>true</optional>
-            </dependency>
-
-            <dependency>
                 <groupId>org.jsoup</groupId>
                 <artifactId>jsoup</artifactId>
-                <version>1.11.3</version>
+                <version>${jsoup.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-core</artifactId>
-                <version>5.3.7.Final</version>
+                <version>${hibernate.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
-                <version>27.0-jre</version>
+                <version>${guava.version}</version>
             </dependency>
+
+            <!-- logging -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-simple</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+
+            <!-- code generation -->
+            <dependency>
+                <groupId>org.immutables</groupId>
+                <artifactId>value</artifactId>
+                <version>${immutables.value.version}</version>
+                <scope>provided</scope>
+                <optional>true</optional>
+            </dependency>
+
+            <!-- tests -->
             <dependency>
                 <groupId>org.assertj</groupId>
                 <artifactId>assertj-core</artifactId>
-                <version>3.11.1</version>
+                <version>${assertj.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-api</artifactId>
-                <version>5.3.1</version>
+                <version>${junit5.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-params</artifactId>
-                <version>5.3.1</version>
+                <version>${junit5.version}</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>
