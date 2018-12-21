@@ -144,12 +144,12 @@ public class ConfigurationPresenter {
         List<ConditionsListItem> conditionItems = listController.getConditionsListView().getItems();
         Matcher matcher = new InputConditionsParser().parseConditions(conditionItems);
 
-        Configuration configuration = Configuration.builder().matcher(matcher)
+        Configuration configuration = Configuration.builder().addMatcher(matcher)
                 .domains(domains)
                 .startingPoints(startingPoints)
                 .depth(Integer.parseInt(depthTextField.getText()))
                 .subdomainsEnabled(subdomainsCheckBox.isSelected())
-                .matchListener((sentence, uri) ->
+                .matchListener((sentence, uri, m) ->
                         Platform.runLater(() ->
                                 resultListController.addResult(sentence, uri)))
                 .build();

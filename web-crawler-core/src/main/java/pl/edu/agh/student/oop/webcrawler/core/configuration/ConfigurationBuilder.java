@@ -13,10 +13,10 @@ import java.util.OptionalInt;
  * The class used to build a {@link Configuration} object.
  */
 public class ConfigurationBuilder {
-    private Matcher matcher = null;
-    private OptionalInt depth = OptionalInt.empty();
+    private List<Matcher> matchers = new ArrayList<>();
     private List<String> domains = new ArrayList<>();
     private List<URI> startingPoints = new ArrayList<>();
+    private OptionalInt depth = OptionalInt.empty();
     private Optional<MatchListener> matchListener = Optional.empty();
     private boolean subdomainsEnabled;
 
@@ -25,14 +25,14 @@ public class ConfigurationBuilder {
     }
 
     /**
-     * Set the matcher. It will match websites' content while crawling.
+     * Add a matcher. It will match websites' content while crawling.
      *
-     * @param matcher matcher to set
+     * @param matcher matcher to add
      *
      * @return this builder
      */
-    public ConfigurationBuilder matcher(Matcher matcher) {
-        this.matcher = matcher;
+    public ConfigurationBuilder addMatcher(Matcher matcher) {
+        this.matchers.add(matcher);
         return this;
     }
 
@@ -90,8 +90,8 @@ public class ConfigurationBuilder {
         return this;
     }
 
-    Optional<Matcher> matcher() {
-        return Optional.ofNullable(matcher);
+    List<Matcher> matchers() {
+        return this.matchers;
     }
 
     List<String> domains() {

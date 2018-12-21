@@ -2,6 +2,8 @@ package pl.edu.agh.student.oop.webcrawler.core.matcher;
 
 import pl.edu.agh.student.oop.webcrawler.core.parser.Sentence;
 
+import java.util.Objects;
+
 class AnyMatcher implements Matcher {
     private final Matcher next;
 
@@ -19,5 +21,18 @@ class AnyMatcher implements Matcher {
         }
 
         return false;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AnyMatcher that = (AnyMatcher) o;
+        return Objects.equals(next, that.next);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(next);
     }
 }

@@ -4,6 +4,7 @@ import pl.edu.agh.student.oop.webcrawler.core.configuration.Configuration;
 import pl.edu.agh.student.oop.webcrawler.core.matcher.Matcher;
 
 import java.net.URI;
+import java.util.List;
 
 /**
  * Single Job configuration.
@@ -29,8 +30,8 @@ class CrawlingJobContext {
         return configuration;
     }
 
-    public Matcher matcher() {
-        return configuration.getMatcher();
+    public List<Matcher> matchers() {
+        return configuration.matchers();
     }
 
     public int currentDepth() {
