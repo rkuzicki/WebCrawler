@@ -1,6 +1,7 @@
 package pl.edu.agh.student.oop.webcrawler.core.configuration;
 
 import pl.edu.agh.student.oop.webcrawler.core.crawler.Crawler;
+import pl.edu.agh.student.oop.webcrawler.core.crawler.CrawlerMonitor;
 import pl.edu.agh.student.oop.webcrawler.core.matcher.Matcher;
 
 import java.net.URI;
@@ -17,6 +18,7 @@ public class Configuration {
     private final List<URI> startingPoints;
     private final int depth;
     private final boolean subdomains;
+    private final CrawlerMonitor monitor;
 
     Configuration(ConfigurationBuilder builder) {
         this.matcher = builder.matcher()
@@ -26,6 +28,7 @@ public class Configuration {
         this.domains = builder.domains();
         this.startingPoints = builder.startingPoints();
         this.subdomains = builder.subdomainsEnabled();
+        this.monitor = builder.monitor().orElse(CrawlerMonitor.empty());
     }
 
     public static ConfigurationBuilder builder() {
@@ -46,6 +49,10 @@ public class Configuration {
 
     public List<URI> getStartingPoints() {
         return Collections.unmodifiableList(startingPoints);
+    }
+
+    public CrawlerMonitor monitor() {
+        return monitor;
     }
 
     public boolean areSubdomainsEnabled() {

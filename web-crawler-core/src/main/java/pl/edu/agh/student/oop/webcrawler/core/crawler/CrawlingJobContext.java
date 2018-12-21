@@ -15,6 +15,7 @@ class CrawlingJobContext {
     private int currentDepth;
     private MatchListener listener;
     private URI uri;
+    private Statistics statistics = new Statistics();
 
     public static CrawlingJobContext rootContext(Configuration config, MatchListener listener, URI uri){
         return new CrawlingJobContext(config, 0, listener, uri);
@@ -58,5 +59,9 @@ class CrawlingJobContext {
                 configuration,
                 currentDepth + 1,
                 listener, link);
+    }
+
+    public Statistics statistics() {
+        return statistics;
     }
 }

@@ -1,5 +1,6 @@
 package pl.edu.agh.student.oop.webcrawler.core.configuration;
 
+import pl.edu.agh.student.oop.webcrawler.core.crawler.CrawlerMonitor;
 import pl.edu.agh.student.oop.webcrawler.core.matcher.Matcher;
 
 import java.net.URI;
@@ -17,6 +18,7 @@ public class ConfigurationBuilder {
     private List<String> domains = new ArrayList<>();
     private List<URI> startingPoints = new ArrayList<>();
     private boolean subdomainsEnabled;
+    private Optional<CrawlerMonitor> monitor = Optional.empty();
 
     ConfigurationBuilder() {
 
@@ -83,6 +85,11 @@ public class ConfigurationBuilder {
         return this;
     }
 
+    public ConfigurationBuilder monitor(CrawlerMonitor monitor){
+        this.monitor = Optional.of(monitor);
+        return this;
+    }
+
     Optional<Matcher> matcher() {
         return Optional.ofNullable(matcher);
     }
@@ -101,6 +108,10 @@ public class ConfigurationBuilder {
 
     boolean subdomainsEnabled() {
         return this.subdomainsEnabled;
+    }
+
+    Optional<CrawlerMonitor> monitor() {
+        return this.monitor;
     }
 
     public Configuration build() {
