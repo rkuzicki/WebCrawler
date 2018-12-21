@@ -4,10 +4,7 @@ import pl.edu.agh.student.oop.webcrawler.core.crawler.MatchListener;
 import pl.edu.agh.student.oop.webcrawler.core.matcher.Matcher;
 
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.OptionalInt;
+import java.util.*;
 
 /**
  * The class used to build a {@link Configuration} object.
@@ -34,6 +31,11 @@ public class ConfigurationBuilder {
     public ConfigurationBuilder addMatcher(Matcher matcher) {
         this.matchers.add(matcher);
         return this;
+    }
+
+    public ConfigurationBuilder matchers(Collection<? extends Matcher> matchers) {
+        this.matchers.addAll(matchers);
+        return null;
     }
 
     /**

@@ -7,28 +7,29 @@ import pl.edu.agh.student.oop.webcrawler.core.parser.Word;
 import pl.edu.agh.student.oop.webcrawler.frontend.views.configuration.model.ConditionsListItem;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 public class InputConditionsParser {
     private static final String WILD_CARD = "*";
     private static final String SPACE_REGEX = "\\s+";
 
     /**
-     * Parses list of {@link ConditionsListItem} into a {@link Matcher}
+     * Parses list of {@link ConditionsListItem}s into a stream of {@link Matcher}s
      * using {@link #parseCondition(ConditionsListItem)} method
      *
      * @param items list of {@link ConditionsListItem} objects
-     * @return a {@link Matcher} object
+     *
+     * @return a stream of {@link Matcher}s
      */
-    public Matcher parseConditions(List<ConditionsListItem> items) {
-        return Matchers.matchAny(items.stream()
-                .map(this::parseCondition)
-                .toArray(Matcher[]::new));
+    public Stream<Matcher> parseConditions(List<ConditionsListItem> items) {
+        return items.stream().map(this::parseCondition);
     }
 
     /**
      * Parse one {@link ConditionsListItem} object into {@link Matcher} object
      *
      * @param item - {@link ConditionsListItem} condition to be parsed into Matcher
+     *
      * @return new {@link Matcher} object
      */
     Matcher parseCondition(ConditionsListItem item) {
@@ -56,7 +57,9 @@ public class InputConditionsParser {
      *
      * @param subCondition - String representing positive part of {@link ConditionsListItem}.
      *                     It can contain only letters and "*"
+     *
      * @return new {@link Matcher} object
+     *
      * @throws IllegalArgumentException if given String is empty
      */
     Matcher parseSubCondition(String subCondition) {
