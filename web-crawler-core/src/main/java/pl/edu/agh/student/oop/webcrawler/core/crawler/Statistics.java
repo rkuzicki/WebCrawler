@@ -3,8 +3,9 @@ package pl.edu.agh.student.oop.webcrawler.core.crawler;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Collection;
-import java.util.NavigableMap;
-import java.util.TreeMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentNavigableMap;
+import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.function.BinaryOperator;
 
 public class Statistics {
@@ -40,8 +41,10 @@ public class Statistics {
         }
     }
 
-    private NavigableMap<Instant, Entry> downloadStatistics = new TreeMap<>();
-    private NavigableMap<Instant, Entry> crawlStatistics = new TreeMap<>();
+    private final ConcurrentNavigableMap<Instant, Entry> downloadStatistics =
+            new ConcurrentSkipListMap<>();
+    private final ConcurrentNavigableMap<Instant, Entry> crawlStatistics =
+            new ConcurrentSkipListMap<>();
 
     public Statistic getDownloadStatisticFrom(Instant from) {
         return new Statistic(downloadStatistics.tailMap(from).values());
@@ -52,11 +55,26 @@ public class Statistics {
     }
 
     void reportDownloaded(long size, Duration duration) {
-        downloadStatistics.put(Instant.now(), new Entry(size, duration));
+        synchronized (downloadStatistics) {
+            reportOn(downloadStatistics, size, duration);
+        }
     }
 
     void reportCrawled(long size, Duration duration) {
-        crawlStatistics.put(Instant.now(), new Entry(size, duration));
+        synchronized (crawlStatistics) {
+            reportOn(crawlStatistics, size, duration);
+        }
+    }
+
+    private void reportOn(
+            Map<Instant, Entry> statistics,
+            long size, Duration duration) {
+        Instant now = Instant.now();
+        while (statistics.containsKey(now)) {
+            now = now.plusNanos(1);
+        }
+
+        statistics.put(now, new Entry(size, duration));
     }
 
     void free(Instant till) {
