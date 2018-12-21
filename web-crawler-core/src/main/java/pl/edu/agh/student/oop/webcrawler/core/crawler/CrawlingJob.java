@@ -80,7 +80,7 @@ class CrawlingJob implements Job {
         for (Sentence s : websiteText.getSentences()) {
             if (context.matcher().match(s)) {
                 logger.info("Matched sentence: " + s + ", at: " + context.uri());
-                context.matchListener().handleMatch(s, context.uri());
+                context.configuration().matchListener().handleMatch(s, context.uri());
             }
         }
     }

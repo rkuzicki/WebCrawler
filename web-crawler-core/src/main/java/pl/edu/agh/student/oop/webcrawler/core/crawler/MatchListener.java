@@ -9,4 +9,10 @@ import java.net.URI;
  */
 public interface MatchListener {
     void handleMatch(Sentence sentence, URI source);
+
+    static MatchListener empty() {
+        return (s, u) -> {
+
+        };
+    }
 }

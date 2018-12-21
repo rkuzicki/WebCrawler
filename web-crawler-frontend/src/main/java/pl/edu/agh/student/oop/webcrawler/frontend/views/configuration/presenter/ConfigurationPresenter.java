@@ -149,11 +149,12 @@ public class ConfigurationPresenter {
                 .startingPoints(startingPoints)
                 .depth(Integer.parseInt(depthTextField.getText()))
                 .subdomainsEnabled(subdomainsCheckBox.isSelected())
+                .matchListener((sentence, uri) ->
+                        Platform.runLater(() ->
+                                resultListController.addResult(sentence, uri)))
                 .build();
 
-        Crawler crawler = new Crawler(configuration, (sentence, uri) ->
-                Platform.runLater(() ->
-                        resultListController.addResult(sentence, uri)));
+        Crawler crawler = new Crawler(configuration);
 
         crawler.start();
         this.tabPane.getSelectionModel().select(1);

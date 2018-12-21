@@ -13,17 +13,15 @@ import java.net.URI;
 class CrawlingJobContext {
     private Configuration configuration;
     private int currentDepth;
-    private MatchListener listener;
     private URI uri;
 
-    public static CrawlingJobContext rootContext(Configuration config, MatchListener listener, URI uri){
-        return new CrawlingJobContext(config, 0, listener, uri);
+    public static CrawlingJobContext rootContext(Configuration config, URI uri){
+        return new CrawlingJobContext(config, 0, uri);
     }
 
-    private CrawlingJobContext(Configuration configuration, int depth, MatchListener listener, URI uri) {
+    private CrawlingJobContext(Configuration configuration, int depth, URI uri) {
         this.configuration = configuration;
         this.currentDepth = depth;
-        this.listener = listener;
         this.uri = uri;
     }
 
@@ -39,17 +37,11 @@ class CrawlingJobContext {
         return currentDepth;
     }
 
-    public MatchListener matchListener() {
-        return listener;
-    }
-
     public URI uri() {
         return uri;
     }
 
-
     /**
-     *
      * @param link
      * @return context for the child Job
      */
@@ -57,6 +49,6 @@ class CrawlingJobContext {
         return new CrawlingJobContext(
                 configuration,
                 currentDepth + 1,
-                listener, link);
+                link);
     }
 }
