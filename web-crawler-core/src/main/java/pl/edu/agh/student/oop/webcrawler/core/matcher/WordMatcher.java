@@ -23,4 +23,18 @@ class WordMatcher implements Matcher {
 
         return firstMatches && next.match(sentence.subsentence(1));
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        WordMatcher that = (WordMatcher) o;
+        return Objects.equals(next, that.next) &&
+                Objects.equals(word, that.word);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(next, word);
+    }
 }
