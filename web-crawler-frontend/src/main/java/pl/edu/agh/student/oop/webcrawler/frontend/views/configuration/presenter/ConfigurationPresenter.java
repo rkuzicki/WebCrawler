@@ -17,6 +17,7 @@ import pl.edu.agh.student.oop.webcrawler.frontend.views.results.presenter.Result
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ConfigurationPresenter {
     private static final String NEGATION_MARK = "~";
@@ -142,18 +143,22 @@ public class ConfigurationPresenter {
     @FXML
     private void handleSearchAction(ActionEvent event) {
         List<ConditionsListItem> conditionItems = listController.getConditionsListView().getItems();
-        Matcher matcher = new InputConditionsParser().parseConditions(conditionItems);
+        List<Matcher> matchers = new InputConditionsParser()
+                .parseConditions(conditionItems)
+                .collect(Collectors.toList());
 
-        Configuration configuration = Configuration.builder().matcher(matcher)
+        Configuration configuration = Configuration.builder()
+                .matchers(matchers)
                 .domains(domains)
                 .startingPoints(startingPoints)
                 .depth(Integer.parseInt(depthTextField.getText()))
                 .subdomainsEnabled(subdomainsCheckBox.isSelected())
+                .matchListener((sentence, uri, matcher) ->
+                        Platform.runLater(() ->
+                                resultListController.addResult(sentence, uri)))
                 .build();
 
-        Crawler crawler = new Crawler(configuration, (sentence, uri) ->
-                Platform.runLater(() ->
-                        resultListController.addResult(sentence, uri)));
+        Crawler crawler = new Crawler(configuration);
 
         crawler.start();
         this.tabPane.getSelectionModel().select(1);
