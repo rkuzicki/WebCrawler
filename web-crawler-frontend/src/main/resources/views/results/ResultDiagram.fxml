@@ -2,6 +2,20 @@
 
 <?import javafx.scene.layout.*?>
 
-<BorderPane>
-    <!--TODO diagram tab content-->
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<BorderPane xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="pl.edu.agh.student.oop.webcrawler.frontend.views.results.presenter.ResultDiagramPresenter">
+    <center>
+        <BarChart>
+            <xAxis>
+                <CategoryAxis fx:id="xAxis" />
+            </xAxis>
+            <yAxis>
+                <NumberAxis fx:id="yAxis" />
+            </yAxis>
+        </BarChart>
+    </center>
 </BorderPane>
