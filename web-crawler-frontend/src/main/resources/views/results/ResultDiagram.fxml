@@ -9,12 +9,12 @@
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="pl.edu.agh.student.oop.webcrawler.frontend.views.results.presenter.ResultDiagramPresenter">
     <center>
-        <BarChart>
+        <BarChart fx:id="barChart">
             <xAxis>
-                <CategoryAxis fx:id="xAxis" />
+                <CategoryAxis fx:id="xAxis"  label="conditions" />
             </xAxis>
             <yAxis>
-                <NumberAxis fx:id="yAxis" />
+                <NumberAxis fx:id="yAxis" label="occurrences" />
             </yAxis>
         </BarChart>
     </center>

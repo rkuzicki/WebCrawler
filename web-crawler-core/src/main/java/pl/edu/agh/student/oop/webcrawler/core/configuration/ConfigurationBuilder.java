@@ -35,7 +35,7 @@ public class ConfigurationBuilder {
 
     public ConfigurationBuilder matchers(Collection<? extends Matcher> matchers) {
         this.matchers.addAll(matchers);
-        return null;
+        return this;
     }
 
     /**

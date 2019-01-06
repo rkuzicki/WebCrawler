@@ -16,4 +16,9 @@ public class ConditionsListItem {
     public String getNegativeSubCondition() {
         return negativeSubCondition;
     }
+
+    @Override
+    public String toString() {
+        return positiveSubCondition + " and " + negativeSubCondition;
+    }
 }

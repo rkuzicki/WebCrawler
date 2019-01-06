@@ -10,13 +10,17 @@ import javafx.scene.control.*;
 import pl.edu.agh.student.oop.webcrawler.core.configuration.Configuration;
 import pl.edu.agh.student.oop.webcrawler.core.crawler.Crawler;
 import pl.edu.agh.student.oop.webcrawler.core.matcher.Matcher;
+import pl.edu.agh.student.oop.webcrawler.core.parser.Sentence;
 import pl.edu.agh.student.oop.webcrawler.frontend.input.InputConditionsParser;
 import pl.edu.agh.student.oop.webcrawler.frontend.views.configuration.model.ConditionsListItem;
+import pl.edu.agh.student.oop.webcrawler.frontend.views.results.presenter.ResultDiagramPresenter;
 import pl.edu.agh.student.oop.webcrawler.frontend.views.results.presenter.ResultListPresenter;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class ConfigurationPresenter {
@@ -76,6 +80,8 @@ public class ConfigurationPresenter {
     private TextField depthTextField;
 
     private ResultListPresenter resultListController;
+
+    private ResultDiagramPresenter resultDiagramController;
 
     @FXML
     private void initialize() {
@@ -143,19 +149,18 @@ public class ConfigurationPresenter {
     @FXML
     private void handleSearchAction(ActionEvent event) {
         List<ConditionsListItem> conditionItems = listController.getConditionsListView().getItems();
-        List<Matcher> matchers = new InputConditionsParser()
-                .parseConditions(conditionItems)
-                .collect(Collectors.toList());
+        Map<Matcher, String>  matcherToString = new InputConditionsParser().parseConditions(conditionItems);
+
+        resultDiagramController.initializeAxis(matcherToString);
 
         Configuration configuration = Configuration.builder()
-                .matchers(matchers)
+                .matchers(new ArrayList<>(matcherToString.keySet()))
                 .domains(domains)
                 .startingPoints(startingPoints)
                 .depth(Integer.parseInt(depthTextField.getText()))
                 .subdomainsEnabled(subdomainsCheckBox.isSelected())
                 .matchListener((sentence, uri, matcher) ->
-                        Platform.runLater(() ->
-                                resultListController.addResult(sentence, uri)))
+                        Platform.runLater(() -> updateResults(sentence, uri, matcher)))
                 .build();
 
         Crawler crawler = new Crawler(configuration);
@@ -179,4 +184,12 @@ public class ConfigurationPresenter {
     public void setResultListController(ResultListPresenter controller) {
         this.resultListController = controller;
     }
+
+    public void setResultDiagramController(ResultDiagramPresenter controller) { this.resultDiagramController = controller; }
+
+    private void updateResults(Sentence sentence, URI uri, Matcher matcher) {
+        resultListController.addResult(sentence, uri);
+        resultDiagramController.addResult(matcher);
+    }
+
 }
