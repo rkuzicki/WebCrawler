@@ -15,7 +15,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class DepthTest extends CrawlerTestBase {
+class DepthTest extends CrawlerTestBase {
     private static final Matcher CRAWLER_MATCHER =
             StandardMatchers.oneWordAnywhere(Word.of("crawler"));
 
