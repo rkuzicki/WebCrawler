@@ -11,7 +11,7 @@
             fx:controller="pl.edu.agh.student.oop.webcrawler.frontend.views.main.presenter.MainPanePresenter">
     <top>
         <TabPane fx:id="tabPane" tabClosingPolicy="UNAVAILABLE">
-            <Tab text="%configuration_tab_text" >
+            <Tab text="%configuration_tab" >
                 <graphic>
                     <ImageView>
                         <Image url="/icons/configuration.png"/>
@@ -19,7 +19,7 @@
                 </graphic>
                 <fx:include source="tabs/configuration/ConfigurationTab.fxml" fx:id="configuration"/>
             </Tab>
-            <Tab fx:id="resultsTab" text="%results_tab_text">
+            <Tab fx:id="resultsTab" text="%results_tab">
                 <graphic>
                     <ImageView>
                         <Image url="/icons/results.png"/>
@@ -27,7 +27,7 @@
                 </graphic>
                 <fx:include source="results/ResultView.fxml" fx:id="results" />
             </Tab>
-            <Tab text="%settings_tab_text">
+            <Tab text="%settings_tab">
                 <graphic>
                     <ImageView>
                         <Image url="/icons/settings.png"/>

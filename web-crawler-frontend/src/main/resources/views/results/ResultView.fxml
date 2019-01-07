@@ -10,7 +10,7 @@
             fx:controller="pl.edu.agh.student.oop.webcrawler.frontend.views.results.presenter.ResultViewPresenter">
     <top>
         <TabPane tabClosingPolicy="UNAVAILABLE">
-            <Tab text="%list_tab_text">
+            <Tab text="%list_tab">
                 <graphic>
                     <ImageView>
                         <Image url="/icons/list.png"/>
@@ -18,7 +18,7 @@
                 </graphic>
                 <fx:include source="ResultList.fxml" fx:id="resultList"/>
             </Tab>
-            <Tab text="%diagram_tab_text">
+            <Tab text="%diagram_tab">
                 <graphic>
                     <ImageView>
                         <Image url="/icons/diagram.png"/>
