@@ -15,6 +15,7 @@ public class ConfigurationBuilder {
     private List<URI> startingPoints = new ArrayList<>();
     private OptionalInt depth = OptionalInt.empty();
     private Optional<MatchListener> matchListener = Optional.empty();
+    private Optional<OnStalledListener> onStalled;
     private boolean subdomainsEnabled;
 
     ConfigurationBuilder() {
@@ -63,6 +64,11 @@ public class ConfigurationBuilder {
         return this;
     }
 
+    public ConfigurationBuilder addStartingPoint(URI uri) {
+        this.startingPoints.add(uri);
+        return this;
+    }
+
     /**
      * Set the depth of crawling. When depth is set to 0, the crawler will crawl only the top level links.
      *
@@ -92,6 +98,11 @@ public class ConfigurationBuilder {
         return this;
     }
 
+    public ConfigurationBuilder whenStalled(OnStalledListener listener) {
+        this.onStalled = Optional.of(listener);
+        return this;
+    }
+
     List<Matcher> matchers() {
         return this.matchers;
     }
@@ -114,6 +125,10 @@ public class ConfigurationBuilder {
 
     Optional<MatchListener> matchListener() {
         return matchListener;
+    }
+
+    Optional<OnStalledListener> onStalledListener() {
+        return onStalled;
     }
 
     public Configuration build() {

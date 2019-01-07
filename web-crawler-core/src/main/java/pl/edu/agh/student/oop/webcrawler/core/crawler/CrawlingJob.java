@@ -58,25 +58,34 @@ class CrawlingJob implements Job {
 
     @Override
     public void execute(JobService jobService) {
-        logger.trace("Crawling " + context.uri() + ", depth: " + context.currentDepth());
+        CrawlingMode mode = context.currentCrawlingMode();
+        logger.info("Crawling " + context.uri() +
+                ", depth: " + context.currentDepth() +
+                ", mode: " + mode);
+        if (mode == CrawlingMode.NONE) {
+            return;
+        }
 
         Document doc;
         try {
             doc = Jsoup.connect(context.uri().toString()).get();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            logger.error("Cannot crawl: " + context.uri(), e);
+            return;
         }
 
         Text websiteText = new HtmlParser(doc).parse();
 
-        // spawn children
-        if (context.currentDepth() < context.configuration().getDepth()) {
-            links(doc).map(this::normalizeUri)
-                    .filter(this::isTraversable)
-                    .map(this::spawnChild)
-                    .forEach(jobService::add);
+        if (mode.followLinks()) {
+            followLinks(jobService, doc);
         }
 
+        if (mode.parse()) {
+            parseWebsite(websiteText);
+        }
+    }
+
+    private void parseWebsite(Text websiteText) {
         for (Sentence s : websiteText.getSentences()) {
             context.matchers().forEach(matcher -> {
                 if (matcher.match(s)) {
@@ -86,6 +95,16 @@ class CrawlingJob implements Job {
                             .handleMatch(s, context.uri(), matcher);
                 }
             });
+        }
+    }
+
+    private void followLinks(JobService jobService, Document doc) {
+        // spawn children
+        if (context.currentDepth() < context.configuration().getDepth()) {
+            links(doc).map(this::normalizeUri)
+                    .filter(this::isTraversable)
+                    .map(this::spawnChild)
+                    .forEach(jobService::add);
         }
     }
 

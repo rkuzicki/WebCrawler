@@ -19,6 +19,7 @@ public class Configuration {
     private final int depth;
     private final boolean subdomains;
     private final MatchListener matchListener;
+    private final OnStalledListener onStalledListener;
 
     Configuration(ConfigurationBuilder builder) {
         this.depth = builder.depth()
@@ -29,6 +30,7 @@ public class Configuration {
         this.matchers = builder.matchers();
         this.startingPoints = builder.startingPoints();
         this.subdomains = builder.subdomainsEnabled();
+        this.onStalledListener = builder.onStalledListener().orElse(() -> {});
     }
 
     public static ConfigurationBuilder builder() {
@@ -57,5 +59,9 @@ public class Configuration {
 
     public MatchListener matchListener() {
         return matchListener;
+    }
+
+    public OnStalledListener onStalledListener() {
+        return onStalledListener;
     }
 }
