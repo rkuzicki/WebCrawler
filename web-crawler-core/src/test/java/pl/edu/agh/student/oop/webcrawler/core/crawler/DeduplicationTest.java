@@ -5,7 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockserver.matchers.Times;
 import pl.edu.agh.student.oop.webcrawler.core.configuration.Configuration;
-import pl.edu.agh.student.oop.webcrawler.core.matcher.Matcher;
+import pl.edu.agh.student.oop.webcrawler.core.matcher.StandardMatchers;
 import pl.edu.agh.student.oop.webcrawler.core.parser.Word;
 
 import java.net.URI;
@@ -39,7 +39,7 @@ class DeduplicationTest extends CrawlerTestBase {
         List<URI> sources = new ArrayList<>();
         Configuration config = basicConfiguration()
                 .depth(100)
-                .addMatcher(Matcher.compiler().thenMatchAny().thenMatch(Word.of("test")).compile())
+                .addMatcher(StandardMatchers.oneWordAnywhere(Word.of("test")))
                 .matchListener((sentence, source, matcher) -> {
                     sources.add(source);
                 })
@@ -88,7 +88,7 @@ class DeduplicationTest extends CrawlerTestBase {
         Configuration config = basicConfiguration()
                 .threads(2)
                 .depth(3)
-                .addMatcher(Matcher.compiler().thenMatchAny().thenMatch(Word.of("finally")).compile())
+                .addMatcher(StandardMatchers.oneWordAnywhere(Word.of("finally")))
                 .matchListener((sentence, source, matcher) -> {
                     sources.add(source);
                 })

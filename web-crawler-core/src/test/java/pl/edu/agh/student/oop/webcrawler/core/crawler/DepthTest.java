@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pl.edu.agh.student.oop.webcrawler.core.configuration.Configuration;
 import pl.edu.agh.student.oop.webcrawler.core.matcher.Matcher;
+import pl.edu.agh.student.oop.webcrawler.core.matcher.StandardMatchers;
 import pl.edu.agh.student.oop.webcrawler.core.parser.Word;
 
 import java.net.URI;
@@ -15,10 +16,8 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class DepthTest extends CrawlerTestBase {
-    private static final Matcher CRAWLER_MATCHER = Matcher.compiler()
-            .thenMatchAny()
-            .thenMatch(Word.of("crawler"))
-            .compile();
+    private static final Matcher CRAWLER_MATCHER =
+            StandardMatchers.oneWordAnywhere(Word.of("crawler"));
 
     @BeforeEach
     void setUp() {
