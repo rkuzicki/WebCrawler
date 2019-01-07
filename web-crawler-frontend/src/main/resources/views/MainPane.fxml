@@ -13,7 +13,7 @@
         <TabPane fx:id="tabPane" tabClosingPolicy="UNAVAILABLE">
             <Tab text="%configuration_tab" >
                 <graphic>
-                    <ImageView>
+                    <ImageView fitHeight="25" preserveRatio="true">
                         <Image url="/icons/configuration.png"/>
                     </ImageView>
                 </graphic>
@@ -21,7 +21,7 @@
             </Tab>
             <Tab fx:id="resultsTab" text="%results_tab">
                 <graphic>
-                    <ImageView>
+                    <ImageView fitHeight="25" preserveRatio="true">
                         <Image url="/icons/results.png"/>
                     </ImageView>
                 </graphic>
@@ -29,7 +29,7 @@
             </Tab>
             <Tab text="%settings_tab">
                 <graphic>
-                    <ImageView>
+                    <ImageView fitHeight="25" preserveRatio="true">
                         <Image url="/icons/settings.png"/>
                     </ImageView>
                 </graphic>
