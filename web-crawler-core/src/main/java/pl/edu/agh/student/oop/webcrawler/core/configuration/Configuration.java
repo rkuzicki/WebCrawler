@@ -20,6 +20,7 @@ public class Configuration {
     private final boolean subdomains;
     private final MatchListener matchListener;
     private final OnStalledListener onStalledListener;
+    private final int threads;
 
     Configuration(ConfigurationBuilder builder) {
         this.depth = builder.depth()
@@ -31,6 +32,7 @@ public class Configuration {
         this.startingPoints = builder.startingPoints();
         this.subdomains = builder.subdomainsEnabled();
         this.onStalledListener = builder.onStalledListener().orElse(() -> {});
+        this.threads = builder.threads();
     }
 
     public static ConfigurationBuilder builder() {
@@ -63,5 +65,9 @@ public class Configuration {
 
     public OnStalledListener onStalledListener() {
         return onStalledListener;
+    }
+
+    public int threads() {
+        return threads;
     }
 }

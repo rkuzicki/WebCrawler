@@ -8,7 +8,7 @@ public class Crawler {
 
     public Crawler(Configuration config) {
         this.config = config;
-        this.service = JobService.newJobService(4, config.onStalledListener());
+        this.service = JobService.newJobService(config.threads(), config.onStalledListener());
     }
 
     public void start() {

@@ -10,6 +10,8 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import static org.mockserver.integration.ClientAndServer.startClientAndServer;
+import static org.mockserver.model.HttpRequest.request;
+import static org.mockserver.model.HttpResponse.response;
 
 class CrawlerTestBase {
     private static final int PORT = 1080;
@@ -38,9 +40,15 @@ class CrawlerTestBase {
         mockServer.stop();
     }
 
+    void registerEndpoint(String path, String content){
+        server().when(request().withPath(path))
+                .respond(response().withBody(wrapWithBody(content)));
+    }
+
     ConfigurationBuilder basicConfiguration() {
         return Configuration.builder()
                 .domains(Collections.singletonList(DOMAIN))
+                .threads(1)
                 .whenStalled(() -> {
                     stalledLock.lock();
                     try {

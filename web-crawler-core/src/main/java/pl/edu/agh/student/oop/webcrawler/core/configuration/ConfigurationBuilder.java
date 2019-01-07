@@ -17,6 +17,7 @@ public class ConfigurationBuilder {
     private Optional<MatchListener> matchListener = Optional.empty();
     private Optional<OnStalledListener> onStalled;
     private boolean subdomainsEnabled;
+    private int threads = 8;
 
     ConfigurationBuilder() {
 
@@ -103,6 +104,11 @@ public class ConfigurationBuilder {
         return this;
     }
 
+    public ConfigurationBuilder threads(int threads) {
+        this.threads = threads;
+        return this;
+    }
+
     List<Matcher> matchers() {
         return this.matchers;
     }
@@ -129,6 +135,10 @@ public class ConfigurationBuilder {
 
     Optional<OnStalledListener> onStalledListener() {
         return onStalled;
+    }
+
+    int threads() {
+        return threads;
     }
 
     public Configuration build() {
