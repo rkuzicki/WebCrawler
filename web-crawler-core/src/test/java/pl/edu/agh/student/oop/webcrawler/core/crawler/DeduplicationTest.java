@@ -68,7 +68,9 @@ class DeduplicationTest extends CrawlerTestBase {
      * root -----> c ----> d --> e
      * </pre>
      *
-     * c has to wait in order to be second
+     * 'c' has to wait in order to be second
+     *
+     * 'd' should not be matched multiple times, 'e' should be matched
      */
     @Test
     void testShortestPath() throws URISyntaxException, InterruptedException {
@@ -81,7 +83,7 @@ class DeduplicationTest extends CrawlerTestBase {
                         .withBody(wrapWithBody("test <a href='/d'>d</a>"))
                         .withDelay(TimeUnit.SECONDS, 10));
 
-        registerEndpoint("/d", "<a href='/e'>e</a>");
+        registerEndpoint("/d", "almost finally <a href='/e'>e</a>");
         registerEndpoint("/e", "finally");
 
         List<URI> sources = new ArrayList<>();
@@ -101,6 +103,7 @@ class DeduplicationTest extends CrawlerTestBase {
 
         try {
             assertThat(sources).containsExactlyInAnyOrder(
+                    new URI(address() + "/d"),
                     new URI(address() + "/e"));
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
