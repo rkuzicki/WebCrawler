@@ -22,14 +22,10 @@ public class ResultDiagramPresenter {
     @FXML
     private BarChart<String, Number> barChart;
 
-    private ObservableList<XYChart.Series<String, Number>> barChartData;
-
     private Map<Matcher, String> matcherToString;
 
     @FXML
-    public void initialize() {
-        barChartData = FXCollections.observableArrayList();
-    }
+    public void initialize() {}
 
     public void addResult(Matcher matcher) {
         String string = matcherToString.get(matcher);
