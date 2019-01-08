@@ -17,9 +17,8 @@ class CrawlingJobContext {
     private Configuration configuration;
     private int currentDepth;
     private URI uri;
-    private Statistics statistics;
 
-    public static CrawlingJobContext rootContext(Configuration config, URI uri) {
+    static CrawlingJobContext rootContext(Configuration config, URI uri) {
         return new CrawlingJobContext(new DomainInfo(), config, 0, uri);
     }
 
@@ -28,22 +27,21 @@ class CrawlingJobContext {
         this.configuration = configuration;
         this.currentDepth = depth;
         this.uri = uri;
-        this.statistics = new Statistics(configuration.monitor());
     }
 
-    public Configuration configuration() {
+    Configuration configuration() {
         return configuration;
     }
 
-    public List<Matcher> matchers() {
+    List<Matcher> matchers() {
         return configuration.matchers();
     }
 
-    public int currentDepth() {
+    int currentDepth() {
         return currentDepth;
     }
 
-    public URI uri() {
+    URI uri() {
         return uri;
     }
 
@@ -52,7 +50,7 @@ class CrawlingJobContext {
      *
      * @return context for the child Job
      */
-    public CrawlingJobContext childContext(URI link) {
+    CrawlingJobContext childContext(URI link) {
         return new CrawlingJobContext(
                 domainInfo,
                 configuration,
@@ -60,7 +58,7 @@ class CrawlingJobContext {
                 link);
     }
 
-    public CrawlingMode currentCrawlingMode() {
+    CrawlingMode currentCrawlingMode() {
         try {
             Optional<Boolean> betterDepth = domainInfo.minVisitDepth(uri())
                     .map(depth -> depth > currentDepth());
@@ -77,9 +75,5 @@ class CrawlingJobContext {
         } finally {
             domainInfo.recordVisit(uri(), currentDepth());
         }
-    }
-
-    public Statistics statistics() {
-        return statistics;
     }
 }

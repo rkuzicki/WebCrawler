@@ -1,5 +1,7 @@
 package pl.edu.agh.student.oop.webcrawler.frontend.views.configuration.presenter;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
@@ -7,6 +9,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.util.Duration;
 import pl.edu.agh.student.oop.webcrawler.core.configuration.Configuration;
 import pl.edu.agh.student.oop.webcrawler.core.crawler.Crawler;
 import pl.edu.agh.student.oop.webcrawler.core.crawler.Statistics;
@@ -19,16 +22,14 @@ import pl.edu.agh.student.oop.webcrawler.frontend.views.results.presenter.Result
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.stream.Collectors;
+import java.util.Map;
 
 public class ConfigurationPresenter {
     private static final String NEGATION_MARK = "~";
@@ -167,16 +168,23 @@ public class ConfigurationPresenter {
                 .startingPoints(startingPoints)
                 .depth(Integer.parseInt(depthTextField.getText()))
                 .subdomainsEnabled(subdomainsCheckBox.isSelected())
-                .monitor(stat -> Platform.runLater(() ->
-                        statistics.setText(getStatisticsText(stat))))
                 .matchListener((sentence, uri, matcher) ->
                         Platform.runLater(() -> updateResults(sentence, uri, matcher)))
                 .build();
 
         Crawler crawler = new Crawler(configuration);
+        setupStatisticsUpdater(crawler);
 
         crawler.start();
         this.tabPane.getSelectionModel().select(1);
+    }
+
+    private void setupStatisticsUpdater(Crawler crawler) {
+        Timeline fiveSecondsWonder = new Timeline(
+                new KeyFrame(Duration.millis(200),
+                event -> statistics.setText(getStatisticsText(crawler.statistics()))));
+        fiveSecondsWonder.setCycleCount(Timeline.INDEFINITE);
+        fiveSecondsWonder.play();
     }
 
     private String getStatisticsText(Statistics stat) {
@@ -199,15 +207,16 @@ public class ConfigurationPresenter {
         DecimalFormat format = new DecimalFormat("###0.0", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
         if (speed < 0.1) {
             return "~0 B/s";
-        } else if (speed < 10) {
+        } else if (speed < 100) {
             return format.format(speed) + " B/s";
-        } else if (speed < 10e3) {
+        } else if (speed < 100e3) {
             return format.format(speed / 1e3) + " KB/s";
-        } else if (speed < 10e6) {
+        } else if (speed < 100e6) {
             return format.format(speed / 1e6) + " MB/s";
-        } else if (speed < 10e9) {
+        } else if (speed < 100e9) {
             return format.format(speed / 1e9) + " GB/s";
         } else {
+            if(true) throw new RuntimeException("" + speed);
             return format.format(speed / 1e12) + " TB/s";
         }
     }
