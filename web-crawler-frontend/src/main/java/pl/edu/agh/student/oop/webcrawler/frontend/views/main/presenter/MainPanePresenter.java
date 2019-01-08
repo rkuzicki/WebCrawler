@@ -28,5 +28,7 @@ public class MainPanePresenter {
         configurationController.setTabPane(tabPane);
         configurationController.setResultListController(
                 resultsController.getResultListController());
+        configurationController.setResultDiagramController(
+                resultsController.getResultDiagramController());
     }
 }
