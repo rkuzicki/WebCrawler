@@ -15,6 +15,7 @@ class CrawlingJobContext {
     private Configuration configuration;
     private int currentDepth;
     private URI uri;
+    private Statistics statistics;
 
     public static CrawlingJobContext rootContext(Configuration config, URI uri){
         return new CrawlingJobContext(config, 0, uri);
@@ -24,6 +25,7 @@ class CrawlingJobContext {
         this.configuration = configuration;
         this.currentDepth = depth;
         this.uri = uri;
+        this.statistics = new Statistics(configuration.monitor());
     }
 
     public Configuration configuration() {
@@ -51,5 +53,9 @@ class CrawlingJobContext {
                 configuration,
                 currentDepth + 1,
                 link);
+    }
+
+    public Statistics statistics() {
+        return statistics;
     }
 }
