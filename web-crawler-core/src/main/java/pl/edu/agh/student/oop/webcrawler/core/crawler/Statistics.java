@@ -9,14 +9,8 @@ import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.function.BinaryOperator;
 
 public class Statistics {
-    private CrawlerMonitor monitor;
-
     Statistics() {
-        this.monitor = CrawlerMonitor.empty();
-    }
 
-    Statistics(CrawlerMonitor monitor) {
-        this.monitor = monitor;
     }
 
     private static class Entry {
@@ -89,7 +83,6 @@ public class Statistics {
         }
 
         statistics.put(now, new Entry(size, duration));
-        monitor.statisticsUpdated(this);
     }
 
     void free(Instant till) {
