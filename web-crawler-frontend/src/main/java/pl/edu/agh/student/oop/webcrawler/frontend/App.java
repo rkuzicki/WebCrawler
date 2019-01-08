@@ -59,8 +59,6 @@ public class App extends Application {
 
             }
         }
-
-        System.out.println("Couldn't load language. Loading en_en");
     }
 
     public static void main(String[] args) {

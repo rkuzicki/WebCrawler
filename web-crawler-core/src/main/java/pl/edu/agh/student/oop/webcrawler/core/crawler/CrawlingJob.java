@@ -27,9 +27,11 @@ import java.util.stream.Stream;
 class CrawlingJob implements Job {
     private static final Logger logger = LoggerFactory.getLogger(CrawlingJob.class);
 
+    private Crawler parent;
     private CrawlingJobContext context;
 
-    CrawlingJob(CrawlingJobContext context) {
+    CrawlingJob(Crawler parent, CrawlingJobContext context) {
+        this.parent = parent;
         this.context = context;
     }
 
@@ -55,7 +57,7 @@ class CrawlingJob implements Job {
 
     private CrawlingJob spawnChild(URI link) {
         logger.trace("Spawning a child job for: " + link);
-        return new CrawlingJob(context.childContext(link));
+        return new CrawlingJob(parent, context.childContext(link));
     }
 
     @Override
@@ -88,7 +90,7 @@ class CrawlingJob implements Job {
         }
 
         Duration crawlTime = Duration.between(from, Instant.now());
-        context.statistics().reportCrawled(html.length(), crawlTime);
+        parent.statistics().reportCrawled(html.length(), crawlTime);
     }
 
     private void parseWebsite(Text websiteText) {
@@ -113,7 +115,7 @@ class CrawlingJob implements Job {
             long sizeDownloaded = html.length();
 
             Duration downloadTime = Duration.between(from, Instant.now());
-            context.statistics().reportDownloaded(sizeDownloaded, downloadTime);
+            parent.statistics().reportDownloaded(sizeDownloaded, downloadTime);
 
             return html;
         } catch (IOException e) {
