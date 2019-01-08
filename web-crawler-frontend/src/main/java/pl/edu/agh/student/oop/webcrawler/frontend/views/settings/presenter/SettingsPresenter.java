@@ -43,7 +43,7 @@ public class SettingsPresenter {
             label.setText(ResourceBundle.getBundle("bundles.lang")
                     .getString("restart_app_info"));
         } catch (IOException e) {
-            ErrorMessage.show("Cannot save lanuage preferences", e);
+            ErrorMessage.show("Cannot save language preferences", e);
         }
     }
 }

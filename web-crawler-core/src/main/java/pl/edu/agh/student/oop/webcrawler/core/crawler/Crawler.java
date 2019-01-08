@@ -3,6 +3,8 @@ package pl.edu.agh.student.oop.webcrawler.core.crawler;
 import pl.edu.agh.student.oop.webcrawler.core.configuration.Configuration;
 
 public class Crawler {
+    private final Statistics statistics = new Statistics();
+
     private final JobService service;
     private final Configuration config;
 
@@ -12,6 +14,10 @@ public class Crawler {
     }
 
     public void start() {
-        service.add(StartCrawlingJob.create(config));
+        service.add(StartCrawlingJob.create(this, config));
+    }
+
+    public Statistics statistics() {
+        return statistics;
     }
 }
