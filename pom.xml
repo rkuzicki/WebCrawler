@@ -24,6 +24,7 @@
         <hibernate.version>5.3.7.Final</hibernate.version>
         <jsoup.version>1.11.3</jsoup.version>
         <immutables.value.version>2.7.3</immutables.value.version>
+        <mockserver.version>5.5.1</mockserver.version>
     </properties>
 
     <dependencyManagement>
@@ -99,6 +100,12 @@
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-params</artifactId>
                 <version>${junit5.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.mock-server</groupId>
+                <artifactId>mockserver-netty</artifactId>
+                <version>${mockserver.version}</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>
