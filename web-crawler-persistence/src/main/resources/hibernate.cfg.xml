@@ -22,9 +22,9 @@
         </property>
         <property name="show_sql">true</property>
         <property name="hbm2ddl.auto">create</property>
-        <mapping class="pl.edu.agh.student.oop.webcrawler.persistence.Matcher"></mapping>
-        <mapping class="pl.edu.agh.student.oop.webcrawler.persistence.Config"></mapping>
-        <mapping class="pl.edu.agh.student.oop.webcrawler.persistence.Hit"></mapping>
+        <mapping class="pl.edu.agh.student.oop.webcrawler.persistence.model.Matcher"/>
+        <mapping class="pl.edu.agh.student.oop.webcrawler.persistence.model.Configuration"/>
+        <mapping class="pl.edu.agh.student.oop.webcrawler.persistence.model.Hit"/>
 
     </session-factory>
 </hibernate-configuration>

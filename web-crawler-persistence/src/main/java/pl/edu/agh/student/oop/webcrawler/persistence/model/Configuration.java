@@ -1,9 +1,9 @@
-package pl.edu.agh.student.oop.webcrawler.persistence;
+package pl.edu.agh.student.oop.webcrawler.persistence.model;
 
 import javax.persistence.*;
 
 @Entity
-public class Config {
+public class Configuration {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -15,7 +15,7 @@ public class Config {
     @ManyToOne
     private Matcher matcher;
 
-    public Config(String[] domains, String[] startingPoints, int depth, boolean subdomains, Matcher matcher) {
+    public Configuration(String[] domains, String[] startingPoints, int depth, boolean subdomains, Matcher matcher) {
         this.domains = domains;
         this.startingPoints = startingPoints;
         this.depth = depth;
@@ -23,7 +23,7 @@ public class Config {
         this.matcher = matcher;
     }
 
-    public Config() {
+    public Configuration() {
 
     }
 

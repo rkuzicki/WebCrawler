@@ -1,4 +1,4 @@
-package pl.edu.agh.student.oop.webcrawler.persistence;
+package pl.edu.agh.student.oop.webcrawler.persistence.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
