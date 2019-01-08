@@ -45,9 +45,7 @@ class DepthTest extends CrawlerTestBase {
         Configuration config = basicConfiguration()
                 .depth(1)
                 .addMatcher(CRAWLER_MATCHER)
-                .matchListener((sentence, source, matcher) -> {
-                    sources.add(source);
-                })
+                .matchListener((sentence, source, matcher) -> sources.add(source))
                 .addStartingPoint(new URI(address() + "/root"))
                 .build();
         Crawler crawler = new Crawler(config);
@@ -55,13 +53,9 @@ class DepthTest extends CrawlerTestBase {
 
         waitForCrawler();
 
-        try {
-            assertThat(sources).containsExactlyInAnyOrder(
-                    new URI(address() + "/root"),
-                    new URI(address() + "/a"));
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
+        assertThat(sources).containsExactlyInAnyOrder(
+                new URI(address() + "/root"),
+                new URI(address() + "/a"));
     }
 
     @Test
@@ -72,9 +66,7 @@ class DepthTest extends CrawlerTestBase {
         Configuration config = basicConfiguration()
                 .depth(2)
                 .addMatcher(CRAWLER_MATCHER)
-                .matchListener((sentence, source, matcher) -> {
-                    sources.add(source);
-                })
+                .matchListener((sentence, source, matcher) -> sources.add(source))
                 .addStartingPoint(new URI(address() + "/root"))
                 .build();
         Crawler crawler = new Crawler(config);
@@ -82,14 +74,10 @@ class DepthTest extends CrawlerTestBase {
 
         waitForCrawler();
 
-        try {
-            assertThat(sources).containsExactlyInAnyOrder(
-                    new URI(address() + "/root"),
-                    new URI(address() + "/a"),
-                    new URI(address() + "/b"));
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
+        assertThat(sources).containsExactlyInAnyOrder(
+                new URI(address() + "/root"),
+                new URI(address() + "/a"),
+                new URI(address() + "/b"));
     }
 
     @Test
@@ -100,9 +88,7 @@ class DepthTest extends CrawlerTestBase {
         Configuration config = basicConfiguration()
                 .depth(4)
                 .addMatcher(CRAWLER_MATCHER)
-                .matchListener((sentence, source, matcher) -> {
-                    sources.add(source);
-                })
+                .matchListener((sentence, source, matcher) -> sources.add(source))
                 .addStartingPoint(new URI(address() + "/root"))
                 .build();
         Crawler crawler = new Crawler(config);
@@ -110,16 +96,12 @@ class DepthTest extends CrawlerTestBase {
 
         waitForCrawler();
 
-        try {
-            assertThat(sources).containsExactlyInAnyOrder(
-                    new URI(address() + "/root"),
-                    new URI(address() + "/a"),
-                    new URI(address() + "/b"),
-                    new URI(address() + "/c"),
-                    new URI(address() + "/d"));
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
+        assertThat(sources).containsExactlyInAnyOrder(
+                new URI(address() + "/root"),
+                new URI(address() + "/a"),
+                new URI(address() + "/b"),
+                new URI(address() + "/c"),
+                new URI(address() + "/d"));
     }
 
     @Test
@@ -130,9 +112,7 @@ class DepthTest extends CrawlerTestBase {
         Configuration config = basicConfiguration()
                 .depth(5)
                 .addMatcher(CRAWLER_MATCHER)
-                .matchListener((sentence, source, matcher) -> {
-                    sources.add(source);
-                })
+                .matchListener((sentence, source, matcher) -> sources.add(source))
                 .addStartingPoint(new URI(address() + "/root"))
                 .build();
         Crawler crawler = new Crawler(config);
@@ -140,15 +120,11 @@ class DepthTest extends CrawlerTestBase {
 
         waitForCrawler();
 
-        try {
-            assertThat(sources).containsExactlyInAnyOrder(
-                    new URI(address() + "/root"),
-                    new URI(address() + "/a"),
-                    new URI(address() + "/b"),
-                    new URI(address() + "/c"),
-                    new URI(address() + "/d"));
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
+        assertThat(sources).containsExactlyInAnyOrder(
+                new URI(address() + "/root"),
+                new URI(address() + "/a"),
+                new URI(address() + "/b"),
+                new URI(address() + "/c"),
+                new URI(address() + "/d"));
     }
 }

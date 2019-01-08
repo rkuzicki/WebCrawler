@@ -40,9 +40,7 @@ class DeduplicationTest extends CrawlerTestBase {
         Configuration config = basicConfiguration()
                 .depth(100)
                 .addMatcher(StandardMatchers.oneWordAnywhere(Word.of("test")))
-                .matchListener((sentence, source, matcher) -> {
-                    sources.add(source);
-                })
+                .matchListener((sentence, source, matcher) -> sources.add(source))
                 .addStartingPoint(new URI(address() + "/root"))
                 .build();
         Crawler crawler = new Crawler(config);
@@ -50,15 +48,11 @@ class DeduplicationTest extends CrawlerTestBase {
 
         waitForCrawler();
 
-        try {
-            assertThat(sources).containsExactlyInAnyOrder(
-                    new URI(address() + "/root"),
-                    new URI(address() + "/a"),
-                    new URI(address() + "/b"),
-                    new URI(address() + "/c"));
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
+        assertThat(sources).containsExactlyInAnyOrder(
+                new URI(address() + "/root"),
+                new URI(address() + "/a"),
+                new URI(address() + "/b"),
+                new URI(address() + "/c"));
     }
 
     /**
@@ -67,9 +61,9 @@ class DeduplicationTest extends CrawlerTestBase {
      *   /                \
      * root -----> c ----> d --> e
      * </pre>
-     *
+     * <p>
      * 'c' has to wait in order to be second
-     *
+     * <p>
      * 'd' should not be matched multiple times, 'e' should be matched
      */
     @Test
@@ -91,9 +85,7 @@ class DeduplicationTest extends CrawlerTestBase {
                 .threads(2)
                 .depth(3)
                 .addMatcher(StandardMatchers.oneWordAnywhere(Word.of("finally")))
-                .matchListener((sentence, source, matcher) -> {
-                    sources.add(source);
-                })
+                .matchListener((sentence, source, matcher) -> sources.add(source))
                 .addStartingPoint(new URI(address() + "/root"))
                 .build();
         Crawler crawler = new Crawler(config);
@@ -101,12 +93,8 @@ class DeduplicationTest extends CrawlerTestBase {
 
         waitForCrawler();
 
-        try {
-            assertThat(sources).containsExactlyInAnyOrder(
-                    new URI(address() + "/d"),
-                    new URI(address() + "/e"));
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
+        assertThat(sources).containsExactlyInAnyOrder(
+                new URI(address() + "/d"),
+                new URI(address() + "/e"));
     }
 }
