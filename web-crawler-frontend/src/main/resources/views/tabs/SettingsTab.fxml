@@ -12,13 +12,11 @@
         <VBox>
             <VBox>
                 <VBox spacing="20">
-                    <Label text="%language_label" styleClass="main_label">
+                    <Label text="%language" styleClass="main_label">
                     </Label>
-                    <ChoiceBox fx:id="languageChoiceBox">
-
-                    </ChoiceBox>
-                    <Button text="%apply_button_text" fx:id="applyButton">
-                    </Button>
+                    <ChoiceBox fx:id="languageChoiceBox" />
+                    <Button text="%apply_button" fx:id="applyButton" onAction="#handleApplyAction"/>
+                    <Label fx:id="label" />
                 </VBox>
             </VBox>
             <BorderPane.margin>
