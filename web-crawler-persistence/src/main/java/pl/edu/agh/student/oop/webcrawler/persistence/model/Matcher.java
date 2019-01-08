@@ -13,9 +13,7 @@ public class Matcher {
 
     private String matcher;
 
-    public Matcher() {
-
-    }
+    public Matcher() {}
 
     public Matcher(String matcher) {
         this.matcher = matcher;
