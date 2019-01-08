@@ -10,7 +10,7 @@ public class MatcherPersistence {
         this.matcher = matcher;
     }
 
-    public void persistConfiguration(Session session) {
+    public void persistMatcher(Session session) {
         Transaction tx = session.beginTransaction();
         session.save(matcher);
         tx.commit();
