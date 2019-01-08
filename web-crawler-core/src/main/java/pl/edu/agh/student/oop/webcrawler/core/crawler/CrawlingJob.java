@@ -76,7 +76,7 @@ class CrawlingJob implements Job {
     private void crawl(CrawlingMode mode, JobService jobService, String html) {
         Instant from = Instant.now();
 
-        Document doc = Jsoup.parse(html);
+        Document doc = Jsoup.parse(html, context.uri().toString());
         Text websiteText = new HtmlParser(doc).parse();
 
         if (mode.followLinks()) {
