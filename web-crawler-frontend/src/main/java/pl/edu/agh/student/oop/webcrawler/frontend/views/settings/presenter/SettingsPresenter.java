@@ -7,19 +7,16 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import pl.edu.agh.student.oop.webcrawler.frontend.App;
 import pl.edu.agh.student.oop.webcrawler.frontend.language.Language;
+import pl.edu.agh.student.oop.webcrawler.frontend.util.ErrorMessage;
 
-import java.io.*;
-import java.net.URL;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.EnumSet;
-import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.Scanner;
 
 public class SettingsPresenter {
-
     @FXML
     private ChoiceBox<String> languageChoiceBox;
 
@@ -35,25 +32,18 @@ public class SettingsPresenter {
         EnumSet.allOf(Language.class)
                 .forEach(language -> languages.add(language.getName()));
         languageChoiceBox.setItems(languages);
-
     }
 
     @FXML
     private void handleApplyAction(ActionEvent event) {
         String lang = languageChoiceBox.getValue();
 
-
-        URL url = getClass().getClassLoader().getResource("defaultLang.txt");
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(url.getPath()));
+        try (BufferedWriter writer = Files.newBufferedWriter(Language.LANG_CONFIG_FILE)){
             writer.write(Language.getLocaleByName(lang));
-            writer.close();
-            label.setText(ResourceBundle.getBundle("bundles.lang").getString("restart_app_info"));
+            label.setText(ResourceBundle.getBundle("bundles.lang")
+                    .getString("restart_app_info"));
         } catch (IOException e) {
-            e.printStackTrace();
+            ErrorMessage.show("Cannot save lanuage preferences", e);
         }
-
-
     }
-
 }

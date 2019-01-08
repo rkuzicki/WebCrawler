@@ -1,11 +1,15 @@
 package pl.edu.agh.student.oop.webcrawler.frontend.language;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
 public enum Language {
     POLISH("polski", "pl_pl"),
     ENGLISH("english", "en_en");
+
+    public static final Path LANG_CONFIG_FILE = Paths.get("lang.conf");
 
     private final String name;
     private final String locale;
