@@ -33,5 +33,7 @@ public class MainPanePresenter {
         configurationController.setStatisticsLabel(statistics);
         configurationController.setResultListController(
                 resultsController.getResultListController());
+        configurationController.setResultDiagramController(
+                resultsController.getResultDiagramController());
     }
 }

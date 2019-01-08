@@ -7,6 +7,9 @@ import pl.edu.agh.student.oop.webcrawler.core.parser.Word;
 import pl.edu.agh.student.oop.webcrawler.frontend.views.configuration.model.ConditionsListItem;
 
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class InputConditionsParser {
@@ -19,10 +22,11 @@ public class InputConditionsParser {
      *
      * @param items list of {@link ConditionsListItem} objects
      *
-     * @return a stream of {@link Matcher}s
+     * @return a Map with keys {@link Matcher} and values {@link String} which represents {@link ConditionsListItem}
      */
-    public Stream<Matcher> parseConditions(List<ConditionsListItem> items) {
-        return items.stream().map(this::parseCondition);
+    public Map<Matcher, String> parseConditions(List<ConditionsListItem> items) {
+        return items.stream()
+                .collect(Collectors.toMap(this::parseCondition, ConditionsListItem::toString));
     }
 
     /**
