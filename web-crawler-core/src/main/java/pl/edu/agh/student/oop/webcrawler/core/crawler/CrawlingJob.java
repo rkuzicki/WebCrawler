@@ -82,10 +82,14 @@ class CrawlingJob implements Job {
         }
 
         for (Sentence s : websiteText.getSentences()) {
-            if (context.matcher().match(s)) {
-                logger.info("Matched sentence: " + s + ", at: " + context.uri());
-                context.matchListener().handleMatch(s, context.uri());
-            }
+            context.matchers().forEach(matcher -> {
+                if (matcher.match(s)) {
+                    logger.info("Matched sentence: " + s + ", at: " + context.uri());
+                    context.configuration()
+                            .matchListener()
+                            .handleMatch(s, context.uri(), matcher);
+                }
+            });
         }
 
         Duration crawlTime = Duration.between(from, Instant.now());
