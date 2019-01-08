@@ -2,8 +2,8 @@ package pl.edu.agh.student.oop.webcrawler.frontend;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import pl.edu.agh.student.oop.webcrawler.frontend.language.Language;
 import pl.edu.agh.student.oop.webcrawler.frontend.util.ErrorMessage;
@@ -31,7 +31,7 @@ public class App extends Application {
                     getClassLoader().
                     getResource("views/MainPane.fxml"));
             loader.setResources(ResourceBundle.getBundle("bundles.lang"));
-            BorderPane rootLayout = loader.load();
+            Parent rootLayout = loader.load();
 
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);

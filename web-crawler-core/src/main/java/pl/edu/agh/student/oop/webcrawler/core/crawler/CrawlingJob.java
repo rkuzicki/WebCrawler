@@ -14,6 +14,8 @@ import pl.edu.agh.student.oop.webcrawler.core.parser.Text;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
@@ -58,25 +60,38 @@ class CrawlingJob implements Job {
 
     @Override
     public void execute(JobService jobService) {
-        logger.trace("Crawling " + context.uri() + ", depth: " + context.currentDepth());
-
-        Document doc;
-        try {
-            doc = Jsoup.connect(context.uri().toString()).get();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        CrawlingMode mode = context.currentCrawlingMode();
+        logger.info("Crawling " + context.uri() +
+                ", depth: " + context.currentDepth() +
+                ", mode: " + mode);
+        if (mode == CrawlingMode.NONE) {
+            return;
         }
 
+        String html = download();
+
+        crawl(mode, jobService, html);
+    }
+
+    private void crawl(CrawlingMode mode, JobService jobService, String html) {
+        Instant from = Instant.now();
+
+        Document doc = Jsoup.parse(html);
         Text websiteText = new HtmlParser(doc).parse();
 
-        // spawn children
-        if (context.currentDepth() < context.configuration().getDepth()) {
-            links(doc).map(this::normalizeUri)
-                    .filter(this::isTraversable)
-                    .map(this::spawnChild)
-                    .forEach(jobService::add);
+        if (mode.followLinks()) {
+            followLinks(jobService, doc);
         }
 
+        if (mode.parse()) {
+            parseWebsite(websiteText);
+        }
+
+        Duration crawlTime = Duration.between(from, Instant.now());
+        context.statistics().reportCrawled(html.length(), crawlTime);
+    }
+
+    private void parseWebsite(Text websiteText) {
         for (Sentence s : websiteText.getSentences()) {
             context.matchers().forEach(matcher -> {
                 if (matcher.match(s)) {
@@ -86,6 +101,34 @@ class CrawlingJob implements Job {
                             .handleMatch(s, context.uri(), matcher);
                 }
             });
+        }
+    }
+
+    private String download() {
+        try {
+            Instant from = Instant.now();
+
+            String html = Jsoup.connect(context.uri().toString())
+                    .execute().body();
+            long sizeDownloaded = html.length();
+
+            Duration downloadTime = Duration.between(from, Instant.now());
+            context.statistics().reportDownloaded(sizeDownloaded, downloadTime);
+
+            return html;
+        } catch (IOException e) {
+            logger.error("Cannot crawl: " + context.uri(), e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void followLinks(JobService jobService, Document doc) {
+        // spawn children
+        if (context.currentDepth() < context.configuration().getDepth()) {
+            links(doc).map(this::normalizeUri)
+                    .filter(this::isTraversable)
+                    .map(this::spawnChild)
+                    .forEach(jobService::add);
         }
     }
 

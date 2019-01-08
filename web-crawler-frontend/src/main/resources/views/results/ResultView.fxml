@@ -24,7 +24,7 @@
                         <Image url="/icons/diagram.png"/>
                     </ImageView>
                 </graphic>
-                <fx:include source="ResultDiagram.fxml"/>
+                <fx:include source="ResultDiagram.fxml" fx:id="resultDiagram"/>
             </Tab>
         </TabPane>
     </top>
