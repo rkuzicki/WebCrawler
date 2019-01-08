@@ -5,11 +5,11 @@ import javax.persistence.*;
 @NamedQueries({
         @NamedQuery(
                 name = "get_hits_by_matcher",
-                query = "from Hit h where h.matcher = :matcher"
+                query = "from DbHit h where h.dbMatcher = :matcher"
         )
 })
 @Entity
-public class Hit {
+public class DbHit {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -17,15 +17,15 @@ public class Hit {
     private String hitContext;
 
     @ManyToOne
-    private Matcher matcher;
+    private DbMatcher dbMatcher;
 
-    public Hit() {
+    public DbHit() {
 
     }
 
-    public Hit(String hitContext, Matcher matcher) {
+    public DbHit(String hitContext, DbMatcher dbMatcher) {
         this.hitContext = hitContext;
-        this.matcher = matcher;
+        this.dbMatcher = dbMatcher;
     }
 
     public Long getId() {
@@ -40,9 +40,9 @@ public class Hit {
 
     public void setHitContext(String hitContext) { this.hitContext = hitContext; }
 
-    public Matcher getMatcher() { return this.matcher; }
+    public DbMatcher getDbMatcher() { return this.dbMatcher; }
 
-    public void setMatcher(Matcher matcher) { this.matcher = matcher; }
+    public void setDbMatcher(DbMatcher dbMatcher) { this.dbMatcher = dbMatcher; }
 
     public String toString() {
         return this.id + " " + this.hitContext;

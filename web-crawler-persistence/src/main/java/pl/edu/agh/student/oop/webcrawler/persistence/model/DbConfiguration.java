@@ -6,11 +6,11 @@ import java.util.List;
 @NamedQueries({
         @NamedQuery(
                 name = "get_configuration_by_id",
-                query = "from Configuration where id = :id"
+                query = "from DbConfiguration where id = :id"
         )
 })
 @Entity
-public class Configuration {
+public class DbConfiguration {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -21,18 +21,18 @@ public class Configuration {
     private int depth;
     private boolean subdomains;
 
-    @ManyToOne
-    private Matcher matcher;
+    @OneToMany
+    private List<DbMatcher> dbMatchers;
 
-    public Configuration(List<String> domains, List<String> startingPoints, int depth, boolean subdomains, Matcher matcher) {
+    public DbConfiguration(List<String> domains, List<String> startingPoints, int depth, boolean subdomains, List<DbMatcher> dbMatchers) {
         this.domains = domains;
         this.startingPoints = startingPoints;
         this.depth = depth;
         this.subdomains = subdomains;
-        this.matcher = matcher;
+        this.dbMatchers = dbMatchers;
     }
 
-    public Configuration() {
+    public DbConfiguration() {
 
     }
 
@@ -72,12 +72,12 @@ public class Configuration {
         this.subdomains = subdomains;
     }
 
-    public Matcher getMatcher() {
-        return matcher;
+    public List<DbMatcher> getDbMatchers() {
+        return dbMatchers;
     }
 
-    public void setMatcher(Matcher matcher) {
-        this.matcher = matcher;
+    public void setDbMatchers(List<DbMatcher> dbMatcher) {
+        this.dbMatchers = dbMatcher;
     }
 
     public String toString() {
@@ -86,6 +86,6 @@ public class Configuration {
                 + "\n" + startingPoints
                 + "\n" + depth
                 + "\n" + subdomains
-                + "\n" + matcher;
+                + "\n" + dbMatchers;
     }
 }

@@ -13,9 +13,9 @@
         <property name="hbm2ddl.auto">update</property>
         <property name="hibernate.enable_lazy_load_no_trans">true</property>
 
-        <mapping class="pl.edu.agh.student.oop.webcrawler.persistence.model.Matcher"/>
-        <mapping class="pl.edu.agh.student.oop.webcrawler.persistence.model.Configuration"/>
-        <mapping class="pl.edu.agh.student.oop.webcrawler.persistence.model.Hit"/>
+        <mapping class="pl.edu.agh.student.oop.webcrawler.persistence.model.DbMatcher"/>
+        <mapping class="pl.edu.agh.student.oop.webcrawler.persistence.model.DbConfiguration"/>
+        <mapping class="pl.edu.agh.student.oop.webcrawler.persistence.model.DbHit"/>
 
     </session-factory>
 </hibernate-configuration>

@@ -3,41 +3,41 @@ package pl.edu.agh.student.oop.webcrawler.persistence.dao;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import pl.edu.agh.student.oop.webcrawler.persistence.HibernateUtil;
-import pl.edu.agh.student.oop.webcrawler.persistence.model.Hit;
-import pl.edu.agh.student.oop.webcrawler.persistence.model.Matcher;
+import pl.edu.agh.student.oop.webcrawler.persistence.model.DbHit;
+import pl.edu.agh.student.oop.webcrawler.persistence.model.DbMatcher;
 
 import java.util.List;
 
-public class HitDAO {
+public class DbHitDao {
 
-    public HitDAO() {}
+    public DbHitDao() {}
 
-    public void save(Hit[] hits) {
+    public void save(DbHit[] dbHits) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
-        for (Hit hit: hits) {
-            session.save(hit);
+        for (DbHit dbHit : dbHits) {
+            session.save(dbHit);
         }
         tx.commit();
     }
 
-    public void save(Hit hit) {
+    public void save(DbHit dbHit) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
-        session.save(hit);
+        session.save(dbHit);
         tx.commit();
     }
 
     @SuppressWarnings("unchecked")
-    public List<Hit> getHitsByMatcher(Matcher matcher) {
+    public List<DbHit> getHitsByMatcher(DbMatcher dbMatcher) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
-        List<Hit> hits = session.createNamedQuery("get_hits_by_matcher")
-                .setParameter("matcher", matcher)
+        List<DbHit> dbHits = session.createNamedQuery("get_hits_by_matcher")
+                .setParameter("matcher", dbMatcher)
                 .getResultList();
         tx.commit();
         session.close();
-        return hits;
+        return dbHits;
 
     }
 }

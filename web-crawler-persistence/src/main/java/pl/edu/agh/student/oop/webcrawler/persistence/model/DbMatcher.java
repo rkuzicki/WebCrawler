@@ -6,16 +6,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Matcher {
+public class DbMatcher {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String matcher;
 
-    public Matcher() {}
+    public DbMatcher() {}
 
-    public Matcher(String matcher) {
+    public DbMatcher(String matcher) {
         this.matcher = matcher;
     }
 

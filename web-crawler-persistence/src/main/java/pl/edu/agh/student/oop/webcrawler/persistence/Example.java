@@ -1,11 +1,11 @@
 package pl.edu.agh.student.oop.webcrawler.persistence;
 
-import pl.edu.agh.student.oop.webcrawler.persistence.dao.ConfigurationDAO;
-import pl.edu.agh.student.oop.webcrawler.persistence.dao.HitDAO;
-import pl.edu.agh.student.oop.webcrawler.persistence.dao.MatcherDAO;
-import pl.edu.agh.student.oop.webcrawler.persistence.model.Configuration;
-import pl.edu.agh.student.oop.webcrawler.persistence.model.Hit;
-import pl.edu.agh.student.oop.webcrawler.persistence.model.Matcher;
+import pl.edu.agh.student.oop.webcrawler.persistence.dao.DbConfigurationDao;
+import pl.edu.agh.student.oop.webcrawler.persistence.dao.DbHitDao;
+import pl.edu.agh.student.oop.webcrawler.persistence.dao.DbMatcherDao;
+import pl.edu.agh.student.oop.webcrawler.persistence.model.DbConfiguration;
+import pl.edu.agh.student.oop.webcrawler.persistence.model.DbHit;
+import pl.edu.agh.student.oop.webcrawler.persistence.model.DbMatcher;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,36 +13,38 @@ import java.util.List;
 
 public class Example {
     public static void main(String[] args) throws IOException {
-        Matcher matcher = new Matcher("ala ma kota");
-        Hit hit = new Hit("ala ma kota i psa", matcher);
-        Hit hit2 = new Hit("ala ma kota i psa 2", matcher);
+        DbMatcher dbMatcher = new DbMatcher("ala ma kota");
+        DbHit dbHit = new DbHit("ala ma kota i psa", dbMatcher);
+        DbHit dbHit2 = new DbHit("ala ma kota i psa 2", dbMatcher);
 
-        MatcherDAO matcherDAO = new MatcherDAO();
-        matcherDAO.save(matcher);
+        DbMatcherDao dbMatcherDao = new DbMatcherDao();
+        dbMatcherDao.save(dbMatcher);
 
-        HitDAO hitDAO = new HitDAO();
-        hitDAO.save(hit);
-        hitDAO.save(hit2);
-        System.out.println(hitDAO.getHitsByMatcher(matcher));
+        DbHitDao dbHitDao = new DbHitDao();
+        dbHitDao.save(dbHit);
+        dbHitDao.save(dbHit2);
+        System.out.println(dbHitDao.getHitsByMatcher(dbMatcher));
 
         List<String> domains = new ArrayList<>();
         List<String> sp = new ArrayList<>();
+        List<DbMatcher> dbMatchers = new ArrayList<>();
         domains.add("xyz");
         domains.add("abc");
         sp.add("xyz");
         sp.add("abc");
+        dbMatchers.add(dbMatcher);
 
-        Configuration configuration = new Configuration(
+        DbConfiguration dbConfiguration = new DbConfiguration(
             domains,
             sp,
             2,
             true,
-            matcher
+                dbMatchers
         );
 
-        ConfigurationDAO configurationDAO = new ConfigurationDAO();
-        configurationDAO.save(configuration);
-        System.out.println(configurationDAO.getById(configuration.getId()));
+        DbConfigurationDao dbConfigurationDao = new DbConfigurationDao();
+        dbConfigurationDao.save(dbConfiguration);
+        System.out.println(dbConfigurationDao.getById(dbConfiguration.getId()));
 
 
     }

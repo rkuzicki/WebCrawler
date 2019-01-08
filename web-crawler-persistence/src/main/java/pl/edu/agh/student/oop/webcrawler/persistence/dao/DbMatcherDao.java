@@ -3,16 +3,16 @@ package pl.edu.agh.student.oop.webcrawler.persistence.dao;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import pl.edu.agh.student.oop.webcrawler.persistence.HibernateUtil;
-import pl.edu.agh.student.oop.webcrawler.persistence.model.Matcher;
+import pl.edu.agh.student.oop.webcrawler.persistence.model.DbMatcher;
 
-public class MatcherDAO {
+public class DbMatcherDao {
 
-    public MatcherDAO() {}
+    public DbMatcherDao() {}
 
-    public void save(Matcher matcher) {
+    public void save(DbMatcher dbMatcher) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
-        session.save(matcher);
+        session.save(dbMatcher);
         tx.commit();
     }
 }
