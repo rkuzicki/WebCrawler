@@ -17,6 +17,7 @@ class CrawlingJobContext {
     private Configuration configuration;
     private int currentDepth;
     private URI uri;
+    private Statistics statistics;
 
     public static CrawlingJobContext rootContext(Configuration config, URI uri) {
         return new CrawlingJobContext(new DomainInfo(), config, 0, uri);
@@ -27,6 +28,7 @@ class CrawlingJobContext {
         this.configuration = configuration;
         this.currentDepth = depth;
         this.uri = uri;
+        this.statistics = new Statistics(configuration.monitor());
     }
 
     public Configuration configuration() {
@@ -75,5 +77,9 @@ class CrawlingJobContext {
         } finally {
             domainInfo.recordVisit(uri(), currentDepth());
         }
+    }
+
+    public Statistics statistics() {
+        return statistics;
     }
 }

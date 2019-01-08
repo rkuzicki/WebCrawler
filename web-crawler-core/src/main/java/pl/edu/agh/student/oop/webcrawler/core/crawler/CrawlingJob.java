@@ -14,6 +14,8 @@ import pl.edu.agh.student.oop.webcrawler.core.parser.Text;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
@@ -66,14 +68,15 @@ class CrawlingJob implements Job {
             return;
         }
 
-        Document doc;
-        try {
-            doc = Jsoup.connect(context.uri().toString()).get();
-        } catch (IOException e) {
-            logger.error("Cannot crawl: " + context.uri(), e);
-            return;
-        }
+        String html = download();
 
+        crawl(mode, jobService, html);
+    }
+
+    private void crawl(CrawlingMode mode, JobService jobService, String html) {
+        Instant from = Instant.now();
+
+        Document doc = Jsoup.parse(html);
         Text websiteText = new HtmlParser(doc).parse();
 
         if (mode.followLinks()) {
@@ -83,6 +86,9 @@ class CrawlingJob implements Job {
         if (mode.parse()) {
             parseWebsite(websiteText);
         }
+
+        Duration crawlTime = Duration.between(from, Instant.now());
+        context.statistics().reportCrawled(html.length(), crawlTime);
     }
 
     private void parseWebsite(Text websiteText) {
@@ -95,6 +101,24 @@ class CrawlingJob implements Job {
                             .handleMatch(s, context.uri(), matcher);
                 }
             });
+        }
+    }
+
+    private String download() {
+        try {
+            Instant from = Instant.now();
+
+            String html = Jsoup.connect(context.uri().toString())
+                    .execute().body();
+            long sizeDownloaded = html.length();
+
+            Duration downloadTime = Duration.between(from, Instant.now());
+            context.statistics().reportDownloaded(sizeDownloaded, downloadTime);
+
+            return html;
+        } catch (IOException e) {
+            logger.error("Cannot crawl: " + context.uri(), e);
+            throw new RuntimeException(e);
         }
     }
 

@@ -1,5 +1,6 @@
 package pl.edu.agh.student.oop.webcrawler.core.configuration;
 
+import pl.edu.agh.student.oop.webcrawler.core.crawler.CrawlerMonitor;
 import pl.edu.agh.student.oop.webcrawler.core.crawler.MatchListener;
 import pl.edu.agh.student.oop.webcrawler.core.matcher.Matcher;
 
@@ -18,6 +19,7 @@ public class ConfigurationBuilder {
     private Optional<OnStalledListener> onStalled;
     private boolean subdomainsEnabled;
     private int threads = 8;
+    private Optional<CrawlerMonitor> monitor = Optional.empty();
 
     ConfigurationBuilder() {
 
@@ -94,6 +96,11 @@ public class ConfigurationBuilder {
         return this;
     }
 
+    public ConfigurationBuilder monitor(CrawlerMonitor monitor){
+        this.monitor = Optional.of(monitor);
+        return this;
+    }
+
     public ConfigurationBuilder matchListener(MatchListener listener) {
         this.matchListener = Optional.of(listener);
         return this;
@@ -127,6 +134,10 @@ public class ConfigurationBuilder {
 
     boolean subdomainsEnabled() {
         return this.subdomainsEnabled;
+    }
+
+    Optional<CrawlerMonitor> monitor() {
+        return this.monitor;
     }
 
     Optional<MatchListener> matchListener() {
