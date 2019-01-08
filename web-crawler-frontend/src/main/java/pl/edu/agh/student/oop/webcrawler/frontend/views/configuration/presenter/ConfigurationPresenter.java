@@ -215,7 +215,10 @@ public class ConfigurationPresenter {
             return format.format(speed / 1e6) + " MB/s";
         } else if (speed < 100e9) {
             return format.format(speed / 1e9) + " GB/s";
-        } else {
+        } else if (Double.isNaN(speed)) {
+            return "?";
+        }
+        else {
             if(true) throw new RuntimeException("" + speed);
             return format.format(speed / 1e12) + " TB/s";
         }
