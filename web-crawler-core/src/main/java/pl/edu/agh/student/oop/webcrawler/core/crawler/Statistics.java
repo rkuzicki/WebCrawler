@@ -9,6 +9,16 @@ import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.function.BinaryOperator;
 
 public class Statistics {
+    private CrawlerMonitor monitor;
+
+    Statistics() {
+        this.monitor = CrawlerMonitor.empty();
+    }
+
+    Statistics(CrawlerMonitor monitor) {
+        this.monitor = monitor;
+    }
+
     private static class Entry {
         private final long size;
         private final Duration duration;
@@ -37,7 +47,11 @@ public class Statistics {
         public double speed() {
             Entry sum = data.stream()
                     .reduce(Entry.zero(), Entry.addition());
-            return (double) sum.size / sum.duration.getSeconds();
+            return (double) sum.size / durationToSeconds(sum.duration);
+        }
+
+        private double durationToSeconds(Duration duration) {
+            return duration.getSeconds() + 1e-9 * duration.getNano();
         }
     }
 
@@ -75,6 +89,7 @@ public class Statistics {
         }
 
         statistics.put(now, new Entry(size, duration));
+        monitor.statisticsUpdated(this);
     }
 
     void free(Instant till) {

@@ -1,6 +1,7 @@
 package pl.edu.agh.student.oop.webcrawler.frontend.views.main.presenter;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import pl.edu.agh.student.oop.webcrawler.frontend.views.configuration.presenter.ConfigurationPresenter;
@@ -24,8 +25,12 @@ public class MainPanePresenter {
     private ResultListPresenter resultListController;
 
     @FXML
+    public Label statistics;
+
+    @FXML
     private void initialize() {
         configurationController.setTabPane(tabPane);
+        configurationController.setStatisticsLabel(statistics);
         configurationController.setResultListController(
                 resultsController.getResultListController());
     }
