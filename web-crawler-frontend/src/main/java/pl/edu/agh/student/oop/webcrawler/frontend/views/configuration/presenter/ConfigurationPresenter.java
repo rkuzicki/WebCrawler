@@ -158,7 +158,7 @@ public class ConfigurationPresenter {
     @FXML
     private void handleSearchAction(ActionEvent event) {
         List<ConditionsListItem> conditionItems = listController.getConditionsListView().getItems();
-        Map<Matcher, String>  matcherToString = new InputConditionsParser().parseConditions(conditionItems);
+        Map<Matcher, String> matcherToString = new InputConditionsParser().parseConditions(conditionItems);
 
         resultDiagramController.initializeAxis(matcherToString);
 
@@ -180,11 +180,18 @@ public class ConfigurationPresenter {
     }
 
     private void setupStatisticsUpdater(Crawler crawler) {
-        Timeline fiveSecondsWonder = new Timeline(
+        Timeline statisticUpdater = new Timeline(
                 new KeyFrame(Duration.millis(200),
-                event -> statistics.setText(getStatisticsText(crawler.statistics()))));
-        fiveSecondsWonder.setCycleCount(Timeline.INDEFINITE);
-        fiveSecondsWonder.play();
+                        event -> statistics.setText(getStatisticsText(crawler.statistics()))));
+        statisticUpdater.setCycleCount(Timeline.INDEFINITE);
+        statisticUpdater.play();
+
+        Timeline statisticClearer = new Timeline(
+                new KeyFrame(Duration.seconds(1),
+                        event -> crawler.statistics()
+                                .free(Instant.now().minus(20, ChronoUnit.SECONDS))));
+        statisticClearer.setCycleCount(Timeline.INDEFINITE);
+        statisticClearer.play();
     }
 
     private String getStatisticsText(Statistics stat) {
@@ -242,7 +249,9 @@ public class ConfigurationPresenter {
         this.resultListController = controller;
     }
 
-    public void setResultDiagramController(ResultDiagramPresenter controller) { this.resultDiagramController = controller; }
+    public void setResultDiagramController(ResultDiagramPresenter controller) {
+        this.resultDiagramController = controller;
+    }
 
     private void updateResults(Sentence sentence, URI uri, Matcher matcher) {
         resultListController.addResult(sentence, uri);
