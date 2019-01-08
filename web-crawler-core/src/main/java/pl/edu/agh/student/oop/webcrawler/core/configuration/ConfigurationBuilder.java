@@ -1,5 +1,6 @@
 package pl.edu.agh.student.oop.webcrawler.core.configuration;
 
+import pl.edu.agh.student.oop.webcrawler.core.crawler.CrawlerMonitor;
 import pl.edu.agh.student.oop.webcrawler.core.crawler.MatchListener;
 import pl.edu.agh.student.oop.webcrawler.core.matcher.Matcher;
 
@@ -15,7 +16,10 @@ public class ConfigurationBuilder {
     private List<URI> startingPoints = new ArrayList<>();
     private OptionalInt depth = OptionalInt.empty();
     private Optional<MatchListener> matchListener = Optional.empty();
+    private Optional<OnStalledListener> onStalled;
     private boolean subdomainsEnabled;
+    private int threads = 8;
+    private Optional<CrawlerMonitor> monitor = Optional.empty();
 
     ConfigurationBuilder() {
 
@@ -63,6 +67,11 @@ public class ConfigurationBuilder {
         return this;
     }
 
+    public ConfigurationBuilder addStartingPoint(URI uri) {
+        this.startingPoints.add(uri);
+        return this;
+    }
+
     /**
      * Set the depth of crawling. When depth is set to 0, the crawler will crawl only the top level links.
      *
@@ -87,8 +96,23 @@ public class ConfigurationBuilder {
         return this;
     }
 
+    public ConfigurationBuilder monitor(CrawlerMonitor monitor){
+        this.monitor = Optional.of(monitor);
+        return this;
+    }
+
     public ConfigurationBuilder matchListener(MatchListener listener) {
         this.matchListener = Optional.of(listener);
+        return this;
+    }
+
+    public ConfigurationBuilder whenStalled(OnStalledListener listener) {
+        this.onStalled = Optional.of(listener);
+        return this;
+    }
+
+    public ConfigurationBuilder threads(int threads) {
+        this.threads = threads;
         return this;
     }
 
@@ -112,8 +136,20 @@ public class ConfigurationBuilder {
         return this.subdomainsEnabled;
     }
 
+    Optional<CrawlerMonitor> monitor() {
+        return this.monitor;
+    }
+
     Optional<MatchListener> matchListener() {
         return matchListener;
+    }
+
+    Optional<OnStalledListener> onStalledListener() {
+        return onStalled;
+    }
+
+    int threads() {
+        return threads;
     }
 
     public Configuration build() {
