@@ -4,13 +4,11 @@ import pl.edu.agh.student.oop.webcrawler.core.matcher.Matcher;
 import pl.edu.agh.student.oop.webcrawler.core.matcher.MatcherCompiler;
 import pl.edu.agh.student.oop.webcrawler.core.matcher.Matchers;
 import pl.edu.agh.student.oop.webcrawler.core.parser.Word;
+import pl.edu.agh.student.oop.webcrawler.frontend.util.UserInputtedMatcher;
 import pl.edu.agh.student.oop.webcrawler.frontend.views.configuration.model.ConditionsListItem;
 
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class InputConditionsParser {
     private static final String WILD_CARD = "*";
@@ -22,11 +20,12 @@ public class InputConditionsParser {
      *
      * @param items list of {@link ConditionsListItem} objects
      *
-     * @return a Map with keys {@link Matcher} and values {@link String} which represents {@link ConditionsListItem}
+     * @return a list of parsed matchers
      */
-    public Map<Matcher, String> parseConditions(List<ConditionsListItem> items) {
+    public List<UserInputtedMatcher> parseConditions(List<ConditionsListItem> items) {
         return items.stream()
-                .collect(Collectors.toMap(this::parseCondition, ConditionsListItem::toString));
+                .map(item -> new UserInputtedMatcher(parseCondition(item), item.toString()))
+                .collect(Collectors.toList());
     }
 
     /**
