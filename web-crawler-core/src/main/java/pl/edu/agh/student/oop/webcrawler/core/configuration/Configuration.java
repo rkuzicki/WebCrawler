@@ -1,7 +1,6 @@
 package pl.edu.agh.student.oop.webcrawler.core.configuration;
 
 import pl.edu.agh.student.oop.webcrawler.core.crawler.Crawler;
-import pl.edu.agh.student.oop.webcrawler.core.crawler.CrawlerMonitor;
 import pl.edu.agh.student.oop.webcrawler.core.crawler.MatchListener;
 import pl.edu.agh.student.oop.webcrawler.core.matcher.Matcher;
 
@@ -19,8 +18,9 @@ public class Configuration {
     private final List<URI> startingPoints;
     private final int depth;
     private final boolean subdomains;
-    private final CrawlerMonitor monitor;
     private final MatchListener matchListener;
+    private final OnStalledListener onStalledListener;
+    private final int threads;
 
     Configuration(ConfigurationBuilder builder) {
         this.depth = builder.depth()
@@ -31,7 +31,8 @@ public class Configuration {
         this.matchers = builder.matchers();
         this.startingPoints = builder.startingPoints();
         this.subdomains = builder.subdomainsEnabled();
-        this.monitor = builder.monitor().orElse(CrawlerMonitor.empty());
+        this.onStalledListener = builder.onStalledListener().orElse(() -> {});
+        this.threads = builder.threads();
     }
 
     public static ConfigurationBuilder builder() {
@@ -54,15 +55,19 @@ public class Configuration {
         return Collections.unmodifiableList(startingPoints);
     }
 
-    public CrawlerMonitor monitor() {
-        return monitor;
-    }
-
     public boolean areSubdomainsEnabled() {
         return subdomains;
     }
 
     public MatchListener matchListener() {
         return matchListener;
+    }
+
+    public OnStalledListener onStalledListener() {
+        return onStalledListener;
+    }
+
+    public int threads() {
+        return threads;
     }
 }

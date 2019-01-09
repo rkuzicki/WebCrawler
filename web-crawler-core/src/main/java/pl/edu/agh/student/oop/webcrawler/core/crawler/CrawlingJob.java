@@ -27,9 +27,11 @@ import java.util.stream.Stream;
 class CrawlingJob implements Job {
     private static final Logger logger = LoggerFactory.getLogger(CrawlingJob.class);
 
+    private Crawler parent;
     private CrawlingJobContext context;
 
-    CrawlingJob(CrawlingJobContext context) {
+    CrawlingJob(Crawler parent, CrawlingJobContext context) {
+        this.parent = parent;
         this.context = context;
     }
 
@@ -55,32 +57,43 @@ class CrawlingJob implements Job {
 
     private CrawlingJob spawnChild(URI link) {
         logger.trace("Spawning a child job for: " + link);
-        return new CrawlingJob(context.childContext(link));
+        return new CrawlingJob(parent, context.childContext(link));
     }
 
     @Override
     public void execute(JobService jobService) {
-        logger.trace("Crawling " + context.uri() + ", depth: " + context.currentDepth());
+        CrawlingMode mode = context.currentCrawlingMode();
+        logger.info("Crawling " + context.uri() +
+                ", depth: " + context.currentDepth() +
+                ", mode: " + mode);
+        if (mode == CrawlingMode.NONE) {
+            return;
+        }
 
         String html = download();
 
-        crawl(jobService, html);
+        crawl(mode, jobService, html);
     }
 
-    private void crawl(JobService jobService, String html) {
+    private void crawl(CrawlingMode mode, JobService jobService, String html) {
         Instant from = Instant.now();
 
-        Document doc = Jsoup.parse(html);
+        Document doc = Jsoup.parse(html, context.uri().toString());
         Text websiteText = new HtmlParser(doc).parse();
 
-        // spawn children
-        if (context.currentDepth() < context.configuration().getDepth()) {
-            links(doc).map(this::normalizeUri)
-                    .filter(this::isTraversable)
-                    .map(this::spawnChild)
-                    .forEach(jobService::add);
+        if (mode.followLinks()) {
+            followLinks(jobService, doc);
         }
 
+        if (mode.parse()) {
+            parseWebsite(websiteText);
+        }
+
+        Duration crawlTime = Duration.between(from, Instant.now());
+        parent.statistics().reportCrawled(html.length(), crawlTime);
+    }
+
+    private void parseWebsite(Text websiteText) {
         for (Sentence s : websiteText.getSentences()) {
             context.matchers().forEach(matcher -> {
                 if (matcher.match(s)) {
@@ -91,9 +104,6 @@ class CrawlingJob implements Job {
                 }
             });
         }
-
-        Duration crawlTime = Duration.between(from, Instant.now());
-        context.statistics().reportCrawled(html.length(), crawlTime);
     }
 
     private String download() {
@@ -105,11 +115,22 @@ class CrawlingJob implements Job {
             long sizeDownloaded = html.length();
 
             Duration downloadTime = Duration.between(from, Instant.now());
-            context.statistics().reportDownloaded(sizeDownloaded, downloadTime);
+            parent.statistics().reportDownloaded(sizeDownloaded, downloadTime);
 
             return html;
         } catch (IOException e) {
+            logger.error("Cannot crawl: " + context.uri(), e);
             throw new RuntimeException(e);
+        }
+    }
+
+    private void followLinks(JobService jobService, Document doc) {
+        // spawn children
+        if (context.currentDepth() < context.configuration().getDepth()) {
+            links(doc).map(this::normalizeUri)
+                    .filter(this::isTraversable)
+                    .map(this::spawnChild)
+                    .forEach(jobService::add);
         }
     }
 

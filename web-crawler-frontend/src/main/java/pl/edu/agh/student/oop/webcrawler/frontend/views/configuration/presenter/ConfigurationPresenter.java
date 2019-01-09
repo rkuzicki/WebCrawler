@@ -1,5 +1,7 @@
 package pl.edu.agh.student.oop.webcrawler.frontend.views.configuration.presenter;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
@@ -7,12 +9,15 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.util.Duration;
 import pl.edu.agh.student.oop.webcrawler.core.configuration.Configuration;
 import pl.edu.agh.student.oop.webcrawler.core.crawler.Crawler;
 import pl.edu.agh.student.oop.webcrawler.core.crawler.Statistics;
-import pl.edu.agh.student.oop.webcrawler.core.matcher.Matcher;
+import pl.edu.agh.student.oop.webcrawler.core.parser.Sentence;
 import pl.edu.agh.student.oop.webcrawler.frontend.input.InputConditionsParser;
+import pl.edu.agh.student.oop.webcrawler.frontend.util.UserInputtedMatcher;
 import pl.edu.agh.student.oop.webcrawler.frontend.views.configuration.model.ConditionsListItem;
+import pl.edu.agh.student.oop.webcrawler.frontend.views.results.presenter.ResultDiagramPresenter;
 import pl.edu.agh.student.oop.webcrawler.frontend.views.results.presenter.ResultListPresenter;
 
 import java.net.URI;
@@ -23,7 +28,6 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Locale;
-import java.util.stream.Collectors;
 
 public class ConfigurationPresenter {
     private static final String NEGATION_MARK = "~";
@@ -83,6 +87,8 @@ public class ConfigurationPresenter {
     private TextField depthTextField;
 
     private ResultListPresenter resultListController;
+
+    private ResultDiagramPresenter resultDiagramController;
 
     @FXML
     private void initialize() {
@@ -150,9 +156,9 @@ public class ConfigurationPresenter {
     @FXML
     private void handleSearchAction(ActionEvent event) {
         List<ConditionsListItem> conditionItems = listController.getConditionsListView().getItems();
-        List<Matcher> matchers = new InputConditionsParser()
-                .parseConditions(conditionItems)
-                .collect(Collectors.toList());
+        List<UserInputtedMatcher> matchers = new InputConditionsParser().parseConditions(conditionItems);
+
+        resultDiagramController.initializeAxis(matchers);
 
         Configuration configuration = Configuration.builder()
                 .matchers(matchers)
@@ -160,17 +166,30 @@ public class ConfigurationPresenter {
                 .startingPoints(startingPoints)
                 .depth(Integer.parseInt(depthTextField.getText()))
                 .subdomainsEnabled(subdomainsCheckBox.isSelected())
-                .monitor(stat -> Platform.runLater(() ->
-                        statistics.setText(getStatisticsText(stat))))
                 .matchListener((sentence, uri, matcher) ->
-                        Platform.runLater(() ->
-                                resultListController.addResult(sentence, uri)))
+                        Platform.runLater(() -> updateResults(sentence, uri, (UserInputtedMatcher) matcher)))
                 .build();
 
         Crawler crawler = new Crawler(configuration);
+        setupStatisticsUpdater(crawler);
 
         crawler.start();
         this.tabPane.getSelectionModel().select(1);
+    }
+
+    private void setupStatisticsUpdater(Crawler crawler) {
+        Timeline statisticUpdater = new Timeline(
+                new KeyFrame(Duration.millis(200),
+                        event -> statistics.setText(getStatisticsText(crawler.statistics()))));
+        statisticUpdater.setCycleCount(Timeline.INDEFINITE);
+        statisticUpdater.play();
+
+        Timeline statisticClearer = new Timeline(
+                new KeyFrame(Duration.seconds(1),
+                        event -> crawler.statistics()
+                                .free(Instant.now().minus(20, ChronoUnit.SECONDS))));
+        statisticClearer.setCycleCount(Timeline.INDEFINITE);
+        statisticClearer.play();
     }
 
     private String getStatisticsText(Statistics stat) {
@@ -193,14 +212,16 @@ public class ConfigurationPresenter {
         DecimalFormat format = new DecimalFormat("###0.0", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
         if (speed < 0.1) {
             return "~0 B/s";
-        } else if (speed < 10) {
+        } else if (speed < 100) {
             return format.format(speed) + " B/s";
-        } else if (speed < 10e3) {
+        } else if (speed < 100e3) {
             return format.format(speed / 1e3) + " KB/s";
-        } else if (speed < 10e6) {
+        } else if (speed < 100e6) {
             return format.format(speed / 1e6) + " MB/s";
-        } else if (speed < 10e9) {
+        } else if (speed < 100e9) {
             return format.format(speed / 1e9) + " GB/s";
+        } else if (Double.isNaN(speed)) {
+            return "?";
         } else {
             return format.format(speed / 1e12) + " TB/s";
         }
@@ -225,4 +246,14 @@ public class ConfigurationPresenter {
     public void setResultListController(ResultListPresenter controller) {
         this.resultListController = controller;
     }
+
+    public void setResultDiagramController(ResultDiagramPresenter controller) {
+        this.resultDiagramController = controller;
+    }
+
+    private void updateResults(Sentence sentence, URI uri, UserInputtedMatcher matcher) {
+        resultListController.addResult(sentence, uri);
+        resultDiagramController.addResult(matcher);
+    }
+
 }
