@@ -1,15 +1,13 @@
 package pl.edu.agh.student.oop.webcrawler.frontend.views.results.presenter;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import pl.edu.agh.student.oop.webcrawler.core.matcher.Matcher;
+import pl.edu.agh.student.oop.webcrawler.frontend.util.UserInputtedMatcher;
 
-import java.util.*;
+import java.util.List;
 
 public class ResultDiagramPresenter {
 
@@ -22,13 +20,13 @@ public class ResultDiagramPresenter {
     @FXML
     private BarChart<String, Number> barChart;
 
-    private Map<Matcher, String> matcherToString;
+    private List<UserInputtedMatcher> matchers;
 
     @FXML
     public void initialize() {}
 
-    public void addResult(Matcher matcher) {
-        String string = matcherToString.get(matcher);
+    public void addResult(UserInputtedMatcher matcher) {
+        String string = matcher.getUserInput();
 
         for(XYChart.Series<String, Number> series : barChart.getData()) {
             for(XYChart.Data<String, Number> data : series.getData()) {
@@ -38,13 +36,12 @@ public class ResultDiagramPresenter {
         }
     }
 
-    public void initializeAxis(Map<Matcher, String> matcherToString) {
-        this.matcherToString = matcherToString;
+    public void initializeAxis(List<UserInputtedMatcher> matchers) {
+        this.matchers = matchers;
         BarChart.Series<String, Number> series = new BarChart.Series<>();
-        for(Matcher key: matcherToString.keySet()) {
-            series.getData().add(new XYChart.Data<>(matcherToString.get(key), 0));
+        for(UserInputtedMatcher key: matchers) {
+            series.getData().add(new XYChart.Data<>(key.getUserInput(), 0));
         }
         barChart.getData().add(series);
     }
-
 }

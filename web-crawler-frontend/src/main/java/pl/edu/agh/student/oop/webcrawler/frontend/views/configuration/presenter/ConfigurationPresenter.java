@@ -13,9 +13,9 @@ import javafx.util.Duration;
 import pl.edu.agh.student.oop.webcrawler.core.configuration.Configuration;
 import pl.edu.agh.student.oop.webcrawler.core.crawler.Crawler;
 import pl.edu.agh.student.oop.webcrawler.core.crawler.Statistics;
-import pl.edu.agh.student.oop.webcrawler.core.matcher.Matcher;
 import pl.edu.agh.student.oop.webcrawler.core.parser.Sentence;
 import pl.edu.agh.student.oop.webcrawler.frontend.input.InputConditionsParser;
+import pl.edu.agh.student.oop.webcrawler.frontend.util.UserInputtedMatcher;
 import pl.edu.agh.student.oop.webcrawler.frontend.views.configuration.model.ConditionsListItem;
 import pl.edu.agh.student.oop.webcrawler.frontend.views.results.presenter.ResultDiagramPresenter;
 import pl.edu.agh.student.oop.webcrawler.frontend.views.results.presenter.ResultListPresenter;
@@ -26,10 +26,8 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 public class ConfigurationPresenter {
     private static final String NEGATION_MARK = "~";
@@ -158,18 +156,18 @@ public class ConfigurationPresenter {
     @FXML
     private void handleSearchAction(ActionEvent event) {
         List<ConditionsListItem> conditionItems = listController.getConditionsListView().getItems();
-        Map<Matcher, String>  matcherToString = new InputConditionsParser().parseConditions(conditionItems);
+        List<UserInputtedMatcher> matchers = new InputConditionsParser().parseConditions(conditionItems);
 
-        resultDiagramController.initializeAxis(matcherToString);
+        resultDiagramController.initializeAxis(matchers);
 
         Configuration configuration = Configuration.builder()
-                .matchers(new ArrayList<>(matcherToString.keySet()))
+                .matchers(matchers)
                 .domains(domains)
                 .startingPoints(startingPoints)
                 .depth(Integer.parseInt(depthTextField.getText()))
                 .subdomainsEnabled(subdomainsCheckBox.isSelected())
                 .matchListener((sentence, uri, matcher) ->
-                        Platform.runLater(() -> updateResults(sentence, uri, matcher)))
+                        Platform.runLater(() -> updateResults(sentence, uri, (UserInputtedMatcher) matcher)))
                 .build();
 
         Crawler crawler = new Crawler(configuration);
@@ -180,11 +178,18 @@ public class ConfigurationPresenter {
     }
 
     private void setupStatisticsUpdater(Crawler crawler) {
-        Timeline fiveSecondsWonder = new Timeline(
+        Timeline statisticUpdater = new Timeline(
                 new KeyFrame(Duration.millis(200),
-                event -> statistics.setText(getStatisticsText(crawler.statistics()))));
-        fiveSecondsWonder.setCycleCount(Timeline.INDEFINITE);
-        fiveSecondsWonder.play();
+                        event -> statistics.setText(getStatisticsText(crawler.statistics()))));
+        statisticUpdater.setCycleCount(Timeline.INDEFINITE);
+        statisticUpdater.play();
+
+        Timeline statisticClearer = new Timeline(
+                new KeyFrame(Duration.seconds(1),
+                        event -> crawler.statistics()
+                                .free(Instant.now().minus(20, ChronoUnit.SECONDS))));
+        statisticClearer.setCycleCount(Timeline.INDEFINITE);
+        statisticClearer.play();
     }
 
     private String getStatisticsText(Statistics stat) {
@@ -242,9 +247,11 @@ public class ConfigurationPresenter {
         this.resultListController = controller;
     }
 
-    public void setResultDiagramController(ResultDiagramPresenter controller) { this.resultDiagramController = controller; }
+    public void setResultDiagramController(ResultDiagramPresenter controller) {
+        this.resultDiagramController = controller;
+    }
 
-    private void updateResults(Sentence sentence, URI uri, Matcher matcher) {
+    private void updateResults(Sentence sentence, URI uri, UserInputtedMatcher matcher) {
         resultListController.addResult(sentence, uri);
         resultDiagramController.addResult(matcher);
     }

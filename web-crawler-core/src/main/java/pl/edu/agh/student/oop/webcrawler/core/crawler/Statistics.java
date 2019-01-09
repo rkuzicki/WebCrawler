@@ -85,7 +85,7 @@ public class Statistics {
         statistics.put(now, new Entry(size, duration));
     }
 
-    void free(Instant till) {
+    public void free(Instant till) {
         downloadStatistics.headMap(till).clear();
         crawlStatistics.headMap(till).clear();
     }
