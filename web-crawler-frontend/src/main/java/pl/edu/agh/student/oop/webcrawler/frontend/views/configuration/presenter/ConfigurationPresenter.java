@@ -199,7 +199,7 @@ public class ConfigurationPresenter {
 
     private void setupStatisticsUpdater(Crawler crawler) {
         Timeline statisticUpdater = new Timeline(
-                new KeyFrame(Duration.millis(200),
+                new KeyFrame(Duration.millis(1000),
                         event -> statistics.setText(getStatisticsText(crawler.statistics()))));
         statisticUpdater.setCycleCount(Timeline.INDEFINITE);
         statisticUpdater.play();
