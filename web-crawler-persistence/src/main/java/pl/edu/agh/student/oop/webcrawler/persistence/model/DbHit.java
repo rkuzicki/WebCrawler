@@ -4,8 +4,8 @@ import javax.persistence.*;
 
 @NamedQueries({
         @NamedQuery(
-                name = "get_hits_by_matcher",
-                query = "from DbHit h where h.dbMatcher = :matcher"
+                name = "check_hit_occurrence_in_db",
+                query = "from DbHit where hitContext = :hitContext"
         )
 })
 @Entity
@@ -16,16 +16,12 @@ public class DbHit {
 
     private String hitContext;
 
-    @ManyToOne
-    private DbMatcher dbMatcher;
-
     public DbHit() {
 
     }
 
-    public DbHit(String hitContext, DbMatcher dbMatcher) {
+    public DbHit(String hitContext) {
         this.hitContext = hitContext;
-        this.dbMatcher = dbMatcher;
     }
 
     public Long getId() {
@@ -39,10 +35,6 @@ public class DbHit {
     }
 
     public void setHitContext(String hitContext) { this.hitContext = hitContext; }
-
-    public DbMatcher getDbMatcher() { return this.dbMatcher; }
-
-    public void setDbMatcher(DbMatcher dbMatcher) { this.dbMatcher = dbMatcher; }
 
     public String toString() {
         return this.id + " " + this.hitContext;

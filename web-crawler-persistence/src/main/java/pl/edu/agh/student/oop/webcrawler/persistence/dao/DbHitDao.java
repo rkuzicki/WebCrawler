@@ -12,32 +12,33 @@ public class DbHitDao {
 
     public DbHitDao() {}
 
-    public void save(DbHit[] dbHits) {
+    public static void save(DbHit[] dbHits) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
         for (DbHit dbHit : dbHits) {
             session.save(dbHit);
         }
         tx.commit();
+        session.close();
     }
 
-    public void save(DbHit dbHit) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Transaction tx = session.beginTransaction();
-        session.save(dbHit);
-        tx.commit();
+    public static void save(DbHit dbHit) {
+        DbHit[] dbHits = {dbHit};
+        save(dbHits);
     }
 
-    @SuppressWarnings("unchecked")
-    public List<DbHit> getHitsByMatcher(DbMatcher dbMatcher) {
+    public static boolean isInDatabase(String hitContext) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
-        List<DbHit> dbHits = session.createNamedQuery("get_hits_by_matcher")
-                .setParameter("matcher", dbMatcher)
+
+        List result = session.getNamedQuery("check_hit_occurrence_in_db")
+                .setParameter("hitContext", hitContext)
                 .getResultList();
+
         tx.commit();
         session.close();
-        return dbHits;
-
+        if(result.isEmpty()) return false;
+        else return true;
     }
+
 }

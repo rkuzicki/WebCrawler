@@ -9,7 +9,7 @@ public class DbConfigurationDao {
 
     public DbConfigurationDao() {}
 
-    public void save(DbConfiguration config) {
+    public static void save(DbConfiguration config) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
         session.save(config);
@@ -18,7 +18,7 @@ public class DbConfigurationDao {
     }
 
     @SuppressWarnings("unchecked")
-    public DbConfiguration getById(long id) {
+    public static DbConfiguration getById(long id) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
         DbConfiguration config = (DbConfiguration)session.createNamedQuery("get_configuration_by_id")

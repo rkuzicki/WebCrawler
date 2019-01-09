@@ -1,6 +1,7 @@
 package pl.edu.agh.student.oop.webcrawler.persistence.model;
 
 import javax.persistence.*;
+import java.net.URI;
 import java.util.List;
 
 @NamedQueries({
@@ -17,14 +18,14 @@ public class DbConfiguration {
     @ElementCollection
     private List<String> domains;
     @ElementCollection
-    private List<String> startingPoints;
+    private List<URI> startingPoints;
     private int depth;
     private boolean subdomains;
 
     @OneToMany
     private List<DbMatcher> dbMatchers;
 
-    public DbConfiguration(List<String> domains, List<String> startingPoints, int depth, boolean subdomains, List<DbMatcher> dbMatchers) {
+    public DbConfiguration(List<String> domains, List<URI> startingPoints, int depth, boolean subdomains, List<DbMatcher> dbMatchers) {
         this.domains = domains;
         this.startingPoints = startingPoints;
         this.depth = depth;
@@ -48,11 +49,11 @@ public class DbConfiguration {
         this.domains = domains;
     }
 
-    public List<String> getStartingPoints() {
+    public List<URI> getStartingPoints() {
         return startingPoints;
     }
 
-    public void setStartingPoints(List<String> startingPoints) {
+    public void setStartingPoints(List<URI> startingPoints) {
         this.startingPoints = startingPoints;
     }
 
