@@ -10,6 +10,8 @@ import pl.edu.agh.student.oop.webcrawler.core.configuration.Configuration;
 import pl.edu.agh.student.oop.webcrawler.core.parser.HtmlParser;
 import pl.edu.agh.student.oop.webcrawler.core.parser.Sentence;
 import pl.edu.agh.student.oop.webcrawler.core.parser.Text;
+import pl.edu.agh.student.oop.webcrawler.persistence.dao.DbHitDao;
+import pl.edu.agh.student.oop.webcrawler.persistence.model.DbHit;
 
 import java.io.IOException;
 import java.net.URI;
@@ -97,10 +99,13 @@ class CrawlingJob implements Job {
         for (Sentence s : websiteText.getSentences()) {
             context.matchers().forEach(matcher -> {
                 if (matcher.match(s)) {
-                    logger.info("Matched sentence: " + s + ", at: " + context.uri());
-                    context.configuration()
-                            .matchListener()
-                            .handleMatch(s, context.uri(), matcher);
+                    if(!DbHitDao.isInDatabase(s.toString())) {
+                        DbHitDao.save(new DbHit(s.toString()));
+                        logger.info("Matched sentence: " + s + ", at: " + context.uri());
+                        context.configuration()
+                                .matchListener()
+                                .handleMatch(s, context.uri(), matcher);
+                    }
                 }
             });
         }
