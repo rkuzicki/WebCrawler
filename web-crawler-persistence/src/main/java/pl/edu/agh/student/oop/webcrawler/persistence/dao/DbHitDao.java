@@ -6,13 +6,14 @@ import pl.edu.agh.student.oop.webcrawler.persistence.HibernateUtil;
 import pl.edu.agh.student.oop.webcrawler.persistence.model.DbHit;
 import pl.edu.agh.student.oop.webcrawler.persistence.model.DbMatcher;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DbHitDao {
 
     public DbHitDao() {}
 
-    public static void save(DbHit[] dbHits) {
+    public static void save(List<DbHit> dbHits) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
         for (DbHit dbHit : dbHits) {
@@ -23,8 +24,9 @@ public class DbHitDao {
     }
 
     public static void save(DbHit dbHit) {
-        DbHit[] dbHits = {dbHit};
-        save(dbHits);
+        List<DbHit> list = new ArrayList<>();
+        list.add(dbHit);
+        save(list);
     }
 
     public static boolean isInDatabase(String hitContext) {
